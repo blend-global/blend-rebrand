@@ -1,0 +1,12 @@
+<svg width="900" height="1400" viewBox="0 0 900 1400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="workge" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fdf2e7" />
+      <stop offset="100%" stop-color="#f2a25c" />
+    </linearGradient>
+  </defs>
+  <rect width="900" height="1400" rx="70" fill="url(#workge)" />
+  <rect x="200" y="480" width="500" height="420" rx="60" fill="rgba(0,0,0,0.18)" />
+  <rect x="240" y="940" width="420" height="130" rx="48" fill="rgba(255,255,255,0.28)" />
+  <circle cx="680" cy="300" r="110" fill="rgba(0,0,0,0.1)" />
+</svg>
