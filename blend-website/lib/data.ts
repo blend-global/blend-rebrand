@@ -16,9 +16,9 @@ export const heroContent = {
 
 export const logos = [
   "Deloitte.",
-  "by kilah",
-  "Google AI",
-  "spaceX",
+  "YouTube",
+  "Google Cloud",
+  "Shoprite",
   "GEBERIT",
   "Google",
 ];

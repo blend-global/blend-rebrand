@@ -9,7 +9,7 @@ export default function Footer() {
       <div className="bg-[#0c0c0c] py-12">
         <div className="container-max flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
           <div className="flex max-w-xs flex-col gap-3">
-            <Image src="/logo.png" alt="Blend logo" width={64} height={22} className="h-6 w-auto" />
+            <Image src="/logo.png" alt="Blend logo" width={22} height={22} className="h-6 w-6" />
             <p className="text-sm leading-6 text-white/85">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta atque impedit architecto esse
             </p>
