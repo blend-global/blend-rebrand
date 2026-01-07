@@ -45,21 +45,6 @@ export default function Hero() {
                 👋
               </button>
             </div>
-
-            <div className="absolute -bottom-10 left-1/2 flex -translate-x-1/2 items-center gap-4 rounded-[18px] bg-white px-5 py-4 text-[#0c0c0f] shadow-[0_18px_40px_rgba(0,0,0,0.35)] ring-1 ring-black/10">
-              <button
-                className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-lg shadow-inner ring-1 ring-black/8"
-                aria-label="Play video"
-              >
-                ▶
-              </button>
-              <button
-                className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-lg shadow-inner ring-1 ring-black/8"
-                aria-label="Toggle sound"
-              >
-                🔊
-              </button>
-            </div>
           </div>
         </div>
       </div>
