@@ -12,8 +12,8 @@ export default function Navbar() {
     <header className="sticky top-6 z-40 w-full bg-transparent">
       <div className="container-max">
         <div className="mt-6">
-          <div className="relative rounded-full bg-gradient-to-r from-[#6bd688] via-[#6bd688] via-40% to-[#f36fb4] p-[2px] shadow-[0_18px_50px_rgba(0,0,0,0.35)]">
-            <div className="flex items-center justify-between rounded-full bg-[#111216] px-5 py-3 text-white">
+          <div className="relative rounded-r-full rounded-l-none bg-gradient-to-r from-[#6bd688] via-[#6bd688] via-40% to-[#f36fb4] p-[2px] shadow-[0_18px_50px_rgba(0,0,0,0.35)]">
+            <div className="flex items-center justify-between rounded-r-full rounded-l-none bg-[#111216] px-5 py-3 text-white">
               <div className="flex items-center gap-3 pl-1">
                 <Image src="/logo.png" alt="Blend logo" width={72} height={24} className="h-6 w-auto" />
               </div>
