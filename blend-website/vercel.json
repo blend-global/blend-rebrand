@@ -1,6 +1,9 @@
 {
-    "rewrites": [
-      { "source": "/((?!.*\\..*).*)",
-  "destination": "/" }
-    ]
-  }
+  "version": 2,
+  "builds": [
+    { "src": "blend-website/package.json", "use": "@vercel/next" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "blend-website/$1" }
+  ]
+}
