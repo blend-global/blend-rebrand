@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { Menu } from "lucide-react";
 import { MotionLink } from "@/components/MotionLink";
 import { navLinks } from "@/lib/data";
 
@@ -52,9 +53,7 @@ export default function Navbar() {
                 aria-label="Toggle navigation"
                 whileTap={{ scale: 0.95 }}
               >
-                <span className="block h-0.5 w-5 bg-white"></span>
-                <span className="mt-1 block h-0.5 w-5 bg-white"></span>
-                <span className="mt-1 block h-0.5 w-4 bg-white"></span>
+                <Menu className="h-5 w-5" aria-hidden="true" />
               </motion.button>
             </div>
           </div>
