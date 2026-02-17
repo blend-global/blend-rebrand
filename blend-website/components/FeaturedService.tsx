@@ -7,11 +7,11 @@ import { featuredService } from "@/lib/data";
 
 export default function FeaturedService() {
   return (
-    <section className="bg-black py-16 text-white">
+    <section className="bg-black py-12 text-white sm:py-16">
       <div className="container-max">
         <Reveal className="flex flex-col gap-3 text-center">
-          <h2 className="text-3xl font-semibold">{featuredService.title}</h2>
-          <p className="text-base text-white/70">{featuredService.description}</p>
+          <h2 className="text-2xl font-semibold sm:text-3xl">{featuredService.title}</h2>
+          <p className="text-sm text-white/70 sm:text-base">{featuredService.description}</p>
         </Reveal>
         <Reveal delay={0.05}>
           <motion.div

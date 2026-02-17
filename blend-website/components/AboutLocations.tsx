@@ -64,16 +64,16 @@ export default function AboutLocations() {
   );
 
   return (
-    <section id="about" className="bg-white py-16">
-      <div className="container-max flex flex-col items-center gap-10 md:flex-row md:items-center md:justify-between">
+    <section id="about" className="bg-white py-12 sm:py-16">
+      <div className="container-max flex flex-col items-center gap-8 md:flex-row md:items-center md:justify-between md:gap-10">
         <Reveal className="relative flex h-full w-full justify-center md:w-1/2">
-          <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
+          <div className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center">
             <Image
               src="/gradients.png"
               alt="Decorative background"
               width={900}
               height={900}
-              className="h-[620px] w-[620px] max-w-none object-contain"
+              className="h-[420px] w-[420px] max-w-none object-contain sm:h-[520px] sm:w-[520px] md:h-[620px] md:w-[620px]"
             />
           </div>
 
@@ -81,7 +81,7 @@ export default function AboutLocations() {
             {stackImages.map(({ slide, className }, idx) => (
               <motion.div
                 key={`${slide.subtitle}-${idx}`}
-                className={`absolute z-0 overflow-hidden rounded-[38px] shadow-[0_25px_60px_rgba(0,0,0,0.28)] ${className}`}
+                className={`absolute z-0 hidden overflow-hidden rounded-[38px] shadow-[0_25px_60px_rgba(0,0,0,0.28)] md:block ${className}`}
                 whileHover={{ rotate: idx === 0 ? -1 : 1 }}
               >
                 <Image
@@ -104,7 +104,7 @@ export default function AboutLocations() {
                 alt={current.subtitle}
                 width={760}
                 height={920}
-                className="h-[460px] w-full rounded-[38px] object-cover sm:h-[520px]"
+                className="h-[320px] w-full rounded-[38px] object-cover sm:h-[420px] md:h-[520px]"
                 priority
               />
             </motion.div>
@@ -112,33 +112,33 @@ export default function AboutLocations() {
         </Reveal>
 
         <Reveal delay={0.05} className="flex w-full flex-col gap-4 text-[#1a1a1a] md:w-1/2">
-          <h3 className="text-2xl font-semibold text-[#1d1d1f]">{current.title}</h3>
-          <h4 className="text-xl font-semibold text-[#2d2d2f]">{current.subtitle}</h4>
-          <p className="max-w-xl text-base leading-relaxed text-[#3c3f46]">{current.description}</p>
+          <h3 className="text-xl font-semibold text-[#1d1d1f] sm:text-2xl">{current.title}</h3>
+          <h4 className="text-lg font-semibold text-[#2d2d2f] sm:text-xl">{current.subtitle}</h4>
+          <p className="max-w-xl text-sm leading-relaxed text-[#3c3f46] sm:text-base">{current.description}</p>
 
-          <div className="mt-0 text-5xl font-semibold text-[#1b1b1d]">
+          <div className="mt-0 text-4xl font-semibold text-[#1b1b1d] sm:text-5xl">
             {current.statValue}
-            <div className="mt-0 text-xl font-semibold text-[#2e2f33]">{current.statLabel}</div>
+            <div className="mt-0 text-lg font-semibold text-[#2e2f33] sm:text-xl">{current.statLabel}</div>
           </div>
 
-          <div className="mt-0 flex items-center gap-4">
+          <div className="mt-0 flex items-center gap-3 sm:gap-4">
             <motion.button
               onClick={handlePrev}
               aria-label="Previous about slide"
-              className="flex h-12 w-12 items-center justify-center rounded-full border border-white bg-[#0f0f12] text-white shadow-[0_10px_24px_rgba(0,0,0,0.25)] ring-1 ring-white/30"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-white bg-[#0f0f12] text-white shadow-[0_10px_24px_rgba(0,0,0,0.25)] ring-1 ring-white/30 sm:h-12 sm:w-12"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <ChevronLeft className="h-5 w-5" aria-hidden="true" />
+              <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
             </motion.button>
             <motion.button
               onClick={handleNext}
               aria-label="Next about slide"
-              className="flex h-12 w-12 items-center justify-center rounded-full border border-white bg-[#0f0f12] text-white shadow-[0_10px_24px_rgba(0,0,0,0.25)] ring-1 ring-white/30"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-white bg-[#0f0f12] text-white shadow-[0_10px_24px_rgba(0,0,0,0.25)] ring-1 ring-white/30 sm:h-12 sm:w-12"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <ChevronRight className="h-5 w-5" aria-hidden="true" />
+              <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
             </motion.button>
           </div>
         </Reveal>

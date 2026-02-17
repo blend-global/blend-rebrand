@@ -7,16 +7,16 @@ import { testimonials } from "@/lib/data";
 
 export default function Testimonials() {
   return (
-    <section className="bg-[#0d0f15] py-16 text-white">
+    <section className="bg-[#0d0f15] py-12 text-white sm:py-16">
       <div className="container-max flex flex-col gap-8">
         <Reveal>
-          <h2 className="text-3xl font-semibold">{testimonials.title}</h2>
+          <h2 className="text-2xl font-semibold sm:text-3xl">{testimonials.title}</h2>
         </Reveal>
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {testimonials.items.map((item, index) => (
             <Reveal key={item.name} delay={0.04 * index}>
               <motion.div
-                className="relative overflow-hidden rounded-[24px] bg-[#11141f] p-6 shadow-xl ring-1 ring-white/10"
+                className="relative overflow-hidden rounded-[24px] bg-[#11141f] p-5 shadow-xl ring-1 ring-white/10 sm:p-6"
                 whileHover={{ y: -6 }}
                 transition={{ type: "spring", stiffness: 220, damping: 18 }}
               >
@@ -28,7 +28,7 @@ export default function Testimonials() {
                       alt={item.name}
                       width={48}
                       height={48}
-                      className="h-12 w-12 object-cover"
+                      className="h-10 w-10 object-cover sm:h-12 sm:w-12"
                     />
                   </div>
                   <div>

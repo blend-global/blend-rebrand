@@ -10,8 +10,8 @@ export default function Footer() {
   const termsLinks = ["Terms Of Services", "Privacy Policy", "Cookie Policy", "Cookie Preferences"];
 
   return (
-    <footer className="mt-16 text-white">
-      <div className="bg-[#0c0c0c] py-12">
+    <footer className="mt-12 text-white sm:mt-16">
+      <div className="bg-[#0c0c0c] py-10 sm:py-12">
         <div className="container-max flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
           <Reveal className="flex max-w-xs flex-col gap-3">
             <Image src="/logo.png" alt="Blend logo" width={22} height={22} className="h-6 w-6" />
@@ -47,7 +47,7 @@ export default function Footer() {
             <p className="text-sm text-white/85">
               Keep up with the latest trends and news from the world of events and digital experiences.
             </p>
-            <form className="flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm text-black shadow-[0_10px_24px_rgba(0,0,0,0.25)]">
+            <form className="flex flex-col gap-2 rounded-2xl bg-white px-4 py-3 text-sm text-black shadow-[0_10px_24px_rgba(0,0,0,0.25)] sm:flex-row sm:items-center sm:rounded-full sm:py-2">
               <input
                 type="email"
                 placeholder="Enter email"
@@ -69,7 +69,7 @@ export default function Footer() {
       <div className="bg-white py-8 text-[#0c0c0c]">
         <div className="container-max flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
           <Reveal className="flex flex-col gap-2">
-            <h6 className="text-xl font-semibold leading-snug">
+            <h6 className="text-lg font-semibold leading-snug sm:text-xl">
               Copyright © 2024 Blend Global All Rights Reserved
             </h6>
             <span className="text-sm text-[#4d4d50]">B-BBEE Level 1</span>
@@ -105,7 +105,7 @@ export default function Footer() {
               <motion.button
                 key={item.label}
                 aria-label={item.label}
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-black text-white"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-white sm:h-10 sm:w-10"
                 whileHover={{ scale: 1.08 }}
                 whileTap={{ scale: 0.96 }}
               >

@@ -115,34 +115,34 @@ const ServicesPage = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="relative -mt-12 min-h-[70vh] bg-dark overflow-hidden flex items-center pt-0">
+      <section className="relative -mt-12 min-h-[60vh] bg-dark overflow-hidden flex items-center pt-0 sm:min-h-[70vh]">
         {/* Gradient Orbs */}
-        <div className="gradient-orb gradient-orb-pink w-[400px] h-[400px] -top-32 -left-32 animate-float" />
-        <div className="gradient-orb gradient-orb-cyan w-[300px] h-[300px] top-1/2 right-0 animate-float-delayed" />
+        <div className="gradient-orb gradient-orb-pink h-[240px] w-[240px] -top-28 -left-28 animate-float sm:h-[400px] sm:w-[400px] sm:-top-32 sm:-left-32" />
+        <div className="gradient-orb gradient-orb-cyan h-[200px] w-[200px] top-1/2 right-0 animate-float-delayed sm:h-[300px] sm:w-[300px]" />
         
-        <div className="container-custom section-padding relative z-10 py-20">
+        <div className="container-custom section-padding relative z-10 py-16 sm:py-20">
           <Reveal className="max-w-3xl">
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white/80 text-sm mb-6">
+            <span className="mb-5 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs text-white/80 sm:mb-6 sm:text-sm">
               <Sparkles className="w-4 h-4" />
               Our Services
             </span>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-primary-foreground mb-6 leading-tight">
+            <h1 className="mb-6 text-3xl font-bold leading-tight text-primary-foreground sm:text-4xl md:text-6xl lg:text-7xl">
               Crafting Dreams,<br />
               <span className="text-gradient">Delivering Results</span>
             </h1>
-            <p className="text-xl text-primary-foreground/70 mb-8 max-w-xl">
+            <p className="mb-8 max-w-xl text-base text-primary-foreground/70 sm:text-lg">
               From digital innovation to unforgettable experiences, we offer comprehensive solutions that elevate your brand and captivate your audience.
             </p>
             <div className="flex flex-wrap gap-4">
               <motion.button
-                className="rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(17,203,155,0.35)]"
+                className="rounded-full bg-accent px-5 py-2.5 text-xs font-semibold text-white shadow-[0_12px_30px_rgba(17,203,155,0.35)] sm:px-6 sm:py-3 sm:text-sm"
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
               >
                 Get Started
               </motion.button>
               <motion.button
-                className="flex items-center gap-2 rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white/90"
+                className="flex items-center gap-2 rounded-full border border-white/30 px-5 py-2.5 text-xs font-semibold text-white/90 sm:px-6 sm:py-3 sm:text-sm"
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
               >
@@ -155,46 +155,46 @@ const ServicesPage = () => {
       </section>
 
       {/* Experiential Services Section */}
-      <section className="py-20 md:py-32 bg-dark">
+      <section className="bg-dark py-14 sm:py-20 md:py-32">
         <div className="container-custom section-padding">
           <Reveal>
             <div className="flex items-center gap-3 mb-4">
-              <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground">Experiential</h2>
+              <h2 className="text-2xl font-bold text-primary-foreground sm:text-3xl md:text-4xl">Experiential</h2>
               <span className="text-pink text-2xl">✦</span>
             </div>
-            <p className="text-primary-foreground/70 text-lg mb-12 max-w-2xl">
+            <p className="mb-10 max-w-2xl text-base text-primary-foreground/70 sm:text-lg">
               Immersive experiences that create lasting memories and forge powerful emotional connections with your audience.
             </p>
           </Reveal>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {experientialServices.map((service, index) => (
               <Reveal key={service.title} delay={0.03 * index}>
                 <motion.div
                 key={service.title}
-                className="group p-6 rounded-2xl bg-dark-surface border border-primary-foreground/10 hover:border-pink/50 hover:shadow-lg transition-all duration-300"
+                className="group rounded-2xl border border-primary-foreground/10 bg-dark-surface p-5 transition-all duration-300 hover:border-pink/50 hover:shadow-lg sm:p-6"
                 whileHover={{ y: -6 }}
                 transition={{ type: "spring", stiffness: 220, damping: 18 }}
               >
-                <div className="w-12 h-12 rounded-xl bg-pink/10 flex items-center justify-center mb-4 group-hover:bg-pink/20 transition-colors">
-                  <service.icon className="w-6 h-6 text-pink" />
+                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-pink/10 transition-colors group-hover:bg-pink/20 sm:h-12 sm:w-12">
+                  <service.icon className="h-5 w-5 text-pink sm:h-6 sm:w-6" />
                 </div>
-                <h3 className="text-lg font-semibold text-primary-foreground mb-2 group-hover:text-pink transition-colors">
+                <h3 className="mb-2 text-base font-semibold text-primary-foreground transition-colors group-hover:text-pink sm:text-lg">
                   {service.title}
                 </h3>
-                <p className="text-primary-foreground/60 text-sm mb-4 line-clamp-2">
+                <p className="mb-4 line-clamp-2 text-sm text-primary-foreground/60">
                   {service.description}
                 </p>
                 <ul className="space-y-1">
                   {service.features.map((feature) => (
-                    <li key={feature} className="text-xs text-primary-foreground/50 flex items-center gap-2">
+                    <li key={feature} className="flex items-center gap-2 text-[11px] text-primary-foreground/50 sm:text-xs">
                       <span className="w-1 h-1 rounded-full bg-pink" />
                       {feature}
                     </li>
                   ))}
                 </ul>
                 <motion.button
-                  className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-pink opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-pink opacity-100 transition-opacity sm:text-sm sm:opacity-0 sm:group-hover:opacity-100"
                   whileHover={{ x: 4 }}
                 >
                   Learn More
@@ -208,46 +208,46 @@ const ServicesPage = () => {
       </section>
 
       {/* Digital Services Section */}
-      <section className="py-20 md:py-32 bg-light">
+      <section className="bg-light py-14 sm:py-20 md:py-32">
         <div className="container-custom section-padding">
           <Reveal>
             <div className="flex items-center gap-3 mb-4">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground">Digital</h2>
+              <h2 className="text-2xl font-bold text-foreground sm:text-3xl md:text-4xl">Digital</h2>
               <span className="text-accent text-2xl">✦</span>
             </div>
-            <p className="text-muted-foreground text-lg mb-12 max-w-2xl">
+            <p className="mb-10 max-w-2xl text-base text-muted-foreground sm:text-lg">
               Innovative digital solutions that transform your ideas into powerful visual stories and experiences.
             </p>
           </Reveal>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {digitalServices.map((service, index) => (
               <Reveal key={service.title} delay={0.03 * index}>
                 <motion.div
                 key={service.title}
-                className="group p-6 rounded-2xl bg-card border border-border hover:border-accent/50 hover:shadow-lg transition-all duration-300"
+                className="group rounded-2xl border border-border bg-card p-5 transition-all duration-300 hover:border-accent/50 hover:shadow-lg sm:p-6"
                 whileHover={{ y: -6 }}
                 transition={{ type: "spring", stiffness: 220, damping: 18 }}
               >
-                <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors">
-                  <service.icon className="w-6 h-6 text-accent" />
+                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-accent/10 transition-colors group-hover:bg-accent/20 sm:h-12 sm:w-12">
+                  <service.icon className="h-5 w-5 text-accent sm:h-6 sm:w-6" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-accent transition-colors">
+                <h3 className="mb-2 text-base font-semibold text-foreground transition-colors group-hover:text-accent sm:text-lg">
                   {service.title}
                 </h3>
-                <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
+                <p className="mb-4 line-clamp-2 text-sm text-muted-foreground">
                   {service.description}
                 </p>
                 <ul className="space-y-1">
                   {service.features.map((feature) => (
-                    <li key={feature} className="text-xs text-muted-foreground flex items-center gap-2">
+                    <li key={feature} className="flex items-center gap-2 text-[11px] text-muted-foreground sm:text-xs">
                       <span className="w-1 h-1 rounded-full bg-accent" />
                       {feature}
                     </li>
                   ))}
                 </ul>
                 <motion.button
-                  className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-accent opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-accent opacity-100 transition-opacity sm:text-sm sm:opacity-0 sm:group-hover:opacity-100"
                   whileHover={{ x: 4 }}
                 >
                   Learn More
@@ -261,30 +261,30 @@ const ServicesPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 md:py-32 bg-light relative overflow-hidden">
+      <section className="relative overflow-hidden bg-light py-14 sm:py-20 md:py-32">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border border-foreground" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full border border-foreground" />
         </div>
         
         <Reveal className="container-custom section-padding relative z-10 text-center">
-          <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6">
+          <h2 className="mb-6 text-2xl font-bold text-foreground sm:text-3xl md:text-5xl">
             Ready to Create Something<br />
             <span className="text-gradient">Extraordinary?</span>
           </h2>
-          <p className="text-muted-foreground text-lg mb-8 max-w-xl mx-auto">
+          <p className="mx-auto mb-8 max-w-xl text-base text-muted-foreground sm:text-lg">
             Let&apos;s discuss how we can bring your vision to life with our comprehensive suite of services.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <motion.button
-              className="rounded-full bg-black px-6 py-3 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(0,0,0,0.2)]"
+              className="w-full rounded-full bg-black px-6 py-3 text-xs font-semibold text-white shadow-[0_12px_30px_rgba(0,0,0,0.2)] sm:w-auto sm:text-sm"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
             >
               Start a Project
             </motion.button>
             <motion.button
-              className="rounded-full border border-black/15 px-6 py-3 text-sm font-semibold text-black"
+              className="w-full rounded-full border border-black/15 px-6 py-3 text-xs font-semibold text-black sm:w-auto sm:text-sm"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
             >

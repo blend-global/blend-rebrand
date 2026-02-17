@@ -11,37 +11,37 @@ const ContactPage = () => {
     <main className="min-h-screen bg-white text-black">
       <Navbar />
 
-      <section className="container-max py-16 md:py-20">
-        <div className="grid gap-12 lg:grid-cols-[1fr,1.2fr]">
+      <section className="container-max py-12 sm:py-16 md:py-20">
+        <div className="grid gap-10 sm:gap-12 lg:grid-cols-[1fr,1.2fr]">
           <Reveal className="flex flex-col justify-start gap-8">
             <div>
-              <h1 className="text-4xl font-semibold md:text-5xl">
+              <h1 className="text-3xl font-semibold sm:text-4xl md:text-5xl">
                 <span className="text-[#3aa6b4]">Let&apos;s </span>
                 <span className="text-[#f26aa8]">Talk</span>
               </h1>
-              <p className="mt-4 max-w-md text-base text-[#33363f]">
+              <p className="mt-4 max-w-md text-sm text-[#33363f] sm:text-base">
                 Have some big idea or brand to develop and need help? Then reach out we&apos;d love to hear about your
                 project and provide help
               </p>
             </div>
 
             <div>
-              <h2 className="text-2xl font-semibold">Email</h2>
+              <h2 className="text-xl font-semibold sm:text-2xl">Email</h2>
               <p className="mt-2 text-sm text-[#33363f]">info@blend.global</p>
             </div>
 
             <div>
-              <h2 className="text-2xl font-semibold">Contact Number</h2>
+              <h2 className="text-xl font-semibold sm:text-2xl">Contact Number</h2>
               <p className="mt-2 text-sm text-[#33363f]">+27 21 448 8282</p>
             </div>
 
             <div>
-              <h2 className="text-2xl font-semibold">Socials</h2>
+              <h2 className="text-xl font-semibold sm:text-2xl">Socials</h2>
               <div className="mt-4 flex items-center gap-3">
                 <motion.a
                   href="#"
                   aria-label="Instagram"
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-white shadow-[0_10px_20px_rgba(0,0,0,0.2)]"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-white shadow-[0_10px_20px_rgba(0,0,0,0.2)] sm:h-10 sm:w-10"
                   whileHover={{ scale: 1.08 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -50,7 +50,7 @@ const ContactPage = () => {
                 <motion.a
                   href="#"
                   aria-label="Facebook"
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-white shadow-[0_10px_20px_rgba(0,0,0,0.2)]"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-white shadow-[0_10px_20px_rgba(0,0,0,0.2)] sm:h-10 sm:w-10"
                   whileHover={{ scale: 1.08 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -59,7 +59,7 @@ const ContactPage = () => {
                 <motion.a
                   href="#"
                   aria-label="LinkedIn"
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-white shadow-[0_10px_20px_rgba(0,0,0,0.2)]"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-white shadow-[0_10px_20px_rgba(0,0,0,0.2)] sm:h-10 sm:w-10"
                   whileHover={{ scale: 1.08 }}
                   whileTap={{ scale: 0.95 }}
                 >

@@ -55,7 +55,7 @@ const BlogDetailsPage = () => {
     <main className="min-h-screen bg-white text-[#0b0b0b]">
       <Navbar />
 
-      <section className="container-max pb-20 pt-12">
+      <section className="container-max pb-16 pt-10 sm:pt-12 lg:pb-20">
         <div className="flex flex-col gap-10 lg:flex-row lg:gap-16">
           <Reveal className="hidden w-full max-w-[320px] flex-shrink-0 space-y-6 lg:block">
             <h2 className="text-lg font-semibold">Recent blog posts</h2>
@@ -89,7 +89,7 @@ const BlogDetailsPage = () => {
 
           <Reveal className="min-w-0 flex-1 space-y-6">
             <p className="text-xs font-semibold text-[#6c5ce7]">Sunday , 1 Jan 2023</p>
-            <h1 className="text-3xl font-semibold leading-tight md:text-[2.4rem]">How does design even help?</h1>
+            <h1 className="text-2xl font-semibold leading-tight sm:text-3xl md:text-[2.4rem]">How does design even help?</h1>
 
             <motion.div
               className="overflow-hidden rounded-[18px] shadow-[0_12px_28px_rgba(0,0,0,0.15)]"
@@ -101,7 +101,7 @@ const BlogDetailsPage = () => {
                 alt="Blog hero"
                 width={980}
                 height={560}
-                className="h-[260px] w-full object-cover md:h-[340px]"
+                className="h-[220px] w-full object-cover sm:h-[280px] md:h-[340px]"
               />
             </motion.div>
 
@@ -125,7 +125,7 @@ const BlogDetailsPage = () => {
                 alt="Team working"
                 width={980}
                 height={560}
-                className="h-[260px] w-full object-cover md:h-[340px]"
+                className="h-[220px] w-full object-cover sm:h-[280px] md:h-[340px]"
               />
             </motion.div>
             <p className="text-center text-xs text-[#4a4a4a]">
@@ -183,7 +183,7 @@ const BlogDetailsPage = () => {
                 alt="Studio workspace"
                 width={980}
                 height={560}
-                className="h-[260px] w-full object-cover md:h-[340px]"
+                className="h-[220px] w-full object-cover sm:h-[280px] md:h-[340px]"
               />
             </motion.div>
             <p className="text-center text-xs text-[#4a4a4a]">
@@ -211,7 +211,7 @@ const BlogDetailsPage = () => {
                 alt="Greenhouse workspace"
                 width={980}
                 height={560}
-                className="h-[260px] w-full object-cover md:h-[340px]"
+                className="h-[220px] w-full object-cover sm:h-[280px] md:h-[340px]"
               />
             </motion.div>
 
@@ -238,7 +238,7 @@ const BlogDetailsPage = () => {
                 {recentPosts.map((post) => (
                   <motion.article
                     key={post.title}
-                    className="min-w-[220px] space-y-3"
+                    className="min-w-[200px] space-y-3 sm:min-w-[220px]"
                     whileHover={{ y: -4 }}
                     transition={{ type: "spring", stiffness: 220, damping: 18 }}
                   >
@@ -248,7 +248,7 @@ const BlogDetailsPage = () => {
                         alt={post.title}
                         width={520}
                         height={360}
-                        className="h-[140px] w-full object-cover"
+                        className="h-[120px] w-full object-cover sm:h-[140px]"
                       />
                     </div>
                     <p className="text-xs font-semibold text-[#6c5ce7]">{post.date}</p>

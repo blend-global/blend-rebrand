@@ -66,7 +66,7 @@ export default function WorkDetailPage() {
 
   return (
     <main className="min-h-screen bg-[#0b0b0d] text-white">
-      <div className="container-max relative pb-20 pt-12">
+      <div className="container-max relative pb-16 pt-10 sm:pt-12 lg:pb-20">
         <MotionLink
           href="/work"
           aria-label="Close"
@@ -78,13 +78,13 @@ export default function WorkDetailPage() {
         </MotionLink>
 
         <Reveal className="space-y-3">
-          <h1 className="text-3xl font-semibold md:text-4xl">Google</h1>
+          <h1 className="text-2xl font-semibold sm:text-3xl md:text-4xl">Google</h1>
           <p className="max-w-2xl text-sm text-white/70">
             The key to great ideas is not in having them, but acting on them.
           </p>
         </Reveal>
 
-        <Reveal delay={0.05} className="relative mt-16 flex items-center justify-center">
+        <Reveal delay={0.05} className="relative mt-12 flex items-center justify-center sm:mt-16">
           <div className="absolute right-16 top-1/2 hidden h-[220px] w-[220px] -translate-y-1/2 rounded-full bg-gradient-to-br from-white/40 via-white/20 to-white/5 blur-[2px] md:block" />
 
           <motion.button
@@ -124,14 +124,14 @@ export default function WorkDetailPage() {
           </motion.button>
         </Reveal>
 
-        <Reveal delay={0.1} className="mt-12 flex items-center justify-center gap-4">
+        <Reveal delay={0.1} className="mt-10 flex flex-col gap-6 sm:mt-12 lg:flex-row lg:items-center lg:justify-between lg:gap-4">
           <p className="max-w-xl text-sm leading-6 text-white/75">{tabContent[activeTab].body}</p>
 
           {tabContent[activeTab].showStats ? (
-            <div className="flex flex-wrap gap-8 md:justify-end">
+            <div className="flex flex-wrap gap-6 md:justify-end">
               {stats.map((stat) => (
                 <div key={stat.label} className="text-center md:text-left">
-                  <div className="text-3xl font-semibold">{stat.value}</div>
+                  <div className="text-2xl font-semibold sm:text-3xl">{stat.value}</div>
                   <div className="text-sm text-white/80">{stat.label}</div>
                 </div>
               ))}
@@ -139,13 +139,13 @@ export default function WorkDetailPage() {
           ) : null}
         </Reveal>
 
-        <Reveal delay={0.15} className="mt-10 flex flex-wrap items-center justify-center gap-3">
+        <Reveal delay={0.15} className="mt-8 flex flex-wrap items-center justify-center gap-2 sm:mt-10 sm:gap-3">
           {tabs.map((tab) => (
             <motion.button
               key={tab}
               type="button"
               onClick={() => handleTabChange(tab)}
-              className={`rounded-full border px-4 py-1 text-xs font-semibold transition-colors ${
+              className={`rounded-full border px-3 py-1 text-xs font-semibold transition-colors sm:px-4 ${
                 activeTab === tab
                   ? "border-white bg-white text-black"
                   : "border-white/40 bg-transparent text-white/80 hover:border-white"

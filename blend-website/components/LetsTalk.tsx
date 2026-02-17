@@ -6,34 +6,34 @@ import { contactSection } from "@/lib/data";
 
 export default function LetsTalk() {
   return (
-    <section id="contact" className="bg-white py-16">
-      <div className="container-max grid gap-10 md:grid-cols-[1fr,1.1fr]">
+    <section id="contact" className="bg-white py-12 sm:py-16">
+      <div className="container-max grid gap-8 sm:gap-10 md:grid-cols-[1fr,1.1fr]">
         <Reveal className="flex flex-col gap-6">
           <div className="flex items-center gap-2">
             <div className="h-3 w-3 rounded-full bg-gradient-to-r from-green-300 to-pink-400" />
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#9aa0ac]">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#9aa0ac] sm:text-sm">
               Contact
             </p>
           </div>
-          <h2 className="text-3xl font-semibold text-[#0e0e10]">
+          <h2 className="text-2xl font-semibold text-[#0e0e10] sm:text-3xl">
             Let<span className="text-[#2bbf7f]">s </span>
             <span className="text-[#f36fb4]">Talk</span>
           </h2>
-          <p className="max-w-xl text-base text-[#3c3f46]">{contactSection.subtitle}</p>
+          <p className="max-w-xl text-sm text-[#3c3f46] sm:text-base">{contactSection.subtitle}</p>
 
           <div className="flex flex-col gap-2">
             <span className="text-sm font-semibold text-[#6c6f77]">Email</span>
-            <span className="text-lg font-semibold">{contactSection.email}</span>
+            <span className="text-base font-semibold sm:text-lg">{contactSection.email}</span>
           </div>
 
           <div className="flex flex-col gap-2">
             <span className="text-sm font-semibold text-[#6c6f77]">Contact Number</span>
-            <span className="text-lg font-semibold">{contactSection.phone}</span>
+            <span className="text-base font-semibold sm:text-lg">{contactSection.phone}</span>
           </div>
 
           <div className="flex flex-col gap-3">
             <span className="text-sm font-semibold text-[#6c6f77]">Address</span>
-            <span className="text-lg font-semibold">{contactSection.address}</span>
+            <span className="text-base font-semibold sm:text-lg">{contactSection.address}</span>
           </div>
 
           <div className="flex flex-col gap-2">
@@ -43,7 +43,7 @@ export default function LetsTalk() {
                 <motion.a
                   key={social.label}
                   href={social.href}
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-[#0f0f12] text-sm font-semibold text-white shadow-pill"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-[#0f0f12] text-sm font-semibold text-white shadow-pill sm:h-10 sm:w-10"
                   aria-label={social.label}
                   whileHover={{ scale: 1.08 }}
                   whileTap={{ scale: 0.96 }}
@@ -55,7 +55,7 @@ export default function LetsTalk() {
           </div>
         </Reveal>
 
-        <Reveal delay={0.05} className="rounded-[28px] bg-white p-6 shadow-light ring-1 ring-black/5">
+        <Reveal delay={0.05} className="rounded-[28px] bg-white p-5 shadow-light ring-1 ring-black/5 sm:p-6">
           <form className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="flex flex-col gap-2">
               <label className="text-sm font-semibold text-[#6c6f77]" htmlFor="firstName">
@@ -96,7 +96,7 @@ export default function LetsTalk() {
             <div className="md:col-span-2 flex justify-end">
               <motion.button
                 type="submit"
-                className="pill-button pill-dark px-8"
+                className="pill-button pill-dark w-full px-8 md:w-auto"
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
               >
