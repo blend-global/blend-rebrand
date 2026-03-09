@@ -3,6 +3,7 @@
 import { Instagram, Monitor, Plus } from "lucide-react";
 import { motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
+import { MotionLink } from "@/components/MotionLink";
 import { servicesContent } from "@/lib/data";
 
 export default function Services() {
@@ -39,15 +40,16 @@ export default function Services() {
             </div>
             <div className="flex flex-col gap-2">
               {servicesContent.digital.map((item) => (
-                <motion.div
-                  key={item}
-                  className="flex items-center justify-between rounded-full bg-[#15151b] px-4 py-2.5 text-xs font-semibold uppercase tracking-wide text-white/90 sm:py-3 sm:text-sm"
+                <MotionLink
+                  key={item.slug}
+                  href={`/services/${item.slug}`}
+                  className="flex items-center justify-between rounded-full bg-[#15151b] px-4 py-2.5 text-xs font-semibold uppercase tracking-wide text-white/90 transition-colors hover:bg-[#1b1b24] sm:py-3 sm:text-sm"
                   whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <span>{item}</span>
+                  <span>{item.label}</span>
                   <Plus className="h-3.5 w-3.5 text-white/80 sm:h-4 sm:w-4" aria-hidden="true" />
-                </motion.div>
+                </MotionLink>
               ))}
             </div>
             </motion.div>
@@ -66,15 +68,16 @@ export default function Services() {
             </div>
             <div className="flex flex-col gap-2">
               {servicesContent.experiential.map((item) => (
-                <motion.div
-                  key={item}
-                  className="flex items-center justify-between rounded-full bg-[#15151b] px-4 py-2.5 text-xs font-semibold uppercase tracking-wide text-white/90 sm:py-3 sm:text-sm"
+                <MotionLink
+                  key={item.slug}
+                  href={`/services/${item.slug}`}
+                  className="flex items-center justify-between rounded-full bg-[#15151b] px-4 py-2.5 text-xs font-semibold uppercase tracking-wide text-white/90 transition-colors hover:bg-[#1b1b24] sm:py-3 sm:text-sm"
                   whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <span>{item}</span>
+                  <span>{item.label}</span>
                   <Plus className="h-3.5 w-3.5 text-white/80 sm:h-4 sm:w-4" aria-hidden="true" />
-                </motion.div>
+                </MotionLink>
               ))}
             </div>
             </motion.div>
