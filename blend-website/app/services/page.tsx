@@ -3,9 +3,11 @@
 import { ArrowRight, Play, Sparkles, Zap, Globe, Video, Camera, Palette, Code, Radio, Users, Star, Utensils, UserCheck, Megaphone } from "lucide-react";
 import { motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
+import Link from "next/link";
 // import { Button } from "@/components/ui/button";
 import Header from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { servicesContent } from "@/lib/data";
 
 const ServicesPage = () => {
   const digitalServices = [
@@ -168,7 +170,9 @@ const ServicesPage = () => {
           </Reveal>
           
           <div className="grid gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {experientialServices.map((service, index) => (
+            {experientialServices.map((service, index) => {
+              const slug = servicesContent.experiential.find((item) => item.label === service.title)?.slug;
+              return (
               <Reveal key={service.title} delay={0.03 * index}>
                 <motion.div
                 key={service.title}
@@ -193,16 +197,27 @@ const ServicesPage = () => {
                     </li>
                   ))}
                 </ul>
-                <motion.button
-                  className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-pink opacity-100 transition-opacity sm:text-sm sm:opacity-0 sm:group-hover:opacity-100"
-                  whileHover={{ x: 4 }}
-                >
-                  Learn More
-                  <ArrowRight className="w-4 h-4" />
-                </motion.button>
+                {slug ? (
+                  <Link
+                    href={`/services/${slug}`}
+                    className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-pink opacity-100 transition-opacity sm:text-sm sm:opacity-0 sm:group-hover:opacity-100"
+                  >
+                    Learn More
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                ) : (
+                  <motion.button
+                    className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-pink opacity-100 transition-opacity sm:text-sm sm:opacity-0 sm:group-hover:opacity-100"
+                    whileHover={{ x: 4 }}
+                  >
+                    Learn More
+                    <ArrowRight className="w-4 h-4" />
+                  </motion.button>
+                )}
               </motion.div>
               </Reveal>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -221,7 +236,9 @@ const ServicesPage = () => {
           </Reveal>
           
           <div className="grid gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {digitalServices.map((service, index) => (
+            {digitalServices.map((service, index) => {
+              const slug = servicesContent.digital.find((item) => item.label === service.title)?.slug;
+              return (
               <Reveal key={service.title} delay={0.03 * index}>
                 <motion.div
                 key={service.title}
@@ -246,16 +263,27 @@ const ServicesPage = () => {
                     </li>
                   ))}
                 </ul>
-                <motion.button
-                  className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-accent opacity-100 transition-opacity sm:text-sm sm:opacity-0 sm:group-hover:opacity-100"
-                  whileHover={{ x: 4 }}
-                >
-                  Learn More
-                  <ArrowRight className="w-4 h-4" />
-                </motion.button>
+                {slug ? (
+                  <Link
+                    href={`/services/${slug}`}
+                    className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-accent opacity-100 transition-opacity sm:text-sm sm:opacity-0 sm:group-hover:opacity-100"
+                  >
+                    Learn More
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                ) : (
+                  <motion.button
+                    className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-accent opacity-100 transition-opacity sm:text-sm sm:opacity-0 sm:group-hover:opacity-100"
+                    whileHover={{ x: 4 }}
+                  >
+                    Learn More
+                    <ArrowRight className="w-4 h-4" />
+                  </motion.button>
+                )}
               </motion.div>
               </Reveal>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

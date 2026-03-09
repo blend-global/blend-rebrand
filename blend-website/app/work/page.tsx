@@ -48,16 +48,55 @@ const workItems: WorkItem[] = [
   },
 ];
 
-const filters = ["Experiences", "Digital", "Digital Marketing"];
+const filters = ["Experiences", "Digital"];
+
+const tagToFilter: Record<string, string> = {
+  "Event Management": "Experiences",
+  Photography: "Experiences",
+  Videography: "Experiences",
+  Staffing: "Experiences",
+  "Swag and Gifting": "Experiences",
+  Animation: "Digital",
+  "Web Development": "Digital",
+  "Social Media": "Digital",
+  "Email Marketing": "Digital",
+};
 
 export default function WorkPage() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [activeFilters, setActiveFilters] = useState<string[]>(filters);
   const itemsPerPage = 8;
   const totalItems = workItems.length;
+  const filteredItems = useMemo(() => {
+    if (activeFilters.length === 0) {
+      return workItems;
+    }
+    return workItems.filter((item) =>
+      item.tags.some((tag) => {
+        const mapped = tagToFilter[tag];
+        return mapped ? activeFilters.includes(mapped) : false;
+      }),
+    );
+  }, [activeFilters]);
+
   const pagedItems = useMemo(() => {
     const start = (currentPage - 1) * itemsPerPage;
-    return workItems.slice(start, start + itemsPerPage);
-  }, [currentPage, itemsPerPage]);
+    return filteredItems.slice(start, start + itemsPerPage);
+  }, [currentPage, itemsPerPage, filteredItems]);
+
+  const totalFilteredItems = filteredItems.length;
+
+  const toggleFilter = (filter: string) => {
+    setCurrentPage(1);
+    setActiveFilters((prev) =>
+      prev.includes(filter) ? prev.filter((item) => item !== filter) : [...prev, filter],
+    );
+  };
+
+  const clearFilters = () => {
+    setCurrentPage(1);
+    setActiveFilters([]);
+  };
 
   return (
     <main className="min-h-screen bg-[#0d0d0f] text-white">
@@ -75,17 +114,27 @@ export default function WorkPage() {
           <Reveal delay={0.05} className="flex flex-col gap-3">
             <span className="text-sm font-semibold uppercase tracking-wide text-white/70">Filter By Type</span>
             <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-              {filters.map((filter) => (
+              {filters.map((filter) => {
+                const isActive = activeFilters.includes(filter);
+                return (
                 <motion.span
                   key={filter}
-                  className="inline-flex items-center gap-2 rounded-full border border-white/30 px-3 py-1 text-xs text-white/90 sm:text-sm"
+                  role="button"
+                  onClick={() => toggleFilter(filter)}
+                  className={`inline-flex cursor-pointer items-center gap-2 rounded-full border px-3 py-1 text-xs sm:text-sm ${
+                    isActive
+                      ? "border-white/60 bg-white/10 text-white"
+                      : "border-white/30 text-white/90"
+                  }`}
                   whileHover={{ y: -2 }}
                 >
-                  {filter} <span className="text-xs">✕</span>
+                  {filter}
+                  <span className="text-xs">{isActive ? "✕" : "+"}</span>
                 </motion.span>
-              ))}
+              )})}
               <motion.button
                 className="rounded-full border border-white/30 px-3 py-1 text-xs text-white/80 sm:text-sm"
+                onClick={clearFilters}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
               >
@@ -134,7 +183,7 @@ export default function WorkPage() {
 
         <div className="mt-8 sm:mt-10">
           <Pagination
-            totalItems={totalItems}
+            totalItems={totalFilteredItems}
             itemsPerPage={itemsPerPage}
             currentPage={currentPage}
             onPageChange={setCurrentPage}

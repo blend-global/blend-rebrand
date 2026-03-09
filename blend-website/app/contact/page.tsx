@@ -38,33 +38,22 @@ const ContactPage = () => {
             <div>
               <h2 className="text-xl font-semibold sm:text-2xl">Socials</h2>
               <div className="mt-4 flex items-center gap-3">
-                <motion.a
-                  href="#"
-                  aria-label="Instagram"
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-white shadow-[0_10px_20px_rgba(0,0,0,0.2)] sm:h-10 sm:w-10"
-                  whileHover={{ scale: 1.08 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Instagram className="h-4 w-4" />
-                </motion.a>
-                <motion.a
-                  href="#"
-                  aria-label="Facebook"
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-white shadow-[0_10px_20px_rgba(0,0,0,0.2)] sm:h-10 sm:w-10"
-                  whileHover={{ scale: 1.08 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Facebook className="h-4 w-4" />
-                </motion.a>
-                <motion.a
-                  href="#"
-                  aria-label="LinkedIn"
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-white shadow-[0_10px_20px_rgba(0,0,0,0.2)] sm:h-10 sm:w-10"
-                  whileHover={{ scale: 1.08 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Linkedin className="h-4 w-4" />
-                </motion.a>
+                {[
+                  { label: "Instagram", icon: Instagram },
+                  { label: "Facebook", icon: Facebook },
+                  { label: "LinkedIn", icon: Linkedin },
+                ].map((item) => (
+                  <motion.a
+                    key={item.label}
+                    href="#"
+                    aria-label={item.label}
+                    className="flex h-9 w-9 items-center justify-center rounded-full bg-black sm:h-10 sm:w-10"
+                    whileHover={{ scale: 1.08 }}
+                    whileTap={{ scale: 0.96 }}
+                  >
+                    <item.icon className="h-4 w-4" color="#ffffff" strokeWidth={2.2} aria-hidden="true" />
+                  </motion.a>
+                ))}
               </div>
             </div>
           </Reveal>
