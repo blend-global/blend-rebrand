@@ -7,19 +7,23 @@ export const navLinks = [
 
 export const heroContent = {
   title: "Empowering Connections Globally",
-  subtitle:
-    "Creating quality experiences globally, blending events, digital marketing, and community engagement. Empowering connections and fostering innovation in every project.",
+  subtitleLines: [
+    "Creating quality experiences globally, blending events, digital marketing, and community engagement.",
+    "Empowering connections and fostering innovation in every project.",
+  ],
   cta: "Contact Us",
   media: "/placeholders/hero-placeholder.svg",
 };
 
 export const logos = [
-  "Deloitte.",
-  "YouTube",
-  "Google Cloud",
-  "Shoprite",
-  "GEBERIT",
-  "Google",
+  { src: "/client-logos/05.-Deloitte-Logo.svg", alt: "Deloitte" },
+  { src: "/client-logos/06.-Zip-Zap-Logo.svg", alt: "Zip Zap" },
+  { src: "/client-logos/07.-Shoprite-Logo.svg", alt: "Shoprite" },
+  { src: "/client-logos/08.-Empact-Group-Logo.svg", alt: "Empact Group" },
+  { src: "/client-logos/09.-2U-Logo.svg", alt: "2U" },
+  { src: "/client-logos/10.-Geberit-Logo.svg", alt: "Geberit" },
+  { src: "/client-logos/11.-YouTube-Logo.svg", alt: "YouTube" },
+  { src: "/client-logos/12.-Google-Cloud-Logo.svg", alt: "Google Cloud" },
 ];
 
 export const aboutContent = {

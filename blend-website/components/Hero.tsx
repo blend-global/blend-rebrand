@@ -25,8 +25,12 @@ export default function Hero() {
             <h1 className="bg-gradient-to-r from-green-300 via-[#78d1ff] to-pink-400 bg-clip-text text-[2.2rem] font-bold leading-tight text-transparent sm:text-[2.8rem] lg:text-[3.2rem]">
               Empowering Connections Globally
             </h1>
-            <p className="max-w-3xl text-base leading-7 text-white/80 sm:text-lg">
-              {heroContent.subtitle}
+            <p className="max-w-3xl text-base leading-7 text-white/80 sm:text-lg lg:max-w-5xl">
+              {heroContent.subtitleLines.map((line) => (
+                <span key={line} className="block">
+                  {line}
+                </span>
+              ))}
             </p>
           </Reveal>
 
@@ -40,7 +44,7 @@ export default function Hero() {
               <iframe
                 src="https://www.youtube.com/embed/1ZYbU82GVz4"
                 title="Relaxing music"
-                className="h-[220px] w-full rounded-[24px] sm:h-[320px] sm:rounded-[30px] md:h-[380px] lg:h-[420px]"
+                className="h-[190px] w-full rounded-[24px] sm:h-[280px] sm:rounded-[30px] md:h-[330px] lg:h-[360px]"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               />
