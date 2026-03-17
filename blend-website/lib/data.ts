@@ -231,6 +231,189 @@ export const latestWork = {
   ],
 };
 
+export const workCaseStudies = [
+  {
+    slug: "google",
+    title: "Google",
+    project: "Cloud Partner Experience",
+    image: "/placeholders/work-google.svg",
+    tags: ["Event Management", "Photography", "Videography"],
+    summary: "A hybrid brand experience built to connect Google Cloud partners through sharp production and polished storytelling.",
+    tabs: {
+      Context: {
+        body:
+          "Google needed a flagship partner experience that felt premium in-room while still translating clearly to remote audiences across multiple markets.",
+        images: ["/placeholders/work-google.svg", "/placeholders/work-deloitte.svg"],
+        stats: [
+          { value: "300+", label: "Attendees" },
+          { value: "1.2K", label: "Remote Views" },
+          { value: "4", label: "Cities Activated" },
+        ],
+      },
+      Problem: {
+        body:
+          "The challenge was balancing a high-touch live environment with a digital layer that felt equally considered, not like an afterthought.",
+        images: ["/placeholders/work-deloitte.svg", "/placeholders/work-google.svg"],
+      },
+      Process: {
+        body:
+          "Blend handled planning, run-of-show development, content capture, and show-day coordination so every touchpoint stayed on brand and on time.",
+        images: ["/placeholders/work-google.svg", "/placeholders/work-geberit.svg"],
+        stats: [
+          { value: "6", label: "Production Streams" },
+          { value: "18", label: "Captured Sessions" },
+          { value: "2", label: "Audience Modes" },
+        ],
+      },
+      Solution: {
+        body:
+          "We delivered an integrated event format combining stage design, live capture, and post-event content that extended the campaign beyond the room.",
+        images: ["/placeholders/work-google.svg", "/placeholders/work-deloitte.svg"],
+      },
+      Takeaway: {
+        body:
+          "The case proved that strong event strategy and production discipline can turn one moment into a reusable content system for future partner engagement.",
+        images: ["/placeholders/work-google.svg", "/placeholders/work-geberit.svg"],
+      },
+    },
+  },
+  {
+    slug: "deloitte",
+    title: "Deloitte",
+    project: "Future Leaders Summit",
+    image: "/placeholders/work-deloitte.svg",
+    tags: ["Social Media", "Staffing", "Web Development"],
+    summary: "A multi-layered summit campaign spanning staffing, digital touchpoints, and on-site delivery for Deloitte’s next-gen audience.",
+    tabs: {
+      Context: {
+        body:
+          "Deloitte needed a summit platform that could attract, register, and guide attendees while presenting the event as modern and credible.",
+        images: ["/placeholders/work-deloitte.svg", "/placeholders/work-google.svg"],
+        stats: [
+          { value: "850+", label: "Registrations" },
+          { value: "92%", label: "Show-Up Rate" },
+          { value: "3", label: "Audience Tracks" },
+        ],
+      },
+      Problem: {
+        body:
+          "The experience had to feel seamless across pre-event communication, on-site staffing, and post-event follow-up without fragmenting the brand story.",
+        images: ["/placeholders/work-geberit.svg", "/placeholders/work-deloitte.svg"],
+      },
+      Process: {
+        body:
+          "Blend built the event microsite, planned social content, staffed audience-facing roles, and supported the summit journey end to end.",
+        images: ["/placeholders/work-deloitte.svg", "/placeholders/work-google.svg"],
+        stats: [
+          { value: "12", label: "Staff On Site" },
+          { value: "5", label: "Campaign Weeks" },
+          { value: "1", label: "Unified Journey" },
+        ],
+      },
+      Solution: {
+        body:
+          "The final experience connected registration, communications, staffing, and branded content into one coordinated system.",
+        images: ["/placeholders/work-deloitte.svg", "/placeholders/work-geberit.svg"],
+      },
+      Takeaway: {
+        body:
+          "For Deloitte, the win was not just turnout but a more cohesive event journey that made every touchpoint feel deliberate.",
+        images: ["/placeholders/work-deloitte.svg", "/placeholders/work-google.svg"],
+      },
+    },
+  },
+  {
+    slug: "geberit",
+    title: "Geberit",
+    project: "Product Showcase Series",
+    image: "/placeholders/work-geberit.svg",
+    tags: ["Videography", "Photography", "Animation"],
+    summary: "A content-led case study built around product storytelling, event capture, and motion assets for Geberit’s showcase rollout.",
+    tabs: {
+      Context: {
+        body:
+          "Geberit wanted a launch format that could show product innovation clearly while generating photo, video, and animated assets for ongoing use.",
+        images: ["/placeholders/work-geberit.svg", "/placeholders/work-google.svg"],
+        stats: [
+          { value: "40+", label: "Assets Delivered" },
+          { value: "3", label: "Content Formats" },
+          { value: "2", label: "Launch Phases" },
+        ],
+      },
+      Problem: {
+        body:
+          "Technical products can be difficult to present in a way that feels visually engaging without losing clarity or credibility.",
+        images: ["/placeholders/work-google.svg", "/placeholders/work-geberit.svg"],
+      },
+      Process: {
+        body:
+          "We structured the showcase around key product moments, then planned capture and animation outputs around those narratives.",
+        images: ["/placeholders/work-geberit.svg", "/placeholders/work-deloitte.svg"],
+        stats: [
+          { value: "8", label: "Hero Edits" },
+          { value: "24", label: "Photo Selections" },
+          { value: "6", label: "Animated Loops" },
+        ],
+      },
+      Solution: {
+        body:
+          "The result was a library of launch-ready assets that worked across event recaps, sales enablement, and brand storytelling.",
+        images: ["/placeholders/work-geberit.svg", "/placeholders/work-google.svg"],
+      },
+      Takeaway: {
+        body:
+          "Geberit’s case showed the value of treating production as both an event deliverable and a long-tail content engine.",
+        images: ["/placeholders/work-geberit.svg", "/placeholders/work-deloitte.svg"],
+      },
+    },
+  },
+  {
+    slug: "shoprite",
+    title: "Shoprite",
+    project: "Retail Campaign Rollout",
+    image: "/placeholders/work-deloitte.svg",
+    tags: ["Swag and Gifting", "Email Marketing", "Social Media"],
+    summary: "A retail-facing campaign combining gifting, digital communication, and social amplification to support a broader rollout.",
+    tabs: {
+      Context: {
+        body:
+          "Shoprite needed a campaign ecosystem that could support launch messaging across stores, internal teams, and social audiences.",
+        images: ["/placeholders/work-deloitte.svg", "/placeholders/work-google.svg"],
+        stats: [
+          { value: "25K", label: "Email Reach" },
+          { value: "18", label: "Store Touchpoints" },
+          { value: "3", label: "Campaign Waves" },
+        ],
+      },
+      Problem: {
+        body:
+          "The challenge was maintaining consistency across physical gifting, digital messaging, and social content while working to a fast retail timeline.",
+        images: ["/placeholders/work-google.svg", "/placeholders/work-deloitte.svg"],
+      },
+      Process: {
+        body:
+          "Blend coordinated campaign assets, gifting logistics, and content distribution so every phase launched with the same message and visual standard.",
+        images: ["/placeholders/work-deloitte.svg", "/placeholders/work-geberit.svg"],
+        stats: [
+          { value: "4", label: "Audience Segments" },
+          { value: "12", label: "Content Variants" },
+          { value: "1", label: "Unified Campaign" },
+        ],
+      },
+      Solution: {
+        body:
+          "We delivered a blended rollout strategy that turned operational complexity into a more coherent public-facing campaign.",
+        images: ["/placeholders/work-deloitte.svg", "/placeholders/work-google.svg"],
+      },
+      Takeaway: {
+        body:
+          "The Shoprite project demonstrated how disciplined coordination can make mixed-format campaigns feel simple and strong to the end audience.",
+        images: ["/placeholders/work-deloitte.svg", "/placeholders/work-geberit.svg"],
+      },
+    },
+  },
+] as const;
+
 export const testimonials = {
   title: "What people are saying about us",
   items: [

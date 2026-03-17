@@ -111,7 +111,7 @@ export default function Footer() {
                 whileHover={{ scale: 1.08 }}
                 whileTap={{ scale: 0.96 }}
               >
-                <item.icon className="h-4 w-4" aria-hidden="true" />
+                <item.icon className="h-4 w-4" color="#ffffff" strokeWidth={2.2} aria-hidden="true" />
               </motion.a>
             ))}
           </Reveal>

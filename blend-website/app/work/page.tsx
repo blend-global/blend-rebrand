@@ -8,45 +8,7 @@ import { MotionLink } from "@/components/MotionLink";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Pagination from "@/components/Pagination";
-
-type WorkItem = {
-  title: string;
-  project: string;
-  image: string;
-  tags: string[];
-  slug: string;
-};
-
-const workItems: WorkItem[] = [
-  {
-    title: "Google",
-    project: "Project Name",
-    image: "/placeholders/work-google.svg",
-    tags: ["Event Management", "Photography", "Videography"],
-    slug: "google",
-  },
-  {
-    title: "Deloitte",
-    project: "Project Name",
-    image: "/placeholders/work-deloitte.svg",
-    tags: ["Social Media", "Staffing", "Web Development"],
-    slug: "deloitte",
-  },
-  {
-    title: "Geberit",
-    project: "Project Name",
-    image: "/placeholders/work-geberit.svg",
-    tags: ["Videography", "Photography", "Animation"],
-    slug: "geberit",
-  },
-  {
-    title: "Shoprite",
-    project: "Project Name",
-    image: "/placeholders/work-deloitte.svg",
-    tags: ["Swag and Gifting", "Email Marketing", "Social Media"],
-    slug: "shoprite",
-  },
-];
+import { workCaseStudies } from "@/lib/data";
 
 const filters = ["Experiences", "Digital"];
 
@@ -68,9 +30,9 @@ export default function WorkPage() {
   const itemsPerPage = 8;
   const filteredItems = useMemo(() => {
     if (activeFilters.length === 0) {
-      return workItems;
+      return workCaseStudies;
     }
-    return workItems.filter((item) =>
+    return workCaseStudies.filter((item) =>
       item.tags.some((tag) => {
         const mapped = tagToFilter[tag];
         return mapped ? activeFilters.includes(mapped) : false;
