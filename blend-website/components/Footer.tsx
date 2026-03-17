@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Facebook, Instagram, Linkedin, Mail, Phone } from "lucide-react";
+import { Instagram, Linkedin, Mail, Phone } from "lucide-react";
 import Reveal from "@/components/Reveal";
 
 export default function Footer() {
@@ -16,7 +16,7 @@ export default function Footer() {
           <Reveal className="flex max-w-xs flex-col gap-3">
             <Image src="/logo.png" alt="Blend logo" width={22} height={22} className="h-6 w-6" />
             <p className="text-sm leading-6 text-white/85">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta atque impedit architecto esse
+              Make Moments Matter
             </p>
           </Reveal>
 
@@ -98,19 +98,21 @@ export default function Footer() {
 
           <Reveal delay={0.09} className="flex items-center gap-3">
             {[
-              { label: "Instagram", icon: Instagram },
-              { label: "Facebook", icon: Facebook },
-              { label: "LinkedIn", icon: Linkedin },
+              { label: "Instagram", icon: Instagram, href: "https://www.instagram.com/blend.global" },
+              { label: "LinkedIn", icon: Linkedin, href: "https://www.linkedin.com/company/blend-eventlife/" },
             ].map((item) => (
-              <motion.button
+              <motion.a
                 key={item.label}
+                href={item.href}
+                target="_blank"
+                rel="noreferrer"
                 aria-label={item.label}
                 className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-white sm:h-10 sm:w-10"
                 whileHover={{ scale: 1.08 }}
                 whileTap={{ scale: 0.96 }}
               >
                 <item.icon className="h-4 w-4" aria-hidden="true" />
-              </motion.button>
+              </motion.a>
             ))}
           </Reveal>
         </div>

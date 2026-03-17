@@ -237,21 +237,21 @@ export const testimonials = {
     {
       quote:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.",
-      name: "Toby Louli",
+      name: "Blend Member",
       role: "Software Tester",
       avatar: "/placeholders/avatar-1.svg",
     },
     {
       quote:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.",
-      name: "April Sui",
+      name: "Blend Member",
       role: "Coordinator",
       avatar: "/placeholders/avatar-2.svg",
     },
     {
       quote:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.",
-      name: "Charlie Johnson",
+      name: "Blend Member",
       role: "Event Planner",
       avatar: "/placeholders/avatar-3.svg",
     },
@@ -263,24 +263,86 @@ export const blogSection = {
   cta: "View All",
   featured: [
     {
-      title: "Sunday , 1 Jan 2023",
+      title: "Sunday , 1 Jan 2026",
+      date: "Sunday , 1 Jan 2026",
       description: "How can design even help?",
+      excerpt: "Discover how thoughtful design transforms user experience and drives business success.",
       slug: "how-can-design-even-help",
       image: "/placeholders/blog-1.svg",
+      author: {
+        name: "Blend Member",
+        role: "Creative Strategist",
+        avatar: "/placeholders/avatar-1.svg",
+      },
     },
     {
-      title: "Sat , 12 Jun 2023",
+      title: "Sat , 12 Jun 2026",
+      date: "Sat , 12 Jun 2026",
       description: "The thing about events",
+      excerpt: "Unravel the unique aspects that make events a powerful tool for connection and impact.",
       slug: "the-thing-about-events",
       image: "/placeholders/blog-2.svg",
+      author: {
+        name: "Blend Member",
+        role: "Experiential Director",
+        avatar: "/placeholders/avatar-2.svg",
+      },
     },
   ],
   posts: [
-    { title: "FNB Christmas 2021", slug: "fnb-christmas-2021", image: "/placeholders/blog-3.svg" },
-    { title: "Work It Up", slug: "work-it-up", image: "/placeholders/blog-4.svg" },
-    { title: "Acer Launch 2022", slug: "acer-launch-2022", image: "/placeholders/blog-5.svg" },
-    { title: "Women in Tech event", slug: "women-in-tech-event", image: "/placeholders/blog-6.svg" },
-    { title: "View all", slug: "view-all", image: "/placeholders/blog-7.svg" }, // Maybe we'll omit linking this one
+    {
+      title: "FNB Christmas 2021",
+      date: "Thu , 9 Nov 2026",
+      excerpt: "A behind-the-scenes look at crafting a festive brand experience at scale.",
+      slug: "fnb-christmas-2021",
+      image: "/placeholders/blog-3.svg",
+      author: {
+        name: "Blend Member",
+        role: "Production Lead",
+        avatar: "/placeholders/avatar-3.svg",
+      },
+    },
+    {
+      title: "Work It Up",
+      date: "Mon , 15 Jan 2026",
+      excerpt: "How bold creative systems help campaigns stay coherent across every touchpoint.",
+      slug: "work-it-up",
+      image: "/placeholders/blog-4.svg",
+      author: {
+        name: "Blend Member",
+        role: "Creative Strategist",
+        avatar: "/placeholders/avatar-1.svg",
+      },
+    },
+    {
+      title: "Acer Launch 2022",
+      date: "Fri , 8 Mar 2026",
+      excerpt: "Lessons from delivering a product launch experience that balanced precision and energy.",
+      slug: "acer-launch-2022",
+      image: "/placeholders/blog-5.svg",
+      author: {
+        name: "Blend Member",
+        role: "Experiential Director",
+        avatar: "/placeholders/avatar-2.svg",
+      },
+    },
+    {
+      title: "Women in Tech event",
+      date: "Wed , 10 Apr 2026",
+      excerpt: "Designing an event format that felt insightful, welcoming, and worth talking about.",
+      slug: "women-in-tech-event",
+      image: "/placeholders/blog-6.svg",
+      author: {
+        name: "Blend Member",
+        role: "Production Lead",
+        avatar: "/placeholders/avatar-3.svg",
+      },
+    },
+    {
+      title: "View all",
+      slug: "view-all",
+      image: "/placeholders/blog-7.svg",
+    }, // Maybe we'll omit linking this one
   ],
 };
 
@@ -292,9 +354,8 @@ export const contactSection = {
   address: "20 Viola Road Table View, Cape Town",
   socials: [
     { label: "Twitter", href: "#" },
-    { label: "Instagram", href: "#" },
-    { label: "Facebook", href: "#" },
-    { label: "LinkedIn", href: "#" },
+    { label: "Instagram", href: "https://www.instagram.com/blend.global" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/company/blend-eventlife/" },
   ],
 };
 

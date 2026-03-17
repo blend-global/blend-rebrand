@@ -7,11 +7,15 @@ import { Menu } from "lucide-react";
 import { MotionLink } from "@/components/MotionLink";
 import { navLinks } from "@/lib/data";
 
-export default function Navbar() {
+interface NavbarProps {
+  isOverlay?: boolean;
+}
+
+export default function Navbar({ isOverlay = false }: NavbarProps) {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-3 z-40 w-full sm:top-6">
+    <header className={`${isOverlay ? "fixed left-0" : "sticky"} top-3 z-50 w-full sm:top-6`}>
       <div className="container-max">
         <div className="mt-4 sm:mt-6">
           <div className="relative rounded-r-full rounded-l-none bg-gradient-to-r from-[#6bd688] via-[#6bd688] via-40% to-[#f36fb4] p-[2px] shadow-[0_18px_50px_rgba(0,0,0,0.35)]">

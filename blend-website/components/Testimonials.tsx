@@ -14,7 +14,7 @@ export default function Testimonials() {
         </Reveal>
         <div className="grid gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {testimonials.items.map((item, index) => (
-            <Reveal key={item.name} delay={0.04 * index}>
+            <Reveal key={`${item.name}-${item.role}-${index}`} delay={0.04 * index}>
               <motion.div
                 className="relative overflow-hidden rounded-[24px] bg-[#11141f] p-5 shadow-xl ring-1 ring-white/10 sm:p-6"
                 whileHover={{ y: -6 }}

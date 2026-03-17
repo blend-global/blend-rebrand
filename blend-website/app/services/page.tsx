@@ -114,10 +114,10 @@ const ServicesPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <Header isOverlay={true} />
       
       {/* Hero Section */}
-      <section className="relative -mt-12 min-h-[60vh] bg-dark overflow-hidden flex items-center pt-0 sm:min-h-[70vh]">
+      <section className="relative min-h-[60vh] bg-dark overflow-hidden flex items-center pt-32 sm:pt-40 sm:min-h-[70vh]">
         {/* Gradient Orbs */}
         <div className="gradient-orb gradient-orb-pink h-[240px] w-[240px] -top-28 -left-28 animate-float sm:h-[400px] sm:w-[400px] sm:-top-32 sm:-left-32" />
         <div className="gradient-orb gradient-orb-cyan h-[200px] w-[200px] top-1/2 right-0 animate-float-delayed sm:h-[300px] sm:w-[300px]" />

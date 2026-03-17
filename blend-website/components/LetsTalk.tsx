@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Facebook, Instagram, Linkedin } from "lucide-react";
+import { Instagram, Linkedin } from "lucide-react";
 import Reveal from "@/components/Reveal";
 import { contactSection } from "@/lib/data";
 
@@ -42,12 +42,13 @@ export default function LetsTalk() {
             <div className="flex gap-3">
               {[
                 { label: "Instagram", icon: Instagram },
-                { label: "Facebook", icon: Facebook },
                 { label: "LinkedIn", icon: Linkedin },
               ].map((item) => (
                 <motion.a
                   key={item.label}
                   href={contactSection.socials.find((social) => social.label === item.label)?.href ?? "#"}
+                  target="_blank"
+                  rel="noreferrer"
                   className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-white sm:h-10 sm:w-10"
                   aria-label={item.label}
                   whileHover={{ scale: 1.08 }}

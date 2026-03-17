@@ -7,7 +7,7 @@ import { heroContent } from "@/lib/data";
 
 export default function Hero() {
   return (
-    <section id="home" className="relative overflow-hidden bg-[#0a0a0f] pb-20 pt-10 sm:pt-12 lg:pt-16 lg:pb-24">
+    <section id="home" className="relative overflow-hidden bg-[#0a0a0f] pb-20 pt-32 sm:pt-40 lg:pt-44 lg:pb-24">
       <div className="absolute inset-0">
         <Image
           src="/hero-bg.png"
