@@ -1,5 +1,6 @@
 "use client";
 
+import { use } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
@@ -45,12 +46,32 @@ const recentPosts = [
   },
 ];
 
+import { blogSection } from "@/lib/data";
+import { notFound } from "next/navigation";
+
 const paragraphs = [
   "A grid system is a design tool used to arrange content on a webpage. It is a series of vertical and horizontal lines that create a matrix of intersecting points, which can be used to align and organize page elements. Grid systems are used to create a consistent look and feel across a website, and can help to make the layout more visually appealing and easier to navigate.",
   "If you’ve been to New York City and have walked the streets, it is easy to figure out how to get from one place to another because of the grid system that the city is built on. Just as the predictability of a city grid helps locals and tourists get around easily, so do webpage grids provide a structure that guides users and designers alike. Because of their consistent reference point, grids improve page readability and scannability and allow people to quickly get where they need to go.",
 ];
 
-const BlogDetailsPage = () => {
+interface Props {
+  params: Promise<{
+    slug: string;
+  }>;
+}
+
+const BlogDetailsPage = ({ params }: Props) => {
+  const { slug } = use(params);
+
+  // Find the relevant post from featured or standard posts
+  const post =
+    blogSection.featured.find((p) => p.slug === slug) ||
+    blogSection.posts.find((p) => p.slug === slug);
+
+  if (!post) {
+    notFound();
+  }
+
   return (
     <main className="min-h-screen bg-white text-[#0b0b0b]">
       <Navbar />
@@ -88,8 +109,8 @@ const BlogDetailsPage = () => {
           </Reveal>
 
           <Reveal className="min-w-0 flex-1 space-y-6">
-            <p className="text-xs font-semibold text-[#6c5ce7]">Sunday , 1 Jan 2023</p>
-            <h1 className="text-2xl font-semibold leading-tight sm:text-3xl md:text-[2.4rem]">How does design even help?</h1>
+            <p className="text-xs font-semibold text-[#6c5ce7]">{"date" in post ? (post as any).date : "Recent"}</p>
+            <h1 className="text-2xl font-semibold leading-tight sm:text-3xl md:text-[2.4rem]">{post.title}</h1>
 
             <motion.div
               className="overflow-hidden rounded-[18px] shadow-[0_12px_28px_rgba(0,0,0,0.15)]"
@@ -97,8 +118,8 @@ const BlogDetailsPage = () => {
               transition={{ type: "spring", stiffness: 200, damping: 18 }}
             >
               <Image
-                src="/placeholders/blog-1.svg"
-                alt="Blog hero"
+                src={post.image}
+                alt={post.title}
                 width={980}
                 height={560}
                 className="h-[220px] w-full object-cover sm:h-[280px] md:h-[340px]"

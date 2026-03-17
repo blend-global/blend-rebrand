@@ -265,20 +265,22 @@ export const blogSection = {
     {
       title: "Sunday , 1 Jan 2023",
       description: "How can design even help?",
+      slug: "how-can-design-even-help",
       image: "/placeholders/blog-1.svg",
     },
     {
       title: "Sat , 12 Jun 2023",
       description: "The thing about events",
+      slug: "the-thing-about-events",
       image: "/placeholders/blog-2.svg",
     },
   ],
   posts: [
-    { title: "FNB Christmas 2021", image: "/placeholders/blog-3.svg" },
-    { title: "Work It Up", image: "/placeholders/blog-4.svg" },
-    { title: "Acer Launch 2022", image: "/placeholders/blog-5.svg" },
-    { title: "Women in Tech event", image: "/placeholders/blog-6.svg" },
-    { title: "View all", image: "/placeholders/blog-7.svg" },
+    { title: "FNB Christmas 2021", slug: "fnb-christmas-2021", image: "/placeholders/blog-3.svg" },
+    { title: "Work It Up", slug: "work-it-up", image: "/placeholders/blog-4.svg" },
+    { title: "Acer Launch 2022", slug: "acer-launch-2022", image: "/placeholders/blog-5.svg" },
+    { title: "Women in Tech event", slug: "women-in-tech-event", image: "/placeholders/blog-6.svg" },
+    { title: "View all", slug: "view-all", image: "/placeholders/blog-7.svg" }, // Maybe we'll omit linking this one
   ],
 };
 

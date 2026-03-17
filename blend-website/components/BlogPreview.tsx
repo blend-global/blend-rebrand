@@ -1,9 +1,11 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
 import { blogSection } from "@/lib/data";
+import { MotionLink } from "@/components/MotionLink";
 
 export default function BlogPreview() {
   return (
@@ -11,19 +13,21 @@ export default function BlogPreview() {
       <div className="container-max flex flex-col gap-8">
         <Reveal className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <h2 className="text-xl font-semibold text-[#0e0e10] sm:text-2xl">{blogSection.title}</h2>
-          <motion.button
-            className="pill-button pill-primary w-full text-sm font-semibold sm:w-auto"
+          <MotionLink
+            href="/blog"
+            className="pill-button pill-primary w-full justify-center text-sm font-semibold sm:w-auto"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
           >
             {blogSection.cta}
-          </motion.button>
+          </MotionLink>
         </Reveal>
 
         <div className="grid gap-5 sm:gap-6 md:grid-cols-2">
           {blogSection.featured.map((post, index) => (
             <Reveal key={post.title} delay={0.05 * index}>
-              <motion.div
+              <Link href={`/blog/${post.slug}`} className="block">
+                <motion.div
                 className="overflow-hidden rounded-[28px] bg-white shadow-light ring-1 ring-black/5"
                 whileHover={{ y: -6 }}
                 transition={{ type: "spring", stiffness: 220, damping: 18 }}
@@ -42,6 +46,7 @@ export default function BlogPreview() {
                   <p className="mt-2 text-sm font-semibold text-[#1a1b1f] sm:text-base">{post.description}</p>
                 </div>
               </motion.div>
+              </Link>
             </Reveal>
           ))}
         </div>
@@ -49,7 +54,8 @@ export default function BlogPreview() {
         <div className="grid gap-3 sm:grid-cols-3 md:grid-cols-5">
           {blogSection.posts.map((post, index) => (
             <Reveal key={post.title} delay={0.02 * index}>
-              <motion.div
+              <Link href={post.slug === "view-all" ? "/blog" : `/blog/${post.slug}`} className="block">
+                <motion.div
                 className="overflow-hidden rounded-[20px] bg-white shadow-light ring-1 ring-black/5"
                 whileHover={{ y: -4 }}
                 transition={{ type: "spring", stiffness: 220, damping: 18 }}
@@ -65,6 +71,7 @@ export default function BlogPreview() {
                   {post.title}
                 </div>
               </motion.div>
+              </Link>
             </Reveal>
           ))}
         </div>
