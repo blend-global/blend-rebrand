@@ -258,6 +258,25 @@ a {
   color: transparent;
 }
 
+.cms-auth-input {
+  appearance: none;
+  caret-color: #ff78c5;
+}
+
+.cms-auth-input::selection {
+  background: rgba(255, 120, 197, 0.35);
+  color: #ffffff;
+}
+
+.cms-auth-input:-webkit-autofill,
+.cms-auth-input:-webkit-autofill:hover,
+.cms-auth-input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #ffffff;
+  -webkit-box-shadow: 0 0 0 1000px #10131a inset;
+  box-shadow: 0 0 0 1000px #10131a inset;
+  transition: background-color 9999s ease-out 0s;
+}
+
 .gradient-orb {
   position: absolute;
   border-radius: 9999px;
