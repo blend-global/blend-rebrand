@@ -4,10 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
-import { blogSection } from "@/lib/data";
 import { MotionLink } from "@/components/MotionLink";
+import type { BlogContent } from "@/lib/cms-types";
 
-export default function BlogPreview() {
+export default function BlogPreview({ blogSection }: { blogSection: BlogContent }) {
   return (
     <section id="blog" className="bg-white py-12 sm:py-16">
       <div className="container-max flex flex-col gap-8">

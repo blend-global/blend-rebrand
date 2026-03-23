@@ -1,14 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
 import { MotionLink } from "@/components/MotionLink";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Pagination from "@/components/Pagination";
-import { workCaseStudies } from "@/lib/data";
+import { fetchCmsSection } from "@/lib/cms-client";
+import type { CaseStudy } from "@/lib/cms-types";
 
 const filters = ["Experiences", "Digital"];
 
@@ -27,7 +28,13 @@ const tagToFilter: Record<string, string> = {
 export default function WorkPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [activeFilters, setActiveFilters] = useState<string[]>(filters);
+  const [workCaseStudies, setWorkCaseStudies] = useState<CaseStudy[]>([]);
   const itemsPerPage = 8;
+
+  useEffect(() => {
+    void fetchCmsSection("work").then(setWorkCaseStudies).catch(() => setWorkCaseStudies([]));
+  }, []);
+
   const filteredItems = useMemo(() => {
     if (activeFilters.length === 0) {
       return workCaseStudies;
@@ -38,7 +45,7 @@ export default function WorkPage() {
         return mapped ? activeFilters.includes(mapped) : false;
       }),
     );
-  }, [activeFilters]);
+  }, [activeFilters, workCaseStudies]);
 
   const pagedItems = useMemo(() => {
     const start = (currentPage - 1) * itemsPerPage;

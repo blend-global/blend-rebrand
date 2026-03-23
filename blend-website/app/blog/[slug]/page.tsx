@@ -1,14 +1,16 @@
 "use client";
 
-import { use } from "react";
+import { use, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
 import { MotionLink } from "@/components/MotionLink";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { blogSection } from "@/lib/data";
 import { notFound } from "next/navigation";
+import { fetchCmsSection } from "@/lib/cms-client";
+import { getBlogListItems } from "@/lib/cms-helpers";
+import type { BlogContent } from "@/lib/cms-types";
 
 const paragraphs = [
   "A grid system is a design tool used to arrange content on a webpage. It is a series of vertical and horizontal lines that create a matrix of intersecting points, which can be used to align and organize page elements. Grid systems are used to create a consistent look and feel across a website, and can help to make the layout more visually appealing and easier to navigate.",
@@ -27,27 +29,6 @@ type BlogPostSummary = {
   };
 };
 
-const recentPosts = [
-  ...blogSection.featured.map((item) => ({
-    title: item.description,
-    date: item.date,
-    excerpt: item.excerpt,
-    image: item.image,
-    slug: item.slug,
-    author: item.author,
-  })),
-  ...blogSection.posts
-    .filter((item) => item.slug !== "view-all" && item.date && item.excerpt && item.author)
-    .map((item) => ({
-      title: item.title,
-      date: item.date,
-      excerpt: item.excerpt,
-      image: item.image,
-      slug: item.slug,
-      author: item.author,
-    })),
-];
-
 interface Props {
   params: Promise<{
     slug: string;
@@ -56,12 +37,36 @@ interface Props {
 
 const BlogDetailsPage = ({ params }: Props) => {
   const { slug } = use(params);
+  const [blogSection, setBlogSection] = useState<BlogContent | null>(null);
+
+  useEffect(() => {
+    void fetchCmsSection("blog").then(setBlogSection).catch(() => setBlogSection(null));
+  }, []);
+
+  const recentPosts = useMemo(
+    () =>
+      blogSection
+        ? getBlogListItems(blogSection).map((item) => ({
+            title: item.title,
+            date: item.date,
+            excerpt: item.excerpt,
+            image: item.image,
+            slug: item.slug,
+            author: item.author,
+          }))
+        : [],
+    [blogSection],
+  );
 
   // Find the relevant post from featured or standard posts
   const post =
-    blogSection.featured.find((p) => p.slug === slug) ||
-    blogSection.posts.find((p) => p.slug === slug);
+    blogSection?.featured.find((p) => p.slug === slug) ||
+    blogSection?.posts.find((p) => p.slug === slug);
   const otherRecentPosts = recentPosts.filter((item) => item.slug !== slug).slice(0, 3);
+
+  if (!blogSection) {
+    return null;
+  }
 
   if (!post) {
     notFound();

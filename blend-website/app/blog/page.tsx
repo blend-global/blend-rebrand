@@ -9,7 +9,9 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Pagination from "@/components/Pagination";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { blogSection } from "@/lib/data";
+import { getBlogListItems } from "@/lib/cms-helpers";
+import { fetchCmsSection } from "@/lib/cms-client";
+import type { BlogContent } from "@/lib/cms-types";
 
 type BlogPost = {
   title: string;
@@ -36,38 +38,17 @@ export default function BlogPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [activeMenu, setActiveMenu] = useState<"category" | "date" | null>(null);
   const [sortOrder, setSortOrder] = useState<SortOrder>("newest");
+  const [blogSection, setBlogSection] = useState<BlogContent | null>(null);
   const filterControlsRef = useRef<HTMLDivElement | null>(null);
   const itemsPerPage = 8;
 
+  useEffect(() => {
+    void fetchCmsSection("blog").then(setBlogSection).catch(() => setBlogSection(null));
+  }, []);
+
   const posts: BlogPost[] = useMemo(
-    () => [
-      ...blogSection.featured.map((post) => ({
-        title: post.description,
-        date: post.date,
-        excerpt: post.excerpt,
-        image: post.image,
-        tags: [post.slug === "how-can-design-even-help" ? "Web Development" : "Social Media"],
-        slug: post.slug,
-        author: post.author,
-      })),
-      ...blogSection.posts
-        .filter((post) => post.slug !== "view-all" && post.author && post.date && post.excerpt)
-        .map((post) => ({
-          title: post.title,
-          date: post.date,
-          excerpt: post.excerpt,
-          image: post.image,
-          tags:
-            post.slug === "fnb-christmas-2021" || post.slug === "acer-launch-2022"
-              ? ["Digital Marketing"]
-              : post.slug === "women-in-tech-event"
-                ? ["Social Media"]
-                : ["Web Development"],
-          slug: post.slug,
-          author: post.author,
-        })),
-    ],
-    [],
+    () => (blogSection ? getBlogListItems(blogSection) : []),
+    [blogSection],
   );
   const availableTags = useMemo(
     () => Array.from(new Set(posts.flatMap((post) => post.tags))),
@@ -141,7 +122,9 @@ export default function BlogPage() {
         <div className="container-max pb-16">
           <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
             <Reveal className="flex flex-col gap-3">
-              <h1 className="text-3xl font-semibold leading-tight sm:text-[2.6rem]">The world of events and digital</h1>
+              <h1 className="text-3xl font-semibold leading-tight sm:text-[2.6rem]">
+                {blogSection?.title ?? "The world of events and digital"}
+              </h1>
               <div ref={filterControlsRef} className="flex flex-wrap items-center gap-2 sm:gap-3">
                 <div className="relative">
                   <motion.button

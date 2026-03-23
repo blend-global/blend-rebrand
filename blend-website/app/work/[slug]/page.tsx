@@ -1,13 +1,14 @@
 "use client";
 
-import { use, useMemo, useState } from "react";
+import { use, useEffect, useState } from "react";
 import Image from "next/image";
 import { X } from "lucide-react";
 import { motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
 import { MotionLink } from "@/components/MotionLink";
-import { workCaseStudies } from "@/lib/data";
 import { notFound } from "next/navigation";
+import { fetchCmsSection } from "@/lib/cms-client";
+import type { CaseStudy } from "@/lib/cms-types";
 
 const tabs = ["Context", "Problem", "Process", "Solution", "Takeaway"] as const;
 type TabKey = (typeof tabs)[number];
@@ -22,14 +23,24 @@ export default function WorkDetailPage({ params }: Props) {
   const { slug } = use(params);
   const [activeTab, setActiveTab] = useState<TabKey>("Context");
   const [imageIndex, setImageIndex] = useState(0);
-  const caseStudy = workCaseStudies.find((item) => item.slug === slug);
+  const [workCaseStudies, setWorkCaseStudies] = useState<CaseStudy[] | null>(null);
+
+  useEffect(() => {
+    void fetchCmsSection("work").then(setWorkCaseStudies).catch(() => setWorkCaseStudies([]));
+  }, []);
+
+  const caseStudy = workCaseStudies?.find((item) => item.slug === slug);
+
+  if (!workCaseStudies) {
+    return null;
+  }
 
   if (!caseStudy) {
     notFound();
   }
 
   const activeSection = caseStudy.tabs[activeTab];
-  const images = useMemo(() => activeSection.images, [activeSection]);
+  const images = activeSection.images;
 
   const handleTabChange = (tab: TabKey) => {
     setActiveTab(tab);

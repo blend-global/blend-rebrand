@@ -19,12 +19,14 @@ import {
   FolderKanban,
   LayoutDashboard,
   LogOut,
+  AlertTriangle,
   Plus,
   Save,
   Sparkles,
   Trash2,
 } from "lucide-react";
 import CmsAuthCard from "@/components/cms/CmsAuthCard";
+import { deleteCmsEntryClient, readCmsSectionClient, writeCmsSectionClient } from "@/lib/cms-firestore-client";
 import {
   getFirebaseAuth,
   getFirebaseClientConfigError,
@@ -116,6 +118,12 @@ type SectionConfig = {
   icon: typeof FileText;
 };
 
+type DeleteDialogState = {
+  section: Exclude<CmsSection, "services"> | "services";
+  slug: string;
+  label: string;
+};
+
 const sections: SectionConfig[] = [
   {
     id: "blog",
@@ -147,6 +155,20 @@ const defaultServiceDetail = (): ServiceDetail => ({
   highlights: [""],
   deliverables: [""],
   outcomes: [""],
+});
+
+const defaultBlogEntry = (index: number): BlogEntry => ({
+  title: `New Post ${index}`,
+  slug: `new-post-${index}`,
+  image: "/placeholders/blog-1.svg",
+  description: "",
+  excerpt: "",
+  date: "",
+  author: {
+    name: "",
+    role: "",
+    avatar: "/placeholders/avatar-1.svg",
+  },
 });
 
 const defaultCaseStudy = (): CaseStudy => ({
@@ -339,11 +361,13 @@ function Panel({
   description,
   children,
   action,
+  footer,
 }: {
   title: string;
   description?: string;
   children: React.ReactNode;
   action?: React.ReactNode;
+  footer?: React.ReactNode;
 }) {
   return (
     <div className="rounded-[28px] border border-white/10 bg-[#12161f] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] sm:p-6">
@@ -355,6 +379,7 @@ function Panel({
         {action}
       </div>
       {children}
+      {footer ? <div className="mt-6 flex justify-end">{footer}</div> : null}
     </div>
   );
 }
@@ -479,7 +504,9 @@ export default function CmsPage() {
   const [authError, setAuthError] = useState<string | null>(getFirebaseClientConfigError());
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const [deleteDialog, setDeleteDialog] = useState<DeleteDialogState | null>(null);
 
   const activeSectionConfig = useMemo(
     () => sections.find((section) => section.id === activeSection) ?? sections[0],
@@ -525,22 +552,13 @@ export default function CmsPage() {
       setData(null);
 
       try {
-        const response = await fetch(`/api/cms/${activeSection}`);
-        const payload = (await response.json()) as { data?: unknown; error?: string };
-
         if (cancelled) return;
-
-        if (!response.ok || !payload.data) {
-          setMessage(payload.error ?? "Unable to load content.");
-          setData(null);
-          setLoading(false);
-          return;
-        }
+        const payload = await readCmsSectionClient(activeSection);
 
         const isValidPayload =
-          (activeSection === "blog" && isBlogContent(payload.data)) ||
-          (activeSection === "services" && isServicesContent(payload.data)) ||
-          (activeSection === "work" && isCaseStudies(payload.data));
+          (activeSection === "blog" && isBlogContent(payload)) ||
+          (activeSection === "services" && isServicesContent(payload)) ||
+          (activeSection === "work" && isCaseStudies(payload));
 
         if (!isValidPayload) {
           setMessage("The CMS data shape for this section is invalid.");
@@ -549,15 +567,15 @@ export default function CmsPage() {
           return;
         }
 
-        setData(payload.data);
-        setSelectedEntry(getDefaultSelection(activeSection, payload.data as CmsDataMap[CmsSection]));
+        setData(payload);
+        setSelectedEntry(getDefaultSelection(activeSection, payload as CmsDataMap[CmsSection]));
         if (activeSection === "work") {
           setSelectedWorkTab("Context");
         }
         setLoading(false);
-      } catch {
+      } catch (error) {
         if (!cancelled) {
-          setMessage("Unable to load content.");
+          setMessage(error instanceof Error ? error.message : "Unable to load content.");
           setData(null);
           setLoading(false);
         }
@@ -585,27 +603,104 @@ export default function CmsPage() {
     setMessage(null);
 
     try {
-      const response = await fetch(`/api/cms/${activeSection}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ data }),
-      });
-
-      const payload = (await response.json()) as { ok?: boolean; error?: string };
-
-      if (!response.ok) {
-        setMessage(payload.error ?? "Unable to save content.");
-      } else {
-        setMessage(`${activeSectionConfig.label} saved.`);
-      }
-    } catch {
-      setMessage("Unable to save content.");
+      await writeCmsSectionClient(activeSection, data as CmsDataMap[CmsSection]);
+      setMessage(`${activeSectionConfig.label} saved.`);
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Unable to save content.");
     } finally {
       setSaving(false);
     }
   };
+
+  const handleCreateNew = () => {
+    if (!data) return;
+
+    if (activeSection === "blog" && blogData) {
+      const nextIndex = blogData.posts.length + blogData.featured.length + 1;
+      const nextPost = defaultBlogEntry(nextIndex);
+
+      updateCurrentData((current) => {
+        const nextData = cloneData(current as BlogContent);
+        nextData.posts.push(nextPost);
+        return nextData;
+      });
+      setSelectedEntry(`posts:${blogData.posts.length}`);
+      return;
+    }
+
+    if (activeSection === "services" && servicesData) {
+      const nextIndex = servicesData.servicesContent.digital.length + 1;
+      const nextService = defaultServiceLink(nextIndex);
+
+      updateCurrentData((current) => {
+        const nextData = cloneData(current as ServicesContent);
+        nextData.servicesContent.digital.push(nextService);
+        nextData.serviceDetails[nextService.slug] = defaultServiceDetail();
+        return nextData;
+      });
+      setSelectedEntry(`digital:${nextService.slug}`);
+      return;
+    }
+
+    if (activeSection === "work" && workData) {
+      let nextSlug = "new-case-study";
+      let suffix = 1;
+      while (workData.some((item) => item.slug === nextSlug)) {
+        nextSlug = `new-case-study-${suffix}`;
+        suffix += 1;
+      }
+
+      const nextCaseStudy = { ...defaultCaseStudy(), slug: nextSlug, title: "New Case Study" };
+
+      updateCurrentData((current) => {
+        const nextData = cloneData(current as CaseStudy[]);
+        nextData.push(nextCaseStudy);
+        return nextData;
+      });
+      setSelectedEntry(nextSlug);
+      setSelectedWorkTab("Context");
+    }
+  };
+
+  const openDeleteDialog = (section: DeleteDialogState["section"], slug: string, label: string) => {
+    setDeleteDialog({ section, slug, label });
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!deleteDialog) return;
+
+    setDeleting(true);
+    setMessage(null);
+
+    try {
+      await deleteCmsEntryClient(deleteDialog.section, deleteDialog.slug);
+      const payload = await readCmsSectionClient(activeSection);
+
+      setData(payload);
+      setSelectedEntry(getDefaultSelection(activeSection, payload as CmsDataMap[CmsSection]));
+      if (activeSection === "work") {
+        setSelectedWorkTab("Context");
+      }
+      setMessage(`${deleteDialog.label} deleted.`);
+      setDeleteDialog(null);
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Unable to delete content.");
+    } finally {
+      setDeleting(false);
+    }
+  };
+
+  const saveButton = (
+    <button
+      type="button"
+      onClick={handleSave}
+      disabled={saving}
+      className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-black transition disabled:cursor-not-allowed disabled:opacity-60"
+    >
+      <Save className="size-4" />
+      {saving ? "Saving..." : "Save Changes"}
+    </button>
+  );
 
   const handleEmailSignIn = async (email: string, password: string) => {
     if (!isFirebaseClientConfigured) return;
@@ -776,7 +871,11 @@ export default function CmsPage() {
         </Panel>
 
         {selectedEntry === "settings" ? (
-          <Panel title="Blog Settings" description="These fields drive the listing page header and CTA.">
+          <Panel
+            title="Blog Settings"
+            description="These fields drive the listing page header and CTA."
+            footer={saveButton}
+          >
             <div className="grid gap-4 md:grid-cols-2">
               <Field
                 label="Page Title"
@@ -808,18 +907,7 @@ export default function CmsPage() {
               action={
                 <button
                   type="button"
-                  onClick={() => {
-                    updateCurrentData((current) => {
-                      const nextData = cloneData(current as BlogContent);
-                      if (kind === "featured") {
-                        nextData.featured.splice(index, 1);
-                      } else {
-                        nextData.posts.splice(index, 1);
-                      }
-                      return nextData;
-                    });
-                    setSelectedEntry("settings");
-                  }}
+                  onClick={() => openDeleteDialog("blog", selectedPost.slug, selectedPost.title)}
                   className="inline-flex items-center gap-2 rounded-full border border-[#ff4fb3]/30 px-4 py-2 text-sm text-[#ff9fd4] transition hover:border-[#ff4fb3]/60 hover:text-white"
                 >
                   <Trash2 className="size-4" />
@@ -907,7 +995,7 @@ export default function CmsPage() {
               </div>
             </Panel>
 
-            <Panel title="Author" description="Metadata shown on blog cards and detail pages.">
+            <Panel title="Author" description="Metadata shown on blog cards and detail pages." footer={saveButton}>
               <div className="grid gap-4 md:grid-cols-3">
                 <Field
                   label="Name"
@@ -1089,7 +1177,11 @@ export default function CmsPage() {
         </Panel>
 
         {selectedEntry === "settings" ? (
-          <Panel title="Service Page Settings" description="Edit the service page heading and category labels.">
+          <Panel
+            title="Service Page Settings"
+            description="Edit the service page heading and category labels."
+            footer={saveButton}
+          >
             <div className="grid gap-4 md:grid-cols-2">
               <Field
                 label="Page Title"
@@ -1147,21 +1239,7 @@ export default function CmsPage() {
               action={
                 <button
                   type="button"
-                  onClick={() => {
-                    updateCurrentData((current) => {
-                      const nextData = cloneData(current as ServicesContent);
-                      const collection =
-                        kind === "digital" ? nextData.servicesContent.digital : nextData.servicesContent.experiential;
-                      const itemIndex = collection.findIndex((item) => item.slug === slug);
-                      if (itemIndex >= 0) {
-                        const removedSlug = collection[itemIndex].slug;
-                        collection.splice(itemIndex, 1);
-                        delete nextData.serviceDetails[removedSlug];
-                      }
-                      return nextData;
-                    });
-                    setSelectedEntry("settings");
-                  }}
+                  onClick={() => openDeleteDialog("services", selectedService.slug, selectedService.label)}
                   className="inline-flex items-center gap-2 rounded-full border border-[#ff4fb3]/30 px-4 py-2 text-sm text-[#ff9fd4] transition hover:border-[#ff4fb3]/60 hover:text-white"
                 >
                   <Trash2 className="size-4" />
@@ -1211,7 +1289,7 @@ export default function CmsPage() {
               </div>
             </Panel>
 
-            <Panel title="Service Detail" description="This content powers the service detail page.">
+            <Panel title="Service Detail" description="This content powers the service detail page." footer={saveButton}>
               <TextAreaField
                 label="Summary"
                 value={selectedDetails.summary}
@@ -1339,15 +1417,7 @@ export default function CmsPage() {
               action={
                 <button
                   type="button"
-                  onClick={() => {
-                    updateCurrentData((current) => {
-                      const nextData = cloneData(current as CaseStudy[]);
-                      const itemIndex = nextData.findIndex((item) => item.slug === selectedEntry);
-                      if (itemIndex >= 0) nextData.splice(itemIndex, 1);
-                      return nextData;
-                    });
-                    setSelectedEntry(workData[0]?.slug ?? "new-case-study");
-                  }}
+                  onClick={() => openDeleteDialog("work", selectedCaseStudy.slug, selectedCaseStudy.title)}
                   className="inline-flex items-center gap-2 rounded-full border border-[#ff4fb3]/30 px-4 py-2 text-sm text-[#ff9fd4] transition hover:border-[#ff4fb3]/60 hover:text-white"
                 >
                   <Trash2 className="size-4" />
@@ -1440,6 +1510,7 @@ export default function CmsPage() {
               <Panel
                 title="Case Study Section"
                 description="Switch between content tabs and edit one section at a time."
+                footer={saveButton}
               >
                 <div className="mb-5 flex flex-wrap gap-2">
                   {availableTabs.map((tabName) => {
@@ -1616,12 +1687,12 @@ export default function CmsPage() {
                 <div className="flex flex-wrap items-center gap-2 lg:ml-auto lg:justify-end">
                   <button
                     type="button"
-                    onClick={handleSave}
+                    onClick={handleCreateNew}
                     disabled={loading || saving || !data}
                     className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-black transition disabled:cursor-not-allowed disabled:opacity-60"
                   >
-                    <Save className="size-4" />
-                    {saving ? "Saving..." : "Save Changes"}
+                    <Plus className="size-4" />
+                    New
                   </button>
                 </div>
               </div>
@@ -1647,6 +1718,45 @@ export default function CmsPage() {
             </div>
           </div>
         </div>
+
+        {deleteDialog ? (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 backdrop-blur-sm">
+            <div className="w-full max-w-md rounded-[28px] border border-white/10 bg-[#12161f] p-6 shadow-[0_24px_80px_rgba(0,0,0,0.4)]">
+              <div className="flex items-start gap-4">
+                <div className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-[#ff4fb3]/12 text-[#ff9fd4]">
+                  <AlertTriangle className="size-5" />
+                </div>
+                <div className="space-y-2">
+                  <h2 className="text-lg font-semibold text-white">Delete item?</h2>
+                  <p className="text-sm leading-6 text-white/60">
+                    This will permanently delete <span className="text-white">{deleteDialog.label}</span> from
+                    Firestore.
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-6 flex justify-end gap-3">
+                <button
+                  type="button"
+                  onClick={() => setDeleteDialog(null)}
+                  disabled={deleting}
+                  className="inline-flex items-center justify-center rounded-full border border-white/12 bg-[#0d1016] px-4 py-2.5 text-sm font-semibold text-white/80 transition hover:border-white/20 hover:text-white disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleConfirmDelete}
+                  disabled={deleting}
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-[#ff4fb3]/30 px-4 py-2.5 text-sm font-semibold text-[#ff9fd4] transition hover:border-[#ff4fb3]/60 hover:text-white disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  <Trash2 className="size-4" />
+                  {deleting ? "Deleting..." : "Delete"}
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : null}
       </section>
     </main>
   );

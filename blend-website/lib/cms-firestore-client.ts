@@ -1,55 +1,52 @@
-import { readFile, writeFile } from "fs/promises";
-import path from "path";
+"use client";
+
 import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
   orderBy,
   query,
   setDoc,
 } from "firebase/firestore";
 import type { BlogContent, CaseStudy, CmsDataMap, ServicesContent } from "@/lib/cms-types";
-import { getServerFirestore, isFirestoreConfigured } from "@/lib/firestore-server";
+import { getFirebaseDb } from "@/lib/firebase/client";
 
-export const cmsSections = {
-  blog: {
-    label: "Blog Posts",
-    filename: "blog-posts.json",
-  },
-  services: {
-    label: "Services",
-    filename: "services.json",
-  },
-  work: {
-    label: "Case Studies",
-    filename: "case-studies.json",
-  },
-} as const;
+export type CmsSection = keyof CmsDataMap;
 
-export type CmsSection = keyof typeof cmsSections;
+async function readFallbackSection<T extends CmsSection>(section: T): Promise<CmsDataMap[T]> {
+  const response = await fetch(`/api/cms/${section}`, { cache: "no-store" });
+  const payload = (await response.json()) as { data?: CmsDataMap[T]; error?: string };
 
-export const isCmsSection = (value: string): value is CmsSection => value in cmsSections;
-
-const getContentPath = (section: CmsSection) =>
-  path.join(process.cwd(), "content", cmsSections[section].filename);
-
-const readContentFallback = async <T,>(section: CmsSection): Promise<T> => {
-  const content = await readFile(getContentPath(section), "utf8");
-  return JSON.parse(content);
-};
-
-const readBlogFromFirestore = async (): Promise<BlogContent | null> => {
-  const db = getServerFirestore();
-  const settingsSnapshot = await getDocs(query(collection(db, "cmsSettings")));
-  const blogSettingsDoc = settingsSnapshot.docs.find((item) => item.id === "blog");
-  const postsSnapshot = await getDocs(query(collection(db, "blogPosts"), orderBy("order")));
-
-  if (!blogSettingsDoc && postsSnapshot.empty) {
-    return null;
+  if (!response.ok || !payload.data) {
+    throw new Error(payload.error ?? `Unable to load ${section} content.`);
   }
 
-  const settings = blogSettingsDoc?.data() as { title?: string; cta?: string } | undefined;
+  return payload.data;
+}
+
+async function withFallback<T extends CmsSection>(
+  section: T,
+  reader: () => Promise<CmsDataMap[T]>,
+  shouldFallback?: (data: CmsDataMap[T]) => boolean,
+): Promise<CmsDataMap[T]> {
+  try {
+    const data = await reader();
+    if (shouldFallback?.(data)) {
+      return readFallbackSection(section);
+    }
+    return data;
+  } catch {
+    return readFallbackSection(section);
+  }
+}
+
+async function readBlogSection(): Promise<BlogContent> {
+  const db = getFirebaseDb();
+  const settingsDoc = await getDoc(doc(db, "cmsSettings", "blog"));
+  const postsSnapshot = await getDocs(query(collection(db, "blogPosts"), orderBy("order")));
+  const settings = settingsDoc.data() as { title?: string; cta?: string } | undefined;
   const entries = postsSnapshot.docs.map((entry) => entry.data()) as Array<
     BlogContent["featured"][number] & { featured?: boolean }
   >;
@@ -60,20 +57,15 @@ const readBlogFromFirestore = async (): Promise<BlogContent | null> => {
     featured: entries.filter((entry) => entry.featured),
     posts: entries.filter((entry) => !entry.featured),
   };
-};
+}
 
-const writeBlogToFirestore = async (data: BlogContent) => {
-  const db = getServerFirestore();
+async function writeBlogSection(data: BlogContent) {
+  const db = getFirebaseDb();
   const existing = await getDocs(collection(db, "blogPosts"));
-  const nextIds = new Set([
-    ...data.featured.map((item) => item.slug),
-    ...data.posts.map((item) => item.slug),
-  ]);
+  const nextIds = new Set([...data.featured.map((item) => item.slug), ...data.posts.map((item) => item.slug)]);
 
   await Promise.all(
-    existing.docs
-      .filter((item) => !nextIds.has(item.id))
-      .map((item) => deleteDoc(doc(db, "blogPosts", item.id))),
+    existing.docs.filter((item) => !nextIds.has(item.id)).map((item) => deleteDoc(doc(db, "blogPosts", item.id))),
   );
 
   await setDoc(doc(db, "cmsSettings", "blog"), {
@@ -99,19 +91,13 @@ const writeBlogToFirestore = async (data: BlogContent) => {
       }),
     ),
   ]);
-};
+}
 
-const readServicesFromFirestore = async (): Promise<ServicesContent | null> => {
-  const db = getServerFirestore();
-  const settingsSnapshot = await getDocs(query(collection(db, "cmsSettings")));
-  const servicesSettingsDoc = settingsSnapshot.docs.find((item) => item.id === "services");
+async function readServicesSection(): Promise<ServicesContent> {
+  const db = getFirebaseDb();
+  const settingsDoc = await getDoc(doc(db, "cmsSettings", "services"));
   const servicesSnapshot = await getDocs(query(collection(db, "services"), orderBy("order")));
-
-  if (!servicesSettingsDoc && servicesSnapshot.empty) {
-    return null;
-  }
-
-  const settings = servicesSettingsDoc?.data() as
+  const settings = settingsDoc.data() as
     | {
         title?: string;
         description?: string;
@@ -128,18 +114,6 @@ const readServicesFromFirestore = async (): Promise<ServicesContent | null> => {
   const digital = services.filter((item) => item.category === "digital");
   const experiential = services.filter((item) => item.category === "experiential");
 
-  const serviceDetails = Object.fromEntries(
-    services.map((item) => [
-      item.slug,
-      {
-        summary: item.summary ?? "",
-        highlights: item.highlights ?? [],
-        deliverables: item.deliverables ?? [],
-        outcomes: item.outcomes ?? [],
-      },
-    ]),
-  );
-
   return {
     servicesContent: {
       title: settings?.title ?? "Services",
@@ -149,12 +123,22 @@ const readServicesFromFirestore = async (): Promise<ServicesContent | null> => {
       digital: digital.map(({ label, slug }) => ({ label, slug })),
       experiential: experiential.map(({ label, slug }) => ({ label, slug })),
     },
-    serviceDetails,
+    serviceDetails: Object.fromEntries(
+      services.map((item) => [
+        item.slug,
+        {
+          summary: item.summary ?? "",
+          highlights: item.highlights ?? [],
+          deliverables: item.deliverables ?? [],
+          outcomes: item.outcomes ?? [],
+        },
+      ]),
+    ),
   };
-};
+}
 
-const writeServicesToFirestore = async (data: ServicesContent) => {
-  const db = getServerFirestore();
+async function writeServicesSection(data: ServicesContent) {
+  const db = getFirebaseDb();
   const existing = await getDocs(collection(db, "services"));
   const nextIds = new Set([
     ...data.servicesContent.digital.map((item) => item.slug),
@@ -162,9 +146,7 @@ const writeServicesToFirestore = async (data: ServicesContent) => {
   ]);
 
   await Promise.all(
-    existing.docs
-      .filter((item) => !nextIds.has(item.id))
-      .map((item) => deleteDoc(doc(db, "services", item.id))),
+    existing.docs.filter((item) => !nextIds.has(item.id)).map((item) => deleteDoc(doc(db, "services", item.id))),
   );
 
   await setDoc(doc(db, "cmsSettings", "services"), {
@@ -202,15 +184,11 @@ const writeServicesToFirestore = async (data: ServicesContent) => {
       }),
     ),
   ]);
-};
+}
 
-const readWorkFromFirestore = async (): Promise<CaseStudy[] | null> => {
-  const db = getServerFirestore();
+async function readWorkSection(): Promise<CaseStudy[]> {
+  const db = getFirebaseDb();
   const workSnapshot = await getDocs(query(collection(db, "caseStudies"), orderBy("order")));
-
-  if (workSnapshot.empty) {
-    return null;
-  }
 
   return workSnapshot.docs.map((entry) => {
     const data = entry.data();
@@ -224,10 +202,10 @@ const readWorkFromFirestore = async (): Promise<CaseStudy[] | null> => {
       tabs: data.tabs ?? {},
     };
   }) as CaseStudy[];
-};
+}
 
-const writeWorkToFirestore = async (data: CaseStudy[]) => {
-  const db = getServerFirestore();
+async function writeWorkSection(data: CaseStudy[]) {
+  const db = getFirebaseDb();
   const existing = await getDocs(collection(db, "caseStudies"));
   const nextIds = new Set(data.map((item) => item.slug));
 
@@ -245,47 +223,77 @@ const writeWorkToFirestore = async (data: CaseStudy[]) => {
       }),
     ),
   );
-};
+}
 
-export const readCmsSection = async <T extends CmsSection>(section: T): Promise<CmsDataMap[T]> => {
-  if (!isFirestoreConfigured) {
-    return readContentFallback<CmsDataMap[T]>(section);
-  }
-
-  try {
-    if (section === "blog") {
-      const firestoreData = await readBlogFromFirestore();
-      return (firestoreData ?? (await readContentFallback("blog"))) as CmsDataMap[T];
-    }
-
-    if (section === "services") {
-      const firestoreData = await readServicesFromFirestore();
-      return (firestoreData ?? (await readContentFallback("services"))) as CmsDataMap[T];
-    }
-
-    const firestoreData = await readWorkFromFirestore();
-    return (firestoreData ?? (await readContentFallback("work"))) as CmsDataMap[T];
-  } catch {
-    return readContentFallback<CmsDataMap[T]>(section);
-  }
-};
-
-export const writeCmsSection = async (section: CmsSection, data: unknown) => {
-  if (!isFirestoreConfigured) {
-    const filepath = getContentPath(section);
-    await writeFile(filepath, `${JSON.stringify(data, null, 2)}\n`, "utf8");
-    return;
-  }
-
+export async function readCmsSectionClient<T extends CmsSection>(section: T): Promise<CmsDataMap[T]> {
   if (section === "blog") {
-    await writeBlogToFirestore(data as BlogContent);
+    return withFallback(
+      section,
+      async () => (await readBlogSection()) as CmsDataMap[T],
+      (data) => {
+        const blogData = data as BlogContent;
+        return blogData.featured.length === 0 && blogData.posts.length === 0;
+      },
+    );
+  }
+
+  if (section === "services") {
+    return withFallback(
+      section,
+      async () => (await readServicesSection()) as CmsDataMap[T],
+      (data) => {
+        const servicesData = data as ServicesContent;
+        return (
+          servicesData.servicesContent.digital.length === 0 &&
+          servicesData.servicesContent.experiential.length === 0
+        );
+      },
+    );
+  }
+
+  return withFallback(
+    section,
+    async () => (await readWorkSection()) as CmsDataMap[T],
+    (data) => (data as CaseStudy[]).length === 0,
+  );
+}
+
+export async function writeCmsSectionClient<T extends CmsSection>(section: T, data: CmsDataMap[T]) {
+  if (section === "blog") {
+    await writeBlogSection(data as BlogContent);
     return;
   }
 
   if (section === "services") {
-    await writeServicesToFirestore(data as ServicesContent);
+    await writeServicesSection(data as ServicesContent);
     return;
   }
 
-  await writeWorkToFirestore(data as CaseStudy[]);
-};
+  await writeWorkSection(data as CaseStudy[]);
+}
+
+export async function deleteCmsEntryClient(
+  section: Exclude<CmsSection, "services"> | "services",
+  slug: string,
+  options?: { deleteSettings?: boolean },
+) {
+  const db = getFirebaseDb();
+
+  if (section === "blog") {
+    await deleteDoc(doc(db, "blogPosts", slug));
+    if (options?.deleteSettings) {
+      await deleteDoc(doc(db, "cmsSettings", "blog"));
+    }
+    return;
+  }
+
+  if (section === "services") {
+    await deleteDoc(doc(db, "services", slug));
+    if (options?.deleteSettings) {
+      await deleteDoc(doc(db, "cmsSettings", "services"));
+    }
+    return;
+  }
+
+  await deleteDoc(doc(db, "caseStudies", slug));
+}

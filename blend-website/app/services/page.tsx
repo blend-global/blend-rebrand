@@ -7,9 +7,18 @@ import Link from "next/link";
 // import { Button } from "@/components/ui/button";
 import Header from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { servicesContent } from "@/lib/data";
+import { useEffect, useState } from "react";
+import { fetchCmsSection } from "@/lib/cms-client";
+import type { ServicesContent } from "@/lib/cms-types";
 
 const ServicesPage = () => {
+  const [servicesSection, setServicesSection] = useState<ServicesContent | null>(null);
+
+  useEffect(() => {
+    void fetchCmsSection("services").then(setServicesSection).catch(() => setServicesSection(null));
+  }, []);
+
+  const servicesContent = servicesSection?.servicesContent;
   const digitalServices = [
     {
       icon: Video,
@@ -171,7 +180,7 @@ const ServicesPage = () => {
           
           <div className="grid gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {experientialServices.map((service, index) => {
-              const slug = servicesContent.experiential.find((item) => item.label === service.title)?.slug;
+              const slug = servicesContent?.experiential.find((item) => item.label === service.title)?.slug;
               return (
               <Reveal key={service.title} delay={0.03 * index}>
                 <motion.div
@@ -237,7 +246,7 @@ const ServicesPage = () => {
           
           <div className="grid gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {digitalServices.map((service, index) => {
-              const slug = servicesContent.digital.find((item) => item.label === service.title)?.slug;
+              const slug = servicesContent?.digital.find((item) => item.label === service.title)?.slug;
               return (
               <Reveal key={service.title} delay={0.03 * index}>
                 <motion.div

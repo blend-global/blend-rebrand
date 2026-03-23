@@ -1,7 +1,8 @@
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { allServices, serviceDetails } from "@/lib/data";
+import { getAllServices } from "@/lib/cms-helpers";
+import { readCmsSection } from "@/lib/cms-server";
 
 const slugify = (value: string) =>
   value
@@ -17,7 +18,7 @@ const titleCase = (value: string) =>
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
 
-const resolveService = (slug: string) => {
+const resolveService = (slug: string, allServices: ReturnType<typeof getAllServices>, serviceDetails: Record<string, { summary: string; highlights: string[]; deliverables: string[]; outcomes: string[] }>) => {
   const normalized = decodeURIComponent(slug).toLowerCase();
   const fromList =
     allServices.find((item) => item.slug === normalized) ||
@@ -38,14 +39,18 @@ const resolveService = (slug: string) => {
   return null;
 };
 
-export function generateStaticParams() {
-  return allServices.map((service) => ({ slug: service.slug }));
+export async function generateStaticParams() {
+  const servicesSection = await readCmsSection("services");
+  return getAllServices(servicesSection).map((service) => ({ slug: service.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
+  const servicesSection = await readCmsSection("services");
+  const allServices = getAllServices(servicesSection);
+  const serviceDetails = servicesSection.serviceDetails;
   const normalized = decodeURIComponent(slug).toLowerCase();
-  const service = resolveService(slug);
+  const service = resolveService(slug, allServices, serviceDetails);
   const details = serviceDetails[normalized] ?? (service ? serviceDetails[service.slug] : null);
   const label = service?.label ?? (details ? titleCase(normalized) : null);
   const category = service?.category ?? "Services";
@@ -65,8 +70,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ServiceDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
+  const servicesSection = await readCmsSection("services");
+  const allServices = getAllServices(servicesSection);
+  const serviceDetails = servicesSection.serviceDetails;
   const normalized = decodeURIComponent(slug).toLowerCase();
-  const service = resolveService(slug);
+  const service = resolveService(slug, allServices, serviceDetails);
   const details = serviceDetails[normalized] ?? (service ? serviceDetails[service.slug] : null);
   const serviceLabel = service?.label ?? (details ? titleCase(normalized) : "Service Details");
   const serviceCategory = service?.category ?? "Services";

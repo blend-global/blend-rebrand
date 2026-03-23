@@ -4,9 +4,11 @@ import { Instagram, Monitor, Plus } from "lucide-react";
 import { motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
 import { MotionLink } from "@/components/MotionLink";
-import { servicesContent } from "@/lib/data";
+import type { ServicesContent as ServicesSection } from "@/lib/cms-types";
 
-export default function Services() {
+export default function Services({ servicesSection }: { servicesSection: ServicesSection }) {
+  const servicesContent = servicesSection.servicesContent;
+
   return (
     <section id="services" className="bg-white pb-16 pt-6 sm:pt-8">
       <div className="container-max relative">
