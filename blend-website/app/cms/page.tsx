@@ -22,7 +22,6 @@ import {
   AlertTriangle,
   Plus,
   Save,
-  Sparkles,
   Trash2,
 } from "lucide-react";
 import CmsAuthCard from "@/components/cms/CmsAuthCard";
@@ -1712,10 +1711,7 @@ export default function CmsPage() {
             <div className="rounded-[30px] border border-white/10 bg-[#10131a] p-4 shadow-[0_24px_80px_rgba(0,0,0,0.28)]">
               <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                 <div>
-                  <div className="flex items-center gap-3">
-                    <div className="flex size-10 items-center justify-center rounded-2xl bg-[#ff4fb3]/12 text-[#ff78c5]">
-                      <Sparkles className="size-4.5" />
-                    </div>
+                  <div>
                     <div>
                       <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#ff4fb3]">
                         {activeSectionConfig.label}
