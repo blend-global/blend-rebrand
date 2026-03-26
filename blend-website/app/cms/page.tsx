@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { User } from "firebase/auth";
 import {
   createUserWithEmailAndPassword,
@@ -501,12 +501,15 @@ export default function CmsPage() {
   const [authReady, setAuthReady] = useState(false);
   const [authSubmitting, setAuthSubmitting] = useState(false);
   const [authUser, setAuthUser] = useState<User | null>(null);
+  const [avatarLoadFailed, setAvatarLoadFailed] = useState(false);
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [authError, setAuthError] = useState<string | null>(getFirebaseClientConfigError());
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [deleteDialog, setDeleteDialog] = useState<DeleteDialogState | null>(null);
+  const profileMenuRef = useRef<HTMLDivElement | null>(null);
 
   const activeSectionConfig = useMemo(
     () => sections.find((section) => section.id === activeSection) ?? sections[0],
@@ -530,6 +533,33 @@ export default function CmsPage() {
 
     return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    setAvatarLoadFailed(false);
+  }, [authUser?.photoURL, authUser?.uid]);
+
+  useEffect(() => {
+    if (!profileMenuOpen) return;
+
+    const handlePointerDown = (event: MouseEvent) => {
+      if (profileMenuRef.current?.contains(event.target as Node)) return;
+      setProfileMenuOpen(false);
+    };
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setProfileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("mousedown", handlePointerDown);
+    window.addEventListener("keydown", handleEscape);
+
+    return () => {
+      window.removeEventListener("mousedown", handlePointerDown);
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, [profileMenuOpen]);
 
   useEffect(() => {
     let cancelled = false;
@@ -766,6 +796,7 @@ export default function CmsPage() {
 
     setAuthSubmitting(true);
     setMessage(null);
+    setProfileMenuOpen(false);
 
     try {
       await signOut(getFirebaseAuth());
@@ -781,6 +812,10 @@ export default function CmsPage() {
   const blogData = activeSection === "blog" && isBlogContent(data) ? data : null;
   const servicesData = activeSection === "services" && isServicesContent(data) ? data : null;
   const workData = activeSection === "work" && isCaseStudies(data) ? data : null;
+  const authEmail = authUser?.email?.trim() ?? "";
+  const userInitial = authEmail.charAt(0).toUpperCase() || "U";
+  const avatarUrl = authUser?.photoURL?.trim() ?? "";
+  const showAvatarImage = Boolean(avatarUrl) && !avatarLoadFailed;
 
   if (!authUser) {
     return (
@@ -1619,27 +1654,58 @@ export default function CmsPage() {
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2">
-              <div className="rounded-full border border-white/10 bg-[#0d1016] px-4 py-2 text-sm text-white/70">
-                {authUser.email ?? "Authenticated user"}
-              </div>
-
+            <div className="relative self-end sm:self-auto" ref={profileMenuRef}>
               <button
                 type="button"
-                onClick={() => void handleSignOut()}
-                disabled={authSubmitting}
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/12 bg-[#0d1016] px-4 py-3 text-sm font-semibold text-white transition hover:border-white/25 disabled:cursor-not-allowed disabled:opacity-60"
+                onClick={() => setProfileMenuOpen((current) => !current)}
+                className="cursor-pointer rounded-full border border-white/10 bg-[#0d1016] p-1.5 transition hover:border-white/25"
+                aria-haspopup="menu"
+                aria-expanded={profileMenuOpen}
+                aria-label="Open profile menu"
               >
-                <LogOut className="size-4" />
-                Sign Out
+                {showAvatarImage ? (
+                  <div className="relative size-10 overflow-hidden rounded-full border border-white/10 bg-white/5">
+                    <Image
+                      src={avatarUrl}
+                      alt={authEmail ? `${authEmail} profile picture` : "User profile picture"}
+                      fill
+                      sizes="40px"
+                      className="object-cover"
+                      unoptimized
+                      onError={() => setAvatarLoadFailed(true)}
+                    />
+                  </div>
+                ) : (
+                  <div className="flex size-10 items-center justify-center rounded-full border border-white/10 bg-[#171c27] text-sm font-semibold text-white">
+                    {userInitial}
+                  </div>
+                )}
               </button>
+
+              {profileMenuOpen ? (
+                <div className="absolute right-0 top-[calc(100%+0.75rem)] z-20 min-w-[260px] rounded-[24px] border border-white/10 bg-[#10131a]/96 p-3 shadow-[0_24px_80px_rgba(0,0,0,0.36)] backdrop-blur">
+                  <div className="rounded-2xl border border-white/8 bg-[#0d1016] px-4 py-3 text-sm text-white/70">
+                    {authUser.email ?? "Authenticated user"}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => void handleSignOut()}
+                    disabled={authSubmitting}
+                    className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-white/12 bg-[#0d1016] px-4 py-3 text-sm font-semibold text-white transition hover:border-white/25 disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    <LogOut className="size-4" />
+                    Sign Out
+                  </button>
+                </div>
+              ) : null}
             </div>
           </nav>
 
           <SectionHeading
             eyebrow="Content Studio"
             title="Visual CMS"
-            description="Edit site content through structured forms, collection panels, and item-focused editors instead of raw JSON."
+            description="Update your website using simple forms and clear editing panels, without touching code."
           />
 
           <div className="mt-10 space-y-6">
