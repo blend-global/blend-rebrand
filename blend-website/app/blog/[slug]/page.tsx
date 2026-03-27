@@ -72,7 +72,7 @@ const BlogDetailsPage = ({ params }: Props) => {
     notFound();
   }
 
-  const postTitle = "description" in post ? post.description : post.title;
+  const postTitle = post.title ?? ("description" in post ? post.description : undefined) ?? "Blog post";
 
   return (
     <main className="min-h-screen bg-white text-[#0b0b0b]">
