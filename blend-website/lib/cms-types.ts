@@ -9,6 +9,7 @@ export type BlogEntry = {
   date?: string;
   description?: string;
   excerpt?: string;
+  body?: string;
   slug: string;
   image: string;
   author?: BlogAuthor;
