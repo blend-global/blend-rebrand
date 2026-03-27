@@ -464,7 +464,7 @@ function RichTextEditor({
             <button
               key={item.label}
               type="button"
-              onClick={() => runCommand(item.command, item.commandValue)}
+              onClick={() => runCommand(item.command, "commandValue" in item ? item.commandValue : undefined)}
               className="inline-flex cursor-pointer items-center justify-center rounded-full border border-white/10 bg-[#0d1016] px-3 py-1.5 text-xs font-semibold text-white/80 transition hover:border-white/20 hover:text-white"
             >
               {item.label}
