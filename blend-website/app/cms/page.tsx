@@ -160,7 +160,8 @@ type WorkCreateForm = {
   slug: string;
   image: string;
   summary: string;
-  tags: string;
+  tags: string[];
+  tabs: Record<string, CaseStudyTab>;
 };
 
 type CardMenuState = {
@@ -228,6 +229,20 @@ const defaultCaseStudy = (): CaseStudy => ({
     },
   },
 });
+
+const defaultWorkCreateForm = (): WorkCreateForm => {
+  const initial = defaultCaseStudy();
+
+  return {
+    title: "",
+    project: "",
+    slug: "",
+    image: initial.image,
+    summary: "",
+    tags: [...initial.tags],
+    tabs: structuredClone(initial.tabs),
+  };
+};
 
 const cloneData = <T,>(data: T) => structuredClone(data);
 
@@ -840,12 +855,7 @@ export default function CmsPage() {
     outcomes: [""],
   });
   const [workCreateForm, setWorkCreateForm] = useState<WorkCreateForm>({
-    title: "",
-    project: "",
-    slug: "",
-    image: "/placeholders/work-google.svg",
-    summary: "",
-    tags: "",
+    ...defaultWorkCreateForm(),
   });
   const profileMenuRef = useRef<HTMLDivElement | null>(null);
   const cardMenuRef = useRef<HTMLDivElement | null>(null);
@@ -1084,14 +1094,8 @@ export default function CmsPage() {
     }
 
     if (activeSection === "work") {
-      setWorkCreateForm({
-        title: "",
-        project: "",
-        slug: "",
-        image: "/placeholders/work-google.svg",
-        summary: "",
-        tags: "",
-      });
+      setWorkCreateForm(defaultWorkCreateForm());
+      setSelectedWorkTab("Context");
     }
 
     setCreateDialogOpen(true);
@@ -1323,6 +1327,25 @@ export default function CmsPage() {
       (value) => workData.some((item) => item.slug === value),
       "case-study",
     );
+
+    const nextTabs = Object.fromEntries(
+      Object.entries(workCreateForm.tabs).map(([tabName, tab]) => [
+        tabName,
+        {
+          body: tab.body.trim(),
+          images: tab.images.map((item) => item.trim()).filter(Boolean),
+          ...(tab.stats
+            ? {
+                stats: tab.stats.filter((stat) => stat.label.trim() || stat.value.trim()).map((stat) => ({
+                  label: stat.label.trim(),
+                  value: stat.value.trim(),
+                })),
+              }
+            : {}),
+        },
+      ]),
+    );
+
     const nextItem: CaseStudy = {
       ...defaultCaseStudy(),
       title: workCreateForm.title.trim() || "New Case Study",
@@ -1330,10 +1353,8 @@ export default function CmsPage() {
       slug: nextSlug,
       image: workCreateForm.image.trim() || "/placeholders/work-google.svg",
       summary: workCreateForm.summary.trim() || defaultCaseStudy().summary,
-      tags: workCreateForm.tags
-        .split(",")
-        .map((item) => item.trim())
-        .filter(Boolean),
+      tags: workCreateForm.tags.map((item) => item.trim()).filter(Boolean),
+      tabs: nextTabs,
     };
 
     try {
@@ -2560,76 +2581,158 @@ export default function CmsPage() {
           <FullPageComposer
             eyebrow="New Entry"
             title="Create Case Study"
-            description="Create the project card first, then use the editor to fill in the tab content."
+            description="Create the full case study, including the listing card and every detail section."
             onClose={() => setCreateDialogOpen(false)}
           >
             <form className="space-y-8" onSubmit={handleCreateWork}>
-              <div className="grid gap-4 md:grid-cols-2">
-                <Field
-                  label="Client Name"
-                  value={workCreateForm.title}
-                  onChange={(value) =>
-                    setWorkCreateForm((current) => ({
-                      ...current,
-                      title: value,
-                      slug: current.slug ? current.slug : slugifyText(value),
-                    }))
-                  }
-                />
-                <Field
-                  label="Project Name"
-                  value={workCreateForm.project}
-                  onChange={(value) => setWorkCreateForm((current) => ({ ...current, project: value }))}
-                />
-                <label className="space-y-2">
-                  <span className="text-xs font-semibold uppercase tracking-[0.16em] text-white/45">Slug</span>
-                  <div className="flex gap-2">
-                    <input
-                      value={workCreateForm.slug}
-                      onChange={(event) =>
-                        setWorkCreateForm((current) => ({
-                          ...current,
-                          slug: event.target.value,
-                        }))
-                      }
-                      className="w-full rounded-2xl border border-white/10 bg-[#10131a] px-4 py-3 text-sm text-white outline-none transition focus:border-[#ff4fb3]/60"
-                    />
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setWorkCreateForm((current) => ({
-                          ...current,
-                          slug: slugifyText(current.title),
-                        }))
-                      }
-                      className="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-2xl border border-white/10 bg-[#10131a] px-4 py-3 text-sm font-semibold text-white/80 transition hover:border-white/20 hover:text-white"
-                    >
-                      Generate
-                    </button>
+              <Panel
+                title="Case Study Details"
+                description="Top-level content used on both the work listing and the case study detail page."
+              >
+                <div className="grid gap-4 md:grid-cols-2">
+                  <Field
+                    label="Client Name"
+                    value={workCreateForm.title}
+                    onChange={(value) =>
+                      setWorkCreateForm((current) => ({
+                        ...current,
+                        title: value,
+                        slug: current.slug ? current.slug : slugifyText(value),
+                      }))
+                    }
+                  />
+                  <Field
+                    label="Project Name"
+                    value={workCreateForm.project}
+                    onChange={(value) => setWorkCreateForm((current) => ({ ...current, project: value }))}
+                  />
+                  <label className="space-y-2">
+                    <span className="text-xs font-semibold uppercase tracking-[0.16em] text-white/45">Slug</span>
+                    <div className="flex gap-2">
+                      <input
+                        value={workCreateForm.slug}
+                        onChange={(event) =>
+                          setWorkCreateForm((current) => ({
+                            ...current,
+                            slug: event.target.value,
+                          }))
+                        }
+                        className="w-full rounded-2xl border border-white/10 bg-[#10131a] px-4 py-3 text-sm text-white outline-none transition focus:border-[#ff4fb3]/60"
+                      />
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setWorkCreateForm((current) => ({
+                            ...current,
+                            slug: slugifyText(current.title),
+                          }))
+                        }
+                        className="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-2xl border border-white/10 bg-[#10131a] px-4 py-3 text-sm font-semibold text-white/80 transition hover:border-white/20 hover:text-white"
+                      >
+                        Generate
+                      </button>
+                    </div>
+                  </label>
+                  <Field
+                    label="Hero Image"
+                    value={workCreateForm.image}
+                    onChange={(value) => setWorkCreateForm((current) => ({ ...current, image: value }))}
+                  />
+                </div>
+                <div className="mt-4 grid gap-5 lg:grid-cols-[1fr_1fr]">
+                  <ArrayEditor
+                    label="Tags"
+                    values={workCreateForm.tags}
+                    onChange={(value) => setWorkCreateForm((current) => ({ ...current, tags: value }))}
+                    addLabel="Add Tag"
+                  />
+                  <TextAreaField
+                    label="Summary"
+                    value={workCreateForm.summary}
+                    onChange={(value) => setWorkCreateForm((current) => ({ ...current, summary: value }))}
+                    rows={4}
+                  />
+                </div>
+              </Panel>
+
+              <Panel title="Case Study Sections" description="Fill out each tab exactly as it should appear in Firestore.">
+                <div className="mb-5 flex flex-wrap gap-2">
+                  {Object.keys(workCreateForm.tabs).map((tabName) => {
+                    const isActive = tabName === selectedWorkTab;
+                    return (
+                      <button
+                        key={tabName}
+                        type="button"
+                        onClick={() => setSelectedWorkTab(tabName)}
+                        className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
+                          isActive
+                            ? "border-[#111827] bg-white text-[#111827]"
+                            : "border-white/12 bg-[#0f1218] text-white/70 hover:border-white/18 hover:text-white"
+                        }`}
+                      >
+                        {tabName}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <div className="space-y-5">
+                  <div className="rounded-[22px] border border-white/8 bg-[#0f1218] px-4 py-3">
+                    <p className="text-sm font-semibold text-white">{selectedWorkTab}</p>
+                    <p className="mt-1 text-sm text-white/55">
+                      Add the body, images, and stats for the {selectedWorkTab.toLowerCase()} section.
+                    </p>
                   </div>
-                </label>
-                <Field
-                  label="Hero Image"
-                  value={workCreateForm.image}
-                  onChange={(value) => setWorkCreateForm((current) => ({ ...current, image: value }))}
-                />
-              </div>
-
-              <TextAreaField
-                label="Summary"
-                value={workCreateForm.summary}
-                onChange={(value) => setWorkCreateForm((current) => ({ ...current, summary: value }))}
-                rows={4}
-              />
-
-              <div className="pb-3">
-                <Field
-                  label="Tags"
-                  value={workCreateForm.tags}
-                  onChange={(value) => setWorkCreateForm((current) => ({ ...current, tags: value }))}
-                  placeholder="Brand, Launch, Campaign"
-                />
-              </div>
+                  <TextAreaField
+                    label="Body Copy"
+                    value={workCreateForm.tabs[selectedWorkTab]?.body ?? ""}
+                    onChange={(value) =>
+                      setWorkCreateForm((current) => ({
+                        ...current,
+                        tabs: {
+                          ...current.tabs,
+                          [selectedWorkTab]: {
+                            ...current.tabs[selectedWorkTab],
+                            body: value,
+                          },
+                        },
+                      }))
+                    }
+                  />
+                  <ArrayEditor
+                    label="Images"
+                    values={workCreateForm.tabs[selectedWorkTab]?.images ?? []}
+                    onChange={(value) =>
+                      setWorkCreateForm((current) => ({
+                        ...current,
+                        tabs: {
+                          ...current.tabs,
+                          [selectedWorkTab]: {
+                            ...current.tabs[selectedWorkTab],
+                            images: value,
+                          },
+                        },
+                      }))
+                    }
+                    addLabel="Add Image"
+                  />
+                  <StatsEditor
+                    values={workCreateForm.tabs[selectedWorkTab]?.stats ?? []}
+                    onChange={(value) =>
+                      setWorkCreateForm((current) => ({
+                        ...current,
+                        tabs: {
+                          ...current.tabs,
+                          [selectedWorkTab]: {
+                            ...current.tabs[selectedWorkTab],
+                            stats: value,
+                          },
+                        },
+                      }))
+                    }
+                  />
+                </div>
+              </Panel>
 
               <div className="flex justify-end gap-3">
                 <button

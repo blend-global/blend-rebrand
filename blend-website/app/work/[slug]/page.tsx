@@ -48,11 +48,15 @@ export default function WorkDetailPage({ params }: Props) {
   };
 
   const handlePrev = () => {
-    setImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+    const currentIndex = tabs.indexOf(activeTab);
+    const previousIndex = currentIndex === 0 ? tabs.length - 1 : currentIndex - 1;
+    handleTabChange(tabs[previousIndex]);
   };
 
   const handleNext = () => {
-    setImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+    const currentIndex = tabs.indexOf(activeTab);
+    const nextIndex = currentIndex === tabs.length - 1 ? 0 : currentIndex + 1;
+    handleTabChange(tabs[nextIndex]);
   };
 
   return (
@@ -82,7 +86,7 @@ export default function WorkDetailPage({ params }: Props) {
             <motion.button
               type="button"
               onClick={handlePrev}
-              aria-label="Previous image"
+              aria-label="Previous section"
               className="absolute left-0 hidden h-10 w-10 -translate-x-1/2 items-center justify-center rounded-full bg-white text-black shadow-[0_12px_28px_rgba(0,0,0,0.35)] md:flex"
               whileHover={{ scale: 1.08 }}
               whileTap={{ scale: 0.95 }}
@@ -107,7 +111,7 @@ export default function WorkDetailPage({ params }: Props) {
             <motion.button
               type="button"
               onClick={handleNext}
-              aria-label="Next image"
+              aria-label="Next section"
               className="absolute right-0 hidden h-10 w-10 translate-x-1/2 items-center justify-center rounded-full bg-white text-black shadow-[0_12px_28px_rgba(0,0,0,0.35)] md:flex"
               whileHover={{ scale: 1.08 }}
               whileTap={{ scale: 0.95 }}

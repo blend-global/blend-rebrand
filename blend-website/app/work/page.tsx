@@ -2,14 +2,15 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
 import { MotionLink } from "@/components/MotionLink";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Pagination from "@/components/Pagination";
-import { fetchCmsSection } from "@/lib/cms-client";
 import type { CaseStudy } from "@/lib/cms-types";
+import { getFirebaseDb } from "@/lib/firebase/client";
 
 const filters = ["Experiences", "Digital"];
 
@@ -25,6 +26,24 @@ const tagToFilter: Record<string, string> = {
   "Email Marketing": "Digital",
 };
 
+async function readCaseStudiesFromFirestore(): Promise<CaseStudy[]> {
+  const db = getFirebaseDb();
+  const workSnapshot = await getDocs(query(collection(db, "caseStudies"), orderBy("order")));
+
+  return workSnapshot.docs.map((entry) => {
+    const data = entry.data();
+    return {
+      slug: data.slug,
+      title: data.title,
+      project: data.project,
+      image: data.image,
+      tags: data.tags ?? [],
+      summary: data.summary,
+      tabs: data.tabs ?? {},
+    };
+  }) as CaseStudy[];
+}
+
 export default function WorkPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [activeFilters, setActiveFilters] = useState<string[]>(filters);
@@ -32,13 +51,19 @@ export default function WorkPage() {
   const itemsPerPage = 8;
 
   useEffect(() => {
-    void fetchCmsSection("work").then(setWorkCaseStudies).catch(() => setWorkCaseStudies([]));
+    void readCaseStudiesFromFirestore()
+      .then(setWorkCaseStudies)
+      .catch((error) => {
+        console.error("Failed to load case studies from Firestore.", error);
+        setWorkCaseStudies([]);
+      });
   }, []);
 
   const filteredItems = useMemo(() => {
-    if (activeFilters.length === 0) {
+    if (activeFilters.length === 0 || activeFilters.length === filters.length) {
       return workCaseStudies;
     }
+
     return workCaseStudies.filter((item) =>
       item.tags.some((tag) => {
         const mapped = tagToFilter[tag];

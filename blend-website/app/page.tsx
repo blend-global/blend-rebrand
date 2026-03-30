@@ -10,10 +10,9 @@ import Footer from "@/components/Footer";
 import { readCmsSection } from "@/lib/cms-server";
 
 export default async function Home() {
-  const [blogSection, servicesSection, caseStudies] = await Promise.all([
+  const [blogSection, servicesSection] = await Promise.all([
     readCmsSection("blog", { fallbackToFile: false }),
     readCmsSection("services"),
-    readCmsSection("work"),
   ]);
 
   return (
@@ -23,7 +22,7 @@ export default async function Home() {
       <LogosRow />
       <AboutLocations />
       <Services servicesSection={servicesSection} />
-      <LatestWork caseStudies={caseStudies} />
+      <LatestWork />
       <Testimonials />
       <BlogPreview blogSection={blogSection} />
       <Footer />

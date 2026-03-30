@@ -1,13 +1,45 @@
 "use client";
 
 import Image from "next/image";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import Reveal from "@/components/Reveal";
 import { MotionLink } from "@/components/MotionLink";
 import { getLatestCaseStudies } from "@/lib/cms-helpers";
 import type { CaseStudy } from "@/lib/cms-types";
+import { getFirebaseDb } from "@/lib/firebase/client";
 
-export default function LatestWork({ caseStudies }: { caseStudies: CaseStudy[] }) {
+async function readCaseStudiesFromFirestore(): Promise<CaseStudy[]> {
+  const db = getFirebaseDb();
+  const workSnapshot = await getDocs(query(collection(db, "caseStudies"), orderBy("order")));
+
+  return workSnapshot.docs.map((entry) => {
+    const data = entry.data();
+    return {
+      slug: data.slug,
+      title: data.title,
+      project: data.project,
+      image: data.image,
+      tags: data.tags ?? [],
+      summary: data.summary,
+      tabs: data.tabs ?? {},
+    };
+  }) as CaseStudy[];
+}
+
+export default function LatestWork() {
+  const [caseStudies, setCaseStudies] = useState<CaseStudy[]>([]);
+
+  useEffect(() => {
+    void readCaseStudiesFromFirestore()
+      .then(setCaseStudies)
+      .catch((error) => {
+        console.error("Failed to load case studies from Firestore.", error);
+        setCaseStudies([]);
+      });
+  }, []);
+
   const latestWorkItems = getLatestCaseStudies(caseStudies, 3);
 
   return (
