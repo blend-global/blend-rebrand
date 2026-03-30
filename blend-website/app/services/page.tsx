@@ -1,125 +1,148 @@
 "use client";
 
 import { ArrowRight, Play, Sparkles, Zap, Globe, Video, Camera, Palette, Code, Radio, Users, Star, Utensils, UserCheck, Megaphone } from "lucide-react";
-import { motion } from "framer-motion";
+import { collection, doc, getDoc, getDocs, orderBy, query } from "firebase/firestore";
 import Reveal from "@/components/Reveal";
 import Link from "next/link";
 // import { Button } from "@/components/ui/button";
 import Header from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useEffect, useState } from "react";
-import { fetchCmsSection } from "@/lib/cms-client";
 import type { ServicesContent } from "@/lib/cms-types";
+import { getFirebaseDb } from "@/lib/firebase/client";
+
+const digitalIconBySlug = {
+  "video-production": Video,
+  photography: Camera,
+  animation: Sparkles,
+  "design-creative": Palette,
+  "web-development": Code,
+  "live-streaming": Radio,
+  "hybrid-virtual-events": Globe,
+  "marketing-advertising-social-media": Megaphone,
+} as const;
+
+const experientialIconBySlug = {
+  "event-production-management": Zap,
+  "venue-decor-entertainment": Star,
+  "rsvp-management": Users,
+  "guest-logistics": Star,
+  "swag-gifting": Sparkles,
+  "food-beverage": Utensils,
+  staffing: UserCheck,
+  "experiential-marketing-brand-activations": Megaphone,
+} as const;
+
+type ServiceCard = {
+  slug: string;
+  title: string;
+  description: string;
+  features: string[];
+  icon: typeof Video;
+};
+
+const fallbackIcon = Sparkles;
+
+const displayServiceTitle = (label: string) =>
+  label
+    .replace(/\//g, " / ")
+    .replace(/\s*&\s*/g, " & ")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+
+const buildServiceCards = (
+  services: Array<{ label: string; slug: string }>,
+  serviceDetails: Record<string, { summary: string; highlights: string[]; deliverables: string[]; outcomes: string[] }>,
+  iconMap: Record<string, typeof Video>,
+): ServiceCard[] =>
+  services.map((service) => {
+    const details = serviceDetails[service.slug];
+
+    return {
+      slug: service.slug,
+      title: displayServiceTitle(service.label),
+      description: details?.summary ?? "",
+      features: (details?.highlights?.length ? details.highlights : details?.deliverables ?? []).slice(0, 4),
+      icon: iconMap[service.slug] ?? fallbackIcon,
+    };
+  });
+
+async function readServicesFromFirestore(): Promise<ServicesContent> {
+  const db = getFirebaseDb();
+  const settingsDoc = await getDoc(doc(db, "cmsSettings", "services"));
+  const servicesSnapshot = await getDocs(query(collection(db, "services"), orderBy("order")));
+  const settings = settingsDoc.data() as
+    | {
+        title?: string;
+        description?: string;
+        digitalLabel?: string;
+        experientialLabel?: string;
+      }
+    | undefined;
+
+  const services = servicesSnapshot.docs.map((entry) => entry.data()) as Array<
+    ServicesContent["servicesContent"]["digital"][number] &
+      ServicesContent["serviceDetails"][string] & { category?: "digital" | "experiential" }
+  >;
+
+  const digital = services.filter((item) => item.category === "digital");
+  const experiential = services.filter((item) => item.category === "experiential");
+
+  return {
+    servicesContent: {
+      title: settings?.title ?? "Services",
+      description: settings?.description ?? "",
+      digitalLabel: settings?.digitalLabel ?? "Digital",
+      experientialLabel: settings?.experientialLabel ?? "Experiential",
+      digital: digital.map(({ label, slug }) => ({ label, slug })),
+      experiential: experiential.map(({ label, slug }) => ({ label, slug })),
+    },
+    serviceDetails: Object.fromEntries(
+      services.map((item) => [
+        item.slug,
+        {
+          summary: item.summary ?? "",
+          highlights: item.highlights ?? [],
+          deliverables: item.deliverables ?? [],
+          outcomes: item.outcomes ?? [],
+        },
+      ]),
+    ),
+  };
+}
 
 const ServicesPage = () => {
   const [servicesSection, setServicesSection] = useState<ServicesContent | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   useEffect(() => {
-    void fetchCmsSection("services").then(setServicesSection).catch(() => setServicesSection(null));
+    void readServicesFromFirestore()
+      .then((data) => {
+        setServicesSection(data);
+        setLoadError(null);
+      })
+      .catch((error) => {
+        console.error("Failed to load services from Firestore.", error);
+        setServicesSection(null);
+        setLoadError("Unable to load services from Firestore.");
+      });
   }, []);
 
-  const servicesContent = servicesSection?.servicesContent;
-  const digitalServices = [
-    {
-      icon: Video,
-      title: "Video Production",
-      description: "From concept to final cut, we create compelling video content that tells your story and captivates audiences.",
-      features: ["Corporate Videos", "Commercials", "Documentaries", "Music Videos"],
-    },
-    {
-      icon: Camera,
-      title: "Photography",
-      description: "Professional photography services that capture the essence of your brand and special moments.",
-      features: ["Product Shots", "Event Coverage", "Portrait Sessions", "Aerial Photography"],
-    },
-    {
-      icon: Sparkles,
-      title: "Animation",
-      description: "Bring ideas to life with stunning 2D and 3D animations that engage and inspire.",
-      features: ["Motion Graphics", "3D Animation", "Character Animation", "Explainer Videos"],
-    },
-    {
-      icon: Palette,
-      title: "Design & Creative",
-      description: "Strategic design solutions that elevate your brand identity and visual communication.",
-      features: ["Brand Identity", "UI/UX Design", "Print Design", "Packaging"],
-    },
-    {
-      icon: Code,
-      title: "Web Development",
-      description: "Custom websites and digital platforms built for performance, scalability, and user experience.",
-      features: ["Custom Websites", "E-commerce", "Web Apps", "CMS Solutions"],
-    },
-    {
-      icon: Radio,
-      title: "Live Streaming",
-      description: "Professional live streaming services for events, conferences, and virtual experiences.",
-      features: ["Multi-camera Setup", "Real-time Graphics", "Global CDN", "Interactive Features"],
-    },
-    {
-      icon: Globe,
-      title: "Hybrid & Virtual Events",
-      description: "Seamlessly blend physical and digital experiences for maximum reach and engagement.",
-      features: ["Virtual Platforms", "Hybrid Production", "Audience Engagement", "Analytics"],
-    },
-    {
-      icon: Megaphone,
-      title: "Marketing & Advertising",
-      description: "Data-driven marketing strategies that amplify your message and drive results.",
-      features: ["Social Media", "Content Strategy", "Paid Campaigns", "Influencer Marketing"],
-    },
-  ];
-
-  const experientialServices = [
-    {
-      icon: Zap,
-      title: "Event Production & Management",
-      description: "End-to-end event production services that transform visions into unforgettable experiences.",
-      features: ["Concept Development", "Technical Production", "Project Management", "On-site Coordination"],
-    },
-    {
-      icon: Star,
-      title: "Venue, Decor & Entertainment",
-      description: "Curated venues and stunning décor that set the perfect stage for your events.",
-      features: ["Venue Sourcing", "Custom Décor", "Entertainment Booking", "Lighting Design"],
-    },
-    {
-      icon: Users,
-      title: "MICE Management",
-      description: "Comprehensive meetings, incentives, conferences, and exhibitions management.",
-      features: ["Corporate Meetings", "Incentive Programs", "Conferences", "Trade Shows"],
-    },
-    {
-      icon: Star,
-      title: "Talent",
-      description: "Access to top-tier talent for performances, hosting, and brand representation.",
-      features: ["Performers", "Speakers", "Brand Ambassadors", "Celebrity Talent"],
-    },
-    {
-      icon: Sparkles,
-      title: "Luxury Experience",
-      description: "Bespoke luxury experiences crafted with attention to every detail.",
-      features: ["VIP Services", "Private Events", "Exclusive Access", "Concierge"],
-    },
-    {
-      icon: Utensils,
-      title: "Food & Beverage",
-      description: "Culinary experiences that delight and impress, from intimate gatherings to grand celebrations.",
-      features: ["Catering", "Bar Services", "Menu Design", "Chef Experiences"],
-    },
-    {
-      icon: UserCheck,
-      title: "Staffing",
-      description: "Professional event staff trained to deliver exceptional service.",
-      features: ["Event Staff", "Hostesses", "Security", "Technical Crew"],
-    },
-    {
-      icon: Megaphone,
-      title: "Brand Activations",
-      description: "Immersive brand experiences that create lasting connections with your audience.",
-      features: ["Pop-up Events", "Product Launches", "Guerilla Marketing", "Experiential Campaigns"],
-    },
-  ];
+  const servicesContent = servicesSection?.servicesContent ?? {
+    title: "Services",
+    description: "",
+    digitalLabel: "Digital",
+    experientialLabel: "Experiential",
+    digital: [],
+    experiential: [],
+  };
+  const serviceDetails = servicesSection?.serviceDetails ?? {};
+  const digitalServices = buildServiceCards(servicesContent.digital, serviceDetails, digitalIconBySlug);
+  const experientialServices = buildServiceCards(
+    servicesContent.experiential,
+    serviceDetails,
+    experientialIconBySlug,
+  );
 
   return (
     <div className="min-h-screen bg-background">
@@ -145,22 +168,27 @@ const ServicesPage = () => {
               From digital innovation to unforgettable experiences, we offer comprehensive solutions that elevate your brand and captivate your audience.
             </p>
             <div className="flex flex-wrap gap-4">
-              <motion.button
-                className="rounded-full bg-accent px-5 py-2.5 text-xs font-semibold text-white shadow-[0_12px_30px_rgba(17,203,155,0.35)] sm:px-6 sm:py-3 sm:text-sm"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
+              <Link
+                href="/contact"
+                className="rounded-full bg-accent px-5 py-2.5 text-xs font-semibold text-white shadow-[0_12px_30px_rgba(17,203,155,0.35)] transition-transform hover:scale-[1.03] sm:px-6 sm:py-3 sm:text-sm"
               >
                 Get Started
-              </motion.button>
-              <motion.button
-                className="flex items-center gap-2 rounded-full border border-white/30 px-5 py-2.5 text-xs font-semibold text-white/90 sm:px-6 sm:py-3 sm:text-sm"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
+              </Link>
+              <a
+                href="https://www.youtube.com/"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-2 rounded-full border border-white/30 px-5 py-2.5 text-xs font-semibold text-white/90 transition-transform hover:scale-[1.03] sm:px-6 sm:py-3 sm:text-sm"
               >
                 <Play className="w-4 h-4" />
                 Watch Showreel
-              </motion.button>
+              </a>
             </div>
+            {loadError ? (
+              <p className="mt-4 text-sm font-medium text-[#ffb3d1]">
+                {loadError}
+              </p>
+            ) : null}
           </Reveal>
         </div>
       </section>
@@ -180,19 +208,16 @@ const ServicesPage = () => {
           
           <div className="grid gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {experientialServices.map((service, index) => {
-              const slug = servicesContent?.experiential.find((item) => item.label === service.title)?.slug;
               return (
               <Reveal key={service.title} delay={0.03 * index}>
-                <motion.div
+                <div
                 key={service.title}
-                className="group rounded-2xl border border-primary-foreground/10 bg-dark-surface p-5 transition-all duration-300 hover:border-pink/50 hover:shadow-lg sm:p-6"
-                whileHover={{ y: -6 }}
-                transition={{ type: "spring", stiffness: 220, damping: 18 }}
+                className="group rounded-2xl border border-primary-foreground/10 bg-dark-surface p-5 transition-all duration-300 hover:-translate-y-1.5 hover:border-pink/50 hover:shadow-lg sm:p-6"
               >
                 <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-pink/10 transition-colors group-hover:bg-pink/20 sm:h-12 sm:w-12">
                   <service.icon className="h-5 w-5 text-pink sm:h-6 sm:w-6" />
                 </div>
-                <h3 className="mb-2 text-base font-semibold text-primary-foreground transition-colors group-hover:text-pink sm:text-lg">
+                <h3 className="mb-2 min-h-[3.5rem] text-base font-semibold leading-snug text-primary-foreground transition-colors group-hover:text-pink sm:min-h-[4rem] sm:text-lg">
                   {service.title}
                 </h3>
                 <p className="mb-4 line-clamp-2 text-sm text-primary-foreground/60">
@@ -206,24 +231,14 @@ const ServicesPage = () => {
                     </li>
                   ))}
                 </ul>
-                {slug ? (
-                  <Link
-                    href={`/services/${slug}`}
-                    className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-pink opacity-100 transition-opacity sm:text-sm sm:opacity-0 sm:group-hover:opacity-100"
-                  >
-                    Learn More
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
-                ) : (
-                  <motion.button
-                    className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-pink opacity-100 transition-opacity sm:text-sm sm:opacity-0 sm:group-hover:opacity-100"
-                    whileHover={{ x: 4 }}
-                  >
-                    Learn More
-                    <ArrowRight className="w-4 h-4" />
-                  </motion.button>
-                )}
-              </motion.div>
+                <Link
+                  href={`/services/${service.slug}`}
+                  className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-pink opacity-100 transition-opacity sm:text-sm sm:opacity-0 sm:group-hover:opacity-100"
+                >
+                  Learn More
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
               </Reveal>
               );
             })}
@@ -246,19 +261,16 @@ const ServicesPage = () => {
           
           <div className="grid gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {digitalServices.map((service, index) => {
-              const slug = servicesContent?.digital.find((item) => item.label === service.title)?.slug;
               return (
               <Reveal key={service.title} delay={0.03 * index}>
-                <motion.div
+                <div
                 key={service.title}
-                className="group rounded-2xl border border-border bg-card p-5 transition-all duration-300 hover:border-accent/50 hover:shadow-lg sm:p-6"
-                whileHover={{ y: -6 }}
-                transition={{ type: "spring", stiffness: 220, damping: 18 }}
+                className="group rounded-2xl border border-border bg-card p-5 transition-all duration-300 hover:-translate-y-1.5 hover:border-accent/50 hover:shadow-lg sm:p-6"
               >
                 <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-accent/10 transition-colors group-hover:bg-accent/20 sm:h-12 sm:w-12">
                   <service.icon className="h-5 w-5 text-accent sm:h-6 sm:w-6" />
                 </div>
-                <h3 className="mb-2 text-base font-semibold text-foreground transition-colors group-hover:text-accent sm:text-lg">
+                <h3 className="mb-2 min-h-[3.5rem] text-base font-semibold leading-snug text-foreground transition-colors group-hover:text-accent sm:min-h-[4rem] sm:text-lg">
                   {service.title}
                 </h3>
                 <p className="mb-4 line-clamp-2 text-sm text-muted-foreground">
@@ -272,24 +284,14 @@ const ServicesPage = () => {
                     </li>
                   ))}
                 </ul>
-                {slug ? (
-                  <Link
-                    href={`/services/${slug}`}
-                    className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-accent opacity-100 transition-opacity sm:text-sm sm:opacity-0 sm:group-hover:opacity-100"
-                  >
-                    Learn More
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
-                ) : (
-                  <motion.button
-                    className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-accent opacity-100 transition-opacity sm:text-sm sm:opacity-0 sm:group-hover:opacity-100"
-                    whileHover={{ x: 4 }}
-                  >
-                    Learn More
-                    <ArrowRight className="w-4 h-4" />
-                  </motion.button>
-                )}
-              </motion.div>
+                <Link
+                  href={`/services/${service.slug}`}
+                  className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-accent opacity-100 transition-opacity sm:text-sm sm:opacity-0 sm:group-hover:opacity-100"
+                >
+                  Learn More
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
               </Reveal>
               );
             })}
@@ -313,20 +315,18 @@ const ServicesPage = () => {
             Let&apos;s discuss how we can bring your vision to life with our comprehensive suite of services.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <motion.button
-              className="w-full rounded-full bg-black px-6 py-3 text-xs font-semibold text-white shadow-[0_12px_30px_rgba(0,0,0,0.2)] sm:w-auto sm:text-sm"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
+            <Link
+              href="/contact"
+              className="w-full rounded-full bg-black px-6 py-3 text-center text-xs font-semibold text-white shadow-[0_12px_30px_rgba(0,0,0,0.2)] transition-transform hover:scale-[1.03] sm:w-auto sm:text-sm"
             >
               Start a Project
-            </motion.button>
-            <motion.button
-              className="w-full rounded-full border border-black/15 px-6 py-3 text-xs font-semibold text-black sm:w-auto sm:text-sm"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
+            </Link>
+            <Link
+              href="/work"
+              className="w-full rounded-full border border-black/15 px-6 py-3 text-center text-xs font-semibold text-black transition-transform hover:scale-[1.03] sm:w-auto sm:text-sm"
             >
               View Our Work
-            </motion.button>
+            </Link>
           </div>
         </Reveal>
       </section>

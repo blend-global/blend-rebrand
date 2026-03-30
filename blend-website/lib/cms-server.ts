@@ -40,6 +40,13 @@ const readContentFallback = async <T,>(section: CmsSection): Promise<T> => {
   return JSON.parse(content);
 };
 
+const emptyBlogContent: BlogContent = {
+  title: "The world of events and digital",
+  cta: "View All",
+  featured: [],
+  posts: [],
+};
+
 const readBlogFromFirestore = async (): Promise<BlogContent | null> => {
   const db = getServerFirestore();
   const blogSettingsDoc = await getDoc(doc(db, "cmsSettings", "blog"));
@@ -281,12 +288,7 @@ export const readCmsSection = async <T extends CmsSection>(
         return (await readContentFallback("blog")) as CmsDataMap[T];
       }
 
-      return {
-        title: "The world of events and digital",
-        cta: "View All",
-        featured: [],
-        posts: [],
-      } as CmsDataMap[T];
+      return emptyBlogContent as unknown as CmsDataMap[T];
     }
 
     if (section === "services") {

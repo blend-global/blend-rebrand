@@ -21,6 +21,7 @@ import {
   LayoutDashboard,
   LogOut,
   AlertTriangle,
+  ChevronDown,
   Copy,
   MoreHorizontal,
   Pencil,
@@ -148,6 +149,9 @@ type ServiceCreateForm = {
   label: string;
   slug: string;
   summary: string;
+  highlights: string[];
+  deliverables: string[];
+  outcomes: string[];
 };
 
 type WorkCreateForm = {
@@ -692,13 +696,15 @@ function ArrayEditor({
   onChange: (nextValues: string[]) => void;
   addLabel: string;
 }) {
+  const safeValues = values ?? [];
+
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
         <span className="text-xs font-semibold uppercase tracking-[0.16em] text-white/45">{label}</span>
         <button
           type="button"
-          onClick={() => onChange([...values, ""])}
+          onClick={() => onChange([...safeValues, ""])}
           className="inline-flex items-center gap-2 rounded-full border border-white/12 px-3 py-1.5 text-xs font-medium text-white/80 transition hover:border-white/25 hover:text-white"
         >
           <Plus className="size-3.5" />
@@ -706,12 +712,12 @@ function ArrayEditor({
         </button>
       </div>
       <div className="space-y-2.5">
-        {values.map((item, index) => (
+        {safeValues.map((item, index) => (
           <div key={`${label}-${index}`} className="flex items-center gap-2">
             <input
               value={item}
               onChange={(event) => {
-                const nextValues = [...values];
+                const nextValues = [...safeValues];
                 nextValues[index] = event.target.value;
                 onChange(nextValues);
               }}
@@ -719,7 +725,7 @@ function ArrayEditor({
             />
             <button
               type="button"
-              onClick={() => onChange(values.filter((_, valueIndex) => valueIndex !== index))}
+              onClick={() => onChange(safeValues.filter((_, valueIndex) => valueIndex !== index))}
               className="inline-flex size-11 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-[#0f1218] text-white/70 transition hover:border-[#ff4fb3]/40 hover:text-white"
               aria-label={`Remove ${label} item ${index + 1}`}
             >
@@ -829,6 +835,9 @@ export default function CmsPage() {
     label: "",
     slug: "",
     summary: "",
+    highlights: [""],
+    deliverables: [""],
+    outcomes: [""],
   });
   const [workCreateForm, setWorkCreateForm] = useState<WorkCreateForm>({
     title: "",
@@ -1068,6 +1077,9 @@ export default function CmsPage() {
         label: "",
         slug: "",
         summary: "",
+        highlights: [""],
+        deliverables: [""],
+        outcomes: [""],
       });
     }
 
@@ -1271,14 +1283,20 @@ export default function CmsPage() {
     );
 
     try {
+      const highlights = serviceCreateForm.highlights.map((item) => item.trim()).filter(Boolean);
+      const deliverables = serviceCreateForm.deliverables.map((item) => item.trim()).filter(Boolean);
+      const outcomes = serviceCreateForm.outcomes.map((item) => item.trim()).filter(Boolean);
+
       const nextData = cloneData(servicesData);
       nextData.servicesContent[collection].push({
         label: serviceCreateForm.label.trim() || "New Service",
         slug: nextSlug,
       });
       nextData.serviceDetails[nextSlug] = {
-        ...defaultServiceDetail(),
         summary: serviceCreateForm.summary.trim(),
+        highlights,
+        deliverables,
+        outcomes,
       };
       await writeCmsSectionClient("services", nextData);
       setData(nextData);
@@ -2434,19 +2452,22 @@ export default function CmsPage() {
               <div className="grid gap-4 md:grid-cols-2">
                 <label className="space-y-2">
                   <span className="text-xs font-semibold uppercase tracking-[0.16em] text-white/45">Collection</span>
-                  <select
-                    value={serviceCreateForm.collection}
-                    onChange={(event) =>
-                      setServiceCreateForm((current) => ({
-                        ...current,
-                        collection: event.target.value as ServiceCreateForm["collection"],
-                      }))
-                    }
-                    className="w-full rounded-2xl border border-white/10 bg-[#10131a] px-4 py-3 text-sm text-white outline-none transition focus:border-[#ff4fb3]/60"
-                  >
-                    <option value="digital">Digital</option>
-                    <option value="experiential">Experiential</option>
-                  </select>
+                  <div className="relative">
+                    <select
+                      value={serviceCreateForm.collection}
+                      onChange={(event) =>
+                        setServiceCreateForm((current) => ({
+                          ...current,
+                          collection: event.target.value as ServiceCreateForm["collection"],
+                        }))
+                      }
+                      className="w-full appearance-none rounded-2xl border border-white/10 bg-[#10131a] px-4 py-3 pr-12 text-sm text-white outline-none transition focus:border-[#ff4fb3]/60"
+                    >
+                      <option value="digital">Digital</option>
+                      <option value="experiential">Experiential</option>
+                    </select>
+                    <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-white/65" />
+                  </div>
                 </label>
                 <Field
                   label="Service Name"
@@ -2494,6 +2515,27 @@ export default function CmsPage() {
                 onChange={(value) => setServiceCreateForm((current) => ({ ...current, summary: value }))}
                 rows={5}
               />
+
+              <div className="grid gap-5 lg:grid-cols-3">
+                <ArrayEditor
+                  label="Highlights"
+                  values={serviceCreateForm.highlights}
+                  onChange={(value) => setServiceCreateForm((current) => ({ ...current, highlights: value }))}
+                  addLabel="Add Highlight"
+                />
+                <ArrayEditor
+                  label="Deliverables"
+                  values={serviceCreateForm.deliverables}
+                  onChange={(value) => setServiceCreateForm((current) => ({ ...current, deliverables: value }))}
+                  addLabel="Add Deliverable"
+                />
+                <ArrayEditor
+                  label="Outcomes"
+                  values={serviceCreateForm.outcomes}
+                  onChange={(value) => setServiceCreateForm((current) => ({ ...current, outcomes: value }))}
+                  addLabel="Add Outcome"
+                />
+              </div>
 
               <div className="flex justify-end gap-3">
                 <button
