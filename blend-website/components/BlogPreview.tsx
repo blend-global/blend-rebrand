@@ -7,7 +7,18 @@ import Reveal from "@/components/Reveal";
 import { MotionLink } from "@/components/MotionLink";
 import type { BlogContent } from "@/lib/cms-types";
 
+const viewAllCard = {
+  title: "View all",
+  slug: "view-all",
+  image: "/placeholders/blog-7.svg",
+};
+
 export default function BlogPreview({ blogSection }: { blogSection: BlogContent }) {
+  const previewPosts = [
+    ...blogSection.posts.filter((post) => post.slug !== "view-all").slice(0, 4),
+    viewAllCard,
+  ];
+
   return (
     <section id="blog" className="bg-white py-12 sm:py-16">
       <div className="container-max flex flex-col gap-8">
@@ -52,7 +63,7 @@ export default function BlogPreview({ blogSection }: { blogSection: BlogContent 
         </div>
 
         <div className="grid gap-3 sm:grid-cols-3 md:grid-cols-5">
-          {blogSection.posts.map((post, index) => (
+          {previewPosts.map((post, index) => (
             <Reveal key={post.title} delay={0.02 * index}>
               <Link href={post.slug === "view-all" ? "/blog" : `/blog/${post.slug}`} className="block">
                 <motion.div

@@ -8,6 +8,7 @@ import Reveal from "@/components/Reveal";
 export default function Footer() {
   const siteLinks = ["Home", "Services", "Work", "Blog"];
   const termsLinks = ["Terms Of Services", "Privacy Policy", "Cookie Policy", "Cookie Preferences"];
+  const currentYear = new Date().getUTCFullYear();
 
   return (
     <footer className="mt-12 text-white sm:mt-16">
@@ -70,7 +71,7 @@ export default function Footer() {
         <div className="container-max flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
           <Reveal className="flex flex-col gap-2">
             <h6 className="text-lg font-semibold leading-snug sm:text-xl">
-              Copyright © {new Date().getFullYear()} Blend Global All Rights Reserved
+              Copyright © <span suppressHydrationWarning>{currentYear}</span> Blend Global All Rights Reserved
             </h6>
             <span className="text-sm text-[#4d4d50]">B-BBEE Level 1</span>
           </Reveal>

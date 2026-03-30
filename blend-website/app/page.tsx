@@ -11,7 +11,7 @@ import { readCmsSection } from "@/lib/cms-server";
 
 export default async function Home() {
   const [blogSection, servicesSection, caseStudies] = await Promise.all([
-    readCmsSection("blog"),
+    readCmsSection("blog", { fallbackToFile: false }),
     readCmsSection("services"),
     readCmsSection("work"),
   ]);

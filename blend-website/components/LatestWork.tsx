@@ -42,7 +42,7 @@ export default function LatestWork({ caseStudies }: { caseStudies: CaseStudy[] }
             <Reveal key={item.slug} delay={0.05 * index}>
               <MotionLink
                 href={`/work/${item.slug}`}
-                className="group relative overflow-hidden rounded-[28px] bg-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.35)]"
+                className="group relative overflow-hidden rounded-[40px] bg-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.35)]"
                 whileHover={{ y: -6, scale: 1.01 }}
                 transition={{ type: "spring", stiffness: 220, damping: 18 }}
               >
@@ -51,7 +51,7 @@ export default function LatestWork({ caseStudies }: { caseStudies: CaseStudy[] }
                   alt={item.title}
                   width={900}
                   height={1400}
-                  className="h-[260px] w-full object-cover sm:h-[360px] lg:h-[520px]"
+                  className="h-[260px] w-full rounded-[40px] object-cover sm:h-[360px] lg:h-[520px]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-black/20 to-black/60" />
                 <div className="absolute left-0 right-0 top-0 flex items-center justify-between px-4 pt-4">

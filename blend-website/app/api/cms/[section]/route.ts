@@ -14,8 +14,14 @@ export async function GET(_: Request, context: RouteContext) {
     return NextResponse.json({ error: "Unknown CMS section." }, { status: 404 });
   }
 
-  const data = await readCmsSection(section);
-  return NextResponse.json({ data });
+  try {
+    const data = await readCmsSection(section, {
+      fallbackToFile: section !== "blog",
+    });
+    return NextResponse.json({ data });
+  } catch {
+    return NextResponse.json({ error: `Unable to load ${section} content from Firestore.` }, { status: 500 });
+  }
 }
 
 export async function PUT(request: Request, context: RouteContext) {

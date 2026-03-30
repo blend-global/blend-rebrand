@@ -4,6 +4,7 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
   orderBy,
   query,
@@ -41,15 +42,14 @@ const readContentFallback = async <T,>(section: CmsSection): Promise<T> => {
 
 const readBlogFromFirestore = async (): Promise<BlogContent | null> => {
   const db = getServerFirestore();
-  const settingsSnapshot = await getDocs(query(collection(db, "cmsSettings")));
-  const blogSettingsDoc = settingsSnapshot.docs.find((item) => item.id === "blog");
+  const blogSettingsDoc = await getDoc(doc(db, "cmsSettings", "blog"));
   const postsSnapshot = await getDocs(query(collection(db, "blogPosts"), orderBy("order")));
 
-  if (!blogSettingsDoc && postsSnapshot.empty) {
+  if (!blogSettingsDoc.exists() && postsSnapshot.empty) {
     return null;
   }
 
-  const settings = blogSettingsDoc?.data() as { title?: string; cta?: string } | undefined;
+  const settings = blogSettingsDoc.data() as { title?: string; cta?: string } | undefined;
   const entries = postsSnapshot.docs.map((entry) => entry.data()) as Array<
     BlogContent["featured"][number] & { featured?: boolean }
   >;
@@ -247,7 +247,25 @@ const writeWorkToFirestore = async (data: CaseStudy[]) => {
   );
 };
 
-export const readCmsSection = async <T extends CmsSection>(section: T): Promise<CmsDataMap[T]> => {
+type ReadCmsSectionOptions = {
+  fallbackToFile?: boolean;
+};
+
+const normalizeCmsReadError = (section: CmsSection, error: unknown) => {
+  if (error instanceof Error) {
+    return error;
+  }
+
+  const detail = error == null ? "Unknown Firestore read failure." : `Unexpected thrown value: ${String(error)}`;
+  return new Error(`Failed to read CMS section "${section}" from Firestore. ${detail}`);
+};
+
+export const readCmsSection = async <T extends CmsSection>(
+  section: T,
+  options?: ReadCmsSectionOptions,
+): Promise<CmsDataMap[T]> => {
+  const fallbackToFile = options?.fallbackToFile ?? true;
+
   if (!isFirestoreConfigured) {
     return readContentFallback<CmsDataMap[T]>(section);
   }
@@ -255,7 +273,20 @@ export const readCmsSection = async <T extends CmsSection>(section: T): Promise<
   try {
     if (section === "blog") {
       const firestoreData = await readBlogFromFirestore();
-      return (firestoreData ?? (await readContentFallback("blog"))) as CmsDataMap[T];
+      if (firestoreData) {
+        return firestoreData as CmsDataMap[T];
+      }
+
+      if (fallbackToFile) {
+        return (await readContentFallback("blog")) as CmsDataMap[T];
+      }
+
+      return {
+        title: "The world of events and digital",
+        cta: "View All",
+        featured: [],
+        posts: [],
+      } as CmsDataMap[T];
     }
 
     if (section === "services") {
@@ -265,8 +296,14 @@ export const readCmsSection = async <T extends CmsSection>(section: T): Promise<
 
     const firestoreData = await readWorkFromFirestore();
     return (firestoreData ?? (await readContentFallback("work"))) as CmsDataMap[T];
-  } catch {
-    return readContentFallback<CmsDataMap[T]>(section);
+  } catch (error) {
+    const normalizedError = normalizeCmsReadError(section, error);
+
+    if (fallbackToFile) {
+      return readContentFallback<CmsDataMap[T]>(section);
+    }
+
+    throw normalizedError;
   }
 };
 
