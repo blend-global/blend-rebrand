@@ -11,6 +11,11 @@ type CmsAuthCardProps = {
   isConfigured: boolean;
   error: string | null;
   submitting: boolean;
+  eyebrow?: string;
+  signInTitle?: string;
+  signInDescription?: string;
+  signUpTitle?: string;
+  signUpDescription?: string;
   onEmailSignIn: (email: string, password: string) => Promise<void>;
   onEmailCreateAccount: (name: string, email: string, password: string) => Promise<void>;
   onGoogleSignIn: () => Promise<void>;
@@ -21,6 +26,11 @@ export default function CmsAuthCard({
   isConfigured,
   error,
   submitting,
+  eyebrow = "CMS Access",
+  signInTitle = "Sign in to continue",
+  signInDescription = "Authenticate with Firebase to access the Blend CMS.",
+  signUpTitle = "Create your account",
+  signUpDescription = "Create a Firebase account with email and password, or continue with Google.",
   onEmailSignIn,
   onEmailCreateAccount,
   onGoogleSignIn,
@@ -47,14 +57,12 @@ export default function CmsAuthCard({
           <Image src="/logo.png" alt="Blend Global" width={44} height={46} className="h-11 w-auto" priority />
         </div>
         <div className="space-y-2">
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#ff4fb3]">CMS Access</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#ff4fb3]">{eyebrow}</p>
           <h1 className="text-3xl font-semibold tracking-tight text-white">
-            {mode === "signup" ? "Create your account" : "Sign in to continue"}
+            {mode === "signup" ? signUpTitle : signInTitle}
           </h1>
           <p className="text-sm leading-6 text-white/60">
-            {mode === "signup"
-              ? "Create a Firebase account with email and password, or continue with Google."
-              : "Authenticate with Firebase to access the Blend CMS."}
+            {mode === "signup" ? signUpDescription : signInDescription}
           </p>
         </div>
       </div>

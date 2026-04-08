@@ -2,17 +2,6 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { User } from "firebase/auth";
-import {
-  createUserWithEmailAndPassword,
-  getAdditionalUserInfo,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  signOut,
-  updateProfile,
-} from "firebase/auth";
-import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { motion } from "framer-motion";
 import {
@@ -30,16 +19,9 @@ import {
   Trash2,
   X,
 } from "lucide-react";
-import CmsAuthCard from "@/components/cms/CmsAuthCard";
+import { useSiteAuth } from "@/components/auth/AuthProvider";
 import { deleteCmsEntryClient, readCmsSectionClient, writeCmsSectionClient } from "@/lib/cms-firestore-client";
-import {
-  getFirebaseAuth,
-  getFirebaseClientConfigError,
-  getFirebaseDb,
-  getGoogleProvider,
-  getFirebaseStorage,
-  isFirebaseClientConfigured,
-} from "@/lib/firebase/client";
+import { getFirebaseStorage } from "@/lib/firebase/client";
 
 type CmsSection = "blog" | "services" | "work";
 
@@ -305,51 +287,6 @@ const getDefaultSelection = (section: CmsSection, data: CmsDataMap[CmsSection]) 
 
   const workData = data as CaseStudy[];
   return workData[0]?.slug ?? "new-case-study";
-};
-
-const getFirebaseErrorMessage = (error: unknown) => {
-  const code = typeof error === "object" && error && "code" in error ? String(error.code) : null;
-
-  switch (code) {
-    case "auth/invalid-credential":
-    case "auth/wrong-password":
-    case "auth/user-not-found":
-      return "The email or password is incorrect.";
-    case "auth/email-already-in-use":
-      return "An account with this email already exists.";
-    case "auth/invalid-email":
-      return "Enter a valid email address.";
-    case "auth/user-disabled":
-      return "This account has been disabled.";
-    case "auth/weak-password":
-      return "Use a stronger password with at least 6 characters.";
-    case "auth/missing-password":
-      return "Enter a password to continue.";
-    case "auth/popup-closed-by-user":
-      return "Google sign-in was cancelled before completion.";
-    case "auth/popup-blocked":
-      return "The Google sign-in popup was blocked by the browser.";
-    default:
-      return error instanceof Error ? error.message : "Unable to authenticate right now.";
-  }
-};
-
-const createUserDocument = async (user: User, name?: string | null) => {
-  const displayName = name?.trim() || user.displayName || "";
-
-  await setDoc(
-    doc(getFirebaseDb(), "users", user.uid),
-    {
-      uid: user.uid,
-      email: user.email ?? "",
-      name: displayName,
-      photoURL: user.photoURL ?? "",
-      providerIds: user.providerData.map((provider) => provider.providerId),
-      createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp(),
-    },
-    { merge: true },
-  );
 };
 
 function SectionHeading({
@@ -812,16 +749,20 @@ function StatsEditor({
 }
 
 export default function CmsPage() {
+  const {
+    authReady,
+    authSubmitting,
+    authUser,
+    currentUserName,
+    clearAuthError,
+    signOutUser,
+  } = useSiteAuth();
   const [activeSection, setActiveSection] = useState<CmsSection>("blog");
   const [selectedEntry, setSelectedEntry] = useState("featured:0");
   const [selectedWorkTab, setSelectedWorkTab] = useState("Context");
   const [data, setData] = useState<CmsDataMap["blog"] | CmsDataMap["services"] | CmsDataMap["work"] | null>(null);
-  const [authReady, setAuthReady] = useState(false);
-  const [authSubmitting, setAuthSubmitting] = useState(false);
-  const [authUser, setAuthUser] = useState<User | null>(null);
   const [avatarLoadFailed, setAvatarLoadFailed] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
-  const [authError, setAuthError] = useState<string | null>(getFirebaseClientConfigError());
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -830,7 +771,6 @@ export default function CmsPage() {
   const [cardMenu, setCardMenu] = useState<CardMenuState>(null);
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
-  const [currentUserName, setCurrentUserName] = useState("");
   const [createSubmitting, setCreateSubmitting] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [blogCreateForm, setBlogCreateForm] = useState<BlogCreateForm>({
@@ -864,55 +804,6 @@ export default function CmsPage() {
     () => sections.find((section) => section.id === activeSection) ?? sections[0],
     [activeSection],
   );
-
-  useEffect(() => {
-    if (!isFirebaseClientConfigured) {
-      setAuthReady(true);
-      setAuthUser(null);
-      setCurrentUserName("");
-      return;
-    }
-
-    const auth = getFirebaseAuth();
-
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setAuthUser(user);
-      setAuthError(null);
-      setAuthReady(true);
-    });
-
-    return () => unsubscribe();
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    const loadCurrentUserName = async () => {
-      if (!authUser) {
-        setCurrentUserName("");
-        return;
-      }
-
-      try {
-        const snapshot = await getDoc(doc(getFirebaseDb(), "users", authUser.uid));
-        if (cancelled) return;
-
-        const firestoreName =
-          snapshot.exists() && typeof snapshot.data().name === "string" ? snapshot.data().name.trim() : "";
-        setCurrentUserName(firestoreName || authUser.displayName?.trim() || "");
-      } catch {
-        if (!cancelled) {
-          setCurrentUserName(authUser.displayName?.trim() || "");
-        }
-      }
-    };
-
-    void loadCurrentUserName();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [authUser]);
 
   useEffect(() => {
     setAvatarLoadFailed(false);
@@ -986,13 +877,6 @@ export default function CmsPage() {
     const loadSection = async () => {
       if (!authReady) {
         setLoading(true);
-        return;
-      }
-
-      if (!authUser) {
-        setLoading(false);
-        setData(null);
-        setMessage(null);
         return;
       }
 
@@ -1386,80 +1270,17 @@ export default function CmsPage() {
     </button>
   );
 
-  const handleEmailSignIn = async (email: string, password: string) => {
-    if (!isFirebaseClientConfigured) return;
-
-    setAuthSubmitting(true);
-    setAuthError(null);
-
-    try {
-      await signInWithEmailAndPassword(getFirebaseAuth(), email, password);
-    } catch (error) {
-      setAuthError(getFirebaseErrorMessage(error));
-    } finally {
-      setAuthSubmitting(false);
-    }
-  };
-
-  const handleEmailCreateAccount = async (name: string, email: string, password: string) => {
-    if (!isFirebaseClientConfigured) return;
-
-    setAuthSubmitting(true);
-    setAuthError(null);
-
-    try {
-      const trimmedName = name.trim();
-
-      if (!trimmedName) {
-        setAuthError("Enter your name to create an account.");
-        return;
-      }
-
-      const credentials = await createUserWithEmailAndPassword(getFirebaseAuth(), email, password);
-      await updateProfile(credentials.user, { displayName: trimmedName });
-      await createUserDocument(credentials.user, trimmedName);
-    } catch (error) {
-      setAuthError(getFirebaseErrorMessage(error));
-    } finally {
-      setAuthSubmitting(false);
-    }
-  };
-
-  const handleGoogleSignIn = async () => {
-    if (!isFirebaseClientConfigured) return;
-
-    setAuthSubmitting(true);
-    setAuthError(null);
-
-    try {
-      const credentials = await signInWithPopup(getFirebaseAuth(), getGoogleProvider());
-      const additionalUserInfo = getAdditionalUserInfo(credentials);
-
-      if (additionalUserInfo?.isNewUser) {
-        await createUserDocument(credentials.user);
-      }
-    } catch (error) {
-      setAuthError(getFirebaseErrorMessage(error));
-    } finally {
-      setAuthSubmitting(false);
-    }
-  };
-
   const handleSignOut = async () => {
-    if (!isFirebaseClientConfigured) return;
-
-    setAuthSubmitting(true);
     setMessage(null);
     setProfileMenuOpen(false);
+    clearAuthError();
 
     try {
-      await signOut(getFirebaseAuth());
+      await signOutUser();
       setData(null);
       setSelectedEntry("featured:0");
-    } catch (error) {
-      setAuthError(getFirebaseErrorMessage(error));
-    } finally {
-      setAuthSubmitting(false);
+    } catch {
+      // Auth errors are surfaced by the shared provider.
     }
   };
 
@@ -1471,26 +1292,7 @@ export default function CmsPage() {
   const avatarUrl = authUser?.photoURL?.trim() ?? "";
   const showAvatarImage = Boolean(avatarUrl) && !avatarLoadFailed;
 
-  if (!authUser) {
-    return (
-      <main className="min-h-screen bg-[#090a0d] text-white">
-        <section className="relative overflow-hidden pb-16 pt-12 sm:pt-16 md:pt-20">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,79,179,0.14),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(94,234,212,0.12),_transparent_30%)]" />
-          <div className="relative mx-auto flex min-h-[70vh] w-full max-w-6xl items-center px-4 sm:px-6 lg:px-8 2xl:px-10">
-            <CmsAuthCard
-              authReady={authReady}
-              isConfigured={isFirebaseClientConfigured}
-              error={authError}
-              submitting={authSubmitting}
-              onEmailSignIn={handleEmailSignIn}
-              onEmailCreateAccount={handleEmailCreateAccount}
-              onGoogleSignIn={handleGoogleSignIn}
-            />
-          </div>
-        </section>
-      </main>
-    );
-  }
+  if (!authUser) return null;
 
   const renderBlogEditor = () => {
     if (!blogData) return null;
