@@ -64,7 +64,7 @@ export default function AboutLocations() {
   );
 
   return (
-    <section id="about" className="bg-white py-12 sm:py-16">
+    <section id="about" className="overflow-hidden bg-white py-12 sm:py-16">
       <div className="container-max flex flex-col items-center gap-8 md:flex-row md:items-center md:justify-between md:gap-10">
         <Reveal className="relative flex h-full w-full justify-center md:w-1/2">
           <div className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center">

@@ -7,7 +7,7 @@ import { testimonials } from "@/lib/data";
 
 export default function Testimonials() {
   return (
-    <section className="bg-[#0d0f15] py-12 text-white sm:py-16">
+    <section className="overflow-hidden bg-[#0d0f15] py-12 text-white sm:py-16">
       <div className="container-max flex flex-col gap-8">
         <Reveal>
           <h2 className="text-2xl font-semibold sm:text-3xl">{testimonials.title}</h2>

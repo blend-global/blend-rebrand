@@ -10,7 +10,7 @@ export default function Services({ servicesSection }: { servicesSection: Service
   const servicesContent = servicesSection.servicesContent;
 
   return (
-    <section id="services" className="bg-white pb-16 pt-6 sm:pt-8">
+    <section id="services" className="overflow-hidden bg-white pb-16 pt-6 sm:pt-8">
       <div className="container-max relative">
         <div className="absolute -left-24 top-10 h-40 w-40 rounded-full bg-gradient-to-br from-green-200/70 to-blue-200/40 blur-3xl" />
         <div className="absolute -right-20 bottom-0 h-44 w-44 rounded-full bg-gradient-to-br from-pink-200/70 to-purple-200/50 blur-3xl" />
