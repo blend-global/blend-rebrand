@@ -8,6 +8,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { getBlogListItems } from "@/lib/cms-helpers";
 import type { BlogContent, BlogEntry } from "@/lib/cms-types";
+import { normalizeRichTextHtml } from "@/lib/rich-text";
 
 type BlogDetailsClientProps = {
   blogSection: BlogContent;
@@ -16,21 +17,10 @@ type BlogDetailsClientProps = {
 
 const getPostTitle = (post: BlogEntry) => post.description ?? post.title ?? "Blog post";
 
-const getPostParagraphs = (post: BlogEntry) => {
-  if (post.body?.trim()) {
-    return post.body
-      .split(/\n\s*\n/)
-      .map((paragraph) => paragraph.trim())
-      .filter(Boolean);
-  }
-
-  return [post.excerpt ?? "This post does not have body content yet."];
-};
-
 export default function BlogDetailsClient({ blogSection, post }: BlogDetailsClientProps) {
   const recentPosts = getBlogListItems(blogSection).filter((item) => item.slug !== post.slug).slice(0, 3);
   const postTitle = getPostTitle(post);
-  const paragraphs = getPostParagraphs(post);
+  const bodyHtml = normalizeRichTextHtml(post.body ?? post.excerpt ?? "This post does not have body content yet.");
 
   return (
     <main className="min-h-screen bg-white text-[#0b0b0b]">
@@ -103,11 +93,10 @@ export default function BlogDetailsClient({ blogSection, post }: BlogDetailsClie
                 />
               </motion.div>
 
-              <div className="space-y-4 text-sm leading-7 text-[#2f3137]">
-                {paragraphs.map((paragraph, index) => (
-                  <p key={`${post.slug}-${index}`}>{paragraph}</p>
-                ))}
-              </div>
+              <div
+                className="space-y-4 text-sm leading-7 text-[#2f3137] [&_a]:font-medium [&_a]:text-[#111] [&_a]:underline [&_blockquote]:my-6 [&_blockquote]:border-l-2 [&_blockquote]:border-[#111]/20 [&_blockquote]:pl-4 [&_blockquote]:italic [&_h2]:mt-8 [&_h2]:text-xl [&_h2]:font-semibold [&_h3]:mt-6 [&_h3]:text-lg [&_h3]:font-semibold [&_li]:ml-6 [&_li]:list-item [&_ol]:my-4 [&_ol]:list-decimal [&_p]:mb-4 [&_ul]:my-4 [&_ul]:list-disc"
+                dangerouslySetInnerHTML={{ __html: bodyHtml }}
+              />
 
               <div className="mt-8 space-y-4 lg:hidden">
                 <h2 className="text-lg font-semibold">Recent blog posts</h2>

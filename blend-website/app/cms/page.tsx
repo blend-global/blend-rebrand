@@ -22,6 +22,7 @@ import {
 import { useSiteAuth } from "@/components/auth/AuthProvider";
 import { deleteCmsEntryClient, readCmsSectionClient, writeCmsSectionClient } from "@/lib/cms-firestore-client";
 import { getFirebaseStorage } from "@/lib/firebase/client";
+import { normalizeRichTextHtml } from "@/lib/rich-text";
 
 type CmsSection = "blog" | "services" | "work";
 
@@ -387,27 +388,290 @@ function RichTextEditor({
   onChange: (value: string) => void;
 }) {
   const editorRef = useRef<HTMLDivElement | null>(null);
+  const selectionRef = useRef<Range | null>(null);
+  const blockSelector = "p,h1,h2,h3,blockquote,li";
 
   useEffect(() => {
     if (!editorRef.current) return;
-    if (editorRef.current.innerHTML !== value) {
-      editorRef.current.innerHTML = value;
+    const normalizedValue = normalizeRichTextHtml(value);
+    if (document.activeElement === editorRef.current) return;
+    if (editorRef.current.innerHTML !== normalizedValue) {
+      editorRef.current.innerHTML = normalizedValue;
     }
   }, [value]);
 
-  const runCommand = (command: string, commandValue?: string) => {
-    document.execCommand(command, false, commandValue);
+  const rememberSelection = () => {
+    const selection = window.getSelection();
+
+    if (!selection || selection.rangeCount === 0 || !editorRef.current) {
+      selectionRef.current = null;
+      return;
+    }
+
+    const range = selection.getRangeAt(0);
+    const commonAncestor = range.commonAncestorContainer;
+
+    if (!editorRef.current.contains(commonAncestor)) {
+      return;
+    }
+
+    selectionRef.current = range.cloneRange();
+  };
+
+  const restoreSelection = () => {
+    const selection = window.getSelection();
+    const savedRange = selectionRef.current;
+
+    if (!selection || !savedRange) {
+      return;
+    }
+
+    selection.removeAllRanges();
+    selection.addRange(savedRange);
+  };
+
+  const getActiveRange = () => {
+    const selection = window.getSelection();
+    const editor = editorRef.current;
+
+    if (!selection || selection.rangeCount === 0 || !editor) {
+      return null;
+    }
+
+    const range = selection.getRangeAt(0);
+    const commonAncestor = range.commonAncestorContainer;
+
+    if (!editor.contains(commonAncestor)) {
+      return null;
+    }
+
+    return range;
+  };
+
+  const getEditableBlock = (node: Node | null) => {
+    const editor = editorRef.current;
+
+    if (!node || !editor) {
+      return null;
+    }
+
+    const element = node.nodeType === Node.ELEMENT_NODE ? (node as HTMLElement) : node.parentElement;
+
+    if (!element) {
+      return null;
+    }
+
+    const block = element.closest(blockSelector);
+    return block && block !== editor && editor.contains(block) ? (block as HTMLElement) : null;
+  };
+
+  const wrapEditorContentsInParagraph = () => {
+    const editor = editorRef.current;
+
+    if (!editor) {
+      return null;
+    }
+
+    if (editor.childNodes.length === 0) {
+      const paragraph = document.createElement("p");
+      paragraph.innerHTML = "<br />";
+      editor.appendChild(paragraph);
+      placeCaretAtEnd(paragraph);
+      return paragraph;
+    }
+
+    const paragraph = document.createElement("p");
+    const nodes = Array.from(editor.childNodes);
+
+    nodes.forEach((node) => {
+      paragraph.appendChild(node);
+    });
+
+    if (paragraph.innerHTML.trim() === "") {
+      paragraph.innerHTML = "<br />";
+    }
+
+    editor.appendChild(paragraph);
+    placeCaretAtEnd(paragraph);
+    return paragraph;
+  };
+
+  const getOrCreateEditableBlock = () => {
+    const range = getActiveRange();
+    const existingBlock = range ? getEditableBlock(range.commonAncestorContainer) : null;
+
+    if (existingBlock) {
+      return existingBlock;
+    }
+
+    return wrapEditorContentsInParagraph();
+  };
+
+  const placeCaretAtEnd = (element: HTMLElement) => {
+    const selection = window.getSelection();
+
+    if (!selection) {
+      return;
+    }
+
+    const range = document.createRange();
+    range.selectNodeContents(element);
+    range.collapse(false);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    selectionRef.current = range.cloneRange();
+  };
+
+  const syncEditor = () => {
+    rememberSelection();
     onChange(editorRef.current?.innerHTML ?? "");
+  };
+
+  const replaceBlockTag = (block: HTMLElement, tagName: string) => {
+    const replacement = document.createElement(tagName);
+    replacement.innerHTML = block.innerHTML || "<br />";
+    block.replaceWith(replacement);
+    placeCaretAtEnd(replacement);
+  };
+
+  const applyBlockFormat = (tagName: "h2" | "blockquote") => {
+    const block = getOrCreateEditableBlock();
+
+    if (!block) {
+      return false;
+    }
+
+    if (block.tagName.toLowerCase() === "li") {
+      const paragraph = document.createElement("p");
+      paragraph.innerHTML = block.innerHTML || "<br />";
+      const list = block.parentElement;
+      block.replaceWith(paragraph);
+
+      if (list && list.children.length === 0) {
+        list.remove();
+      }
+
+      replaceBlockTag(paragraph, tagName);
+      return true;
+    }
+
+    replaceBlockTag(block, tagName);
+    return true;
+  };
+
+  const unwrapList = (list: HTMLElement) => {
+    const fragment = document.createDocumentFragment();
+    const items = Array.from(list.querySelectorAll(":scope > li"));
+
+    items.forEach((item) => {
+      const paragraph = document.createElement("p");
+      paragraph.innerHTML = item.innerHTML || "<br />";
+      fragment.appendChild(paragraph);
+    });
+
+    list.replaceWith(fragment);
+
+    const firstParagraph = editorRef.current?.querySelector("p:last-of-type");
+    if (firstParagraph instanceof HTMLElement) {
+      placeCaretAtEnd(firstParagraph);
+    }
+  };
+
+  const applyListFormat = (listTag: "ul" | "ol") => {
+    const block = getOrCreateEditableBlock();
+
+    if (!block) {
+      return false;
+    }
+
+    if (block.tagName.toLowerCase() === "li") {
+      const list = block.parentElement;
+
+      if (!list) {
+        return false;
+      }
+
+      if (list.tagName.toLowerCase() === listTag) {
+        unwrapList(list);
+        return true;
+      }
+
+      const replacementList = document.createElement(listTag);
+      replacementList.innerHTML = list.innerHTML;
+      list.replaceWith(replacementList);
+      placeCaretAtEnd(replacementList.lastElementChild as HTMLElement);
+      return true;
+    }
+
+    const list = document.createElement(listTag);
+    const item = document.createElement("li");
+    item.innerHTML = block.innerHTML || "<br />";
+    list.appendChild(item);
+    block.replaceWith(list);
+    placeCaretAtEnd(item);
+    return true;
+  };
+
+  const clearFormatting = () => {
+    const block = getOrCreateEditableBlock();
+
+    if (!block) {
+      return false;
+    }
+
+    const paragraph = document.createElement("p");
+    paragraph.textContent = block.textContent ?? "";
+
+    if (block.tagName.toLowerCase() === "li") {
+      const list = block.parentElement;
+      block.replaceWith(paragraph);
+
+      if (list && list.children.length === 0) {
+        list.remove();
+      }
+    } else {
+      block.replaceWith(paragraph);
+    }
+
+    placeCaretAtEnd(paragraph);
+    return true;
+  };
+
+  const runCommand = (command: string, commandValue?: string) => {
+    const editor = editorRef.current;
+
+    editor?.focus();
+    restoreSelection();
+
+    let handled = false;
+
+    if (command === "formatBlock" && commandValue === "h2") {
+      handled = applyBlockFormat("h2");
+    } else if (command === "formatBlock" && commandValue === "blockquote") {
+      handled = applyBlockFormat("blockquote");
+    } else if (command === "insertUnorderedList") {
+      handled = applyListFormat("ul");
+    } else if (command === "insertOrderedList") {
+      handled = applyListFormat("ol");
+    } else if (command === "removeFormat") {
+      handled = clearFormatting();
+    }
+
+    if (!handled) {
+      document.execCommand(command, false, commandValue);
+    }
+
+    syncEditor();
   };
 
   const toolbarItems = [
     { label: "B", command: "bold" },
     { label: "I", command: "italic" },
     { label: "U", command: "underline" },
-    { label: "H2", command: "formatBlock", commandValue: "<h2>" },
+    { label: "H2", command: "formatBlock", commandValue: "h2" },
     { label: "Bullet", command: "insertUnorderedList" },
     { label: "Number", command: "insertOrderedList" },
-    { label: "Quote", command: "formatBlock", commandValue: "<blockquote>" },
+    { label: "Quote", command: "formatBlock", commandValue: "blockquote" },
     { label: "Clear", command: "removeFormat" },
   ] as const;
 
@@ -420,7 +684,10 @@ function RichTextEditor({
             <button
               key={item.label}
               type="button"
-              onClick={() => runCommand(item.command, "commandValue" in item ? item.commandValue : undefined)}
+              onMouseDown={(event) => {
+                event.preventDefault();
+                runCommand(item.command, "commandValue" in item ? item.commandValue : undefined);
+              }}
               className="inline-flex cursor-pointer items-center justify-center rounded-full border border-white/10 bg-[#0d1016] px-3 py-1.5 text-xs font-semibold text-white/80 transition hover:border-white/20 hover:text-white"
             >
               {item.label}
@@ -431,8 +698,11 @@ function RichTextEditor({
           ref={editorRef}
           contentEditable
           suppressContentEditableWarning
+          onFocus={rememberSelection}
+          onMouseUp={rememberSelection}
+          onKeyUp={rememberSelection}
           onInput={() => onChange(editorRef.current?.innerHTML ?? "")}
-          className="min-h-[260px] px-4 py-4 text-sm leading-7 text-white outline-none"
+          className="min-h-[260px] px-4 py-4 text-sm leading-7 text-white outline-none empty:before:pointer-events-none empty:before:content-[attr(data-placeholder)] empty:before:text-white/25 [&_blockquote]:my-4 [&_blockquote]:border-l-2 [&_blockquote]:border-white/20 [&_blockquote]:pl-4 [&_blockquote]:italic [&_h2]:mt-6 [&_h2]:text-2xl [&_h2]:font-semibold [&_li]:ml-6 [&_li]:list-item [&_ol]:my-4 [&_ol]:list-decimal [&_p]:mb-4 [&_ul]:my-4 [&_ul]:list-disc"
           data-placeholder="Write the body content here..."
         />
       </div>
@@ -936,7 +1206,23 @@ export default function CmsPage() {
     setMessage(null);
 
     try {
-      await writeCmsSectionClient(activeSection, data as CmsDataMap[CmsSection]);
+      const nextData =
+        activeSection === "blog"
+          ? ({
+              ...(data as BlogContent),
+              featured: (data as BlogContent).featured.map((item) => ({
+                ...item,
+                body: normalizeRichTextHtml(item.body ?? ""),
+              })),
+              posts: (data as BlogContent).posts.map((item) => ({
+                ...item,
+                body: normalizeRichTextHtml(item.body ?? ""),
+              })),
+            } satisfies BlogContent)
+          : (data as CmsDataMap[CmsSection]);
+
+      await writeCmsSectionClient(activeSection, nextData as CmsDataMap[CmsSection]);
+      setData(nextData as CmsDataMap[CmsSection]);
       setMessage(`${activeSectionConfig.label} saved.`);
       setToastMessage(`${activeSectionConfig.label} saved.`);
       setEditDialogOpen(false);
@@ -1128,7 +1414,7 @@ export default function CmsPage() {
         image: coverImageUrl,
         description: blogCreateForm.description.trim(),
         excerpt: blogCreateForm.excerpt.trim(),
-        body: blogCreateForm.body.trim(),
+        body: normalizeRichTextHtml(blogCreateForm.body),
         author: {
           name: currentUserName || authUser?.displayName?.trim() || authUser?.email?.split("@")[0] || "Blend Member",
           role: "",
