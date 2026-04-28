@@ -6,7 +6,7 @@ import { Instagram, Linkedin, Mail, Phone } from "lucide-react";
 import Reveal from "@/components/Reveal";
 
 export default function Footer() {
-  const siteLinks = ["Home", "Services", "Work", "Blog"];
+  const siteLinks = ["Home", "Services", "Work"];
   const termsLinks = ["Terms Of Services", "Privacy Policy", "Cookie Policy", "Cookie Preferences"];
   const currentYear = new Date().getUTCFullYear();
 

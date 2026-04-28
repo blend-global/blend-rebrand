@@ -6,7 +6,6 @@ export const navLinks = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/services" },
   { label: "Our Work", href: "/work" },
-  { label: "Blog", href: "/blog" },
 ];
 
 export const heroContent = {
@@ -135,7 +134,7 @@ export const contactSection = {
 
 export const footerContent = {
   terms: "Terms / Policies",
-  siteLinks: ["Home", "Our Services", "Our Work", "Blog", "Contact"],
+  siteLinks: ["Home", "Our Services", "Our Work", "Contact"],
   newsletterLabel: "Subscribe to Newsletter",
   copyright: "Copyright (c) Blend. All rights reserved",
   bbee: "B-BBEE Level 1 contributor",

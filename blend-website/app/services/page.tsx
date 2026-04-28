@@ -149,7 +149,7 @@ const ServicesPage = () => {
       <Header isOverlay={true} />
       
       {/* Hero Section */}
-      <section className="relative min-h-[60vh] bg-dark overflow-hidden flex items-center pt-32 sm:pt-40 sm:min-h-[70vh]">
+      <section className="relative min-h-[60vh] bg-background overflow-hidden flex items-center pt-32 sm:pt-40 sm:min-h-[70vh]">
         {/* Gradient Orbs */}
         <div className="gradient-orb gradient-orb-pink h-[240px] w-[240px] -top-28 -left-28 animate-float sm:h-[400px] sm:w-[400px] sm:-top-32 sm:-left-32" />
         <div className="gradient-orb gradient-orb-cyan h-[200px] w-[200px] top-1/2 right-0 animate-float-delayed sm:h-[300px] sm:w-[300px]" />
@@ -194,7 +194,7 @@ const ServicesPage = () => {
       </section>
 
       {/* Experiential Services Section */}
-      <section className="bg-dark py-14 sm:py-20 md:py-32">
+      <section className="bg-background py-14 sm:py-20 md:py-32">
         <div className="container-custom section-padding">
           <Reveal>
             <div className="flex items-center gap-3 mb-4">
@@ -247,14 +247,14 @@ const ServicesPage = () => {
       </section>
 
       {/* Digital Services Section */}
-      <section className="bg-light py-14 sm:py-20 md:py-32">
+      <section className="bg-background py-14 sm:py-20 md:py-32">
         <div className="container-custom section-padding">
           <Reveal>
             <div className="flex items-center gap-3 mb-4">
-              <h2 className="text-2xl font-bold text-foreground sm:text-3xl md:text-4xl">Digital</h2>
+              <h2 className="text-2xl font-bold text-primary-foreground sm:text-3xl md:text-4xl">Digital</h2>
               <span className="text-accent text-2xl">✦</span>
             </div>
-            <p className="mb-10 max-w-2xl text-base text-muted-foreground sm:text-lg">
+            <p className="mb-10 max-w-2xl text-base text-primary-foreground/70 sm:text-lg">
               Innovative digital solutions that transform your ideas into powerful visual stories and experiences.
             </p>
           </Reveal>
@@ -265,20 +265,20 @@ const ServicesPage = () => {
               <Reveal key={service.title} delay={0.03 * index}>
                 <div
                 key={service.title}
-                className="group rounded-2xl border border-border bg-card p-5 transition-all duration-300 hover:-translate-y-1.5 hover:border-accent/50 hover:shadow-lg sm:p-6"
+                className="group rounded-2xl border border-primary-foreground/10 bg-dark-surface p-5 transition-all duration-300 hover:-translate-y-1.5 hover:border-accent/50 hover:shadow-lg sm:p-6"
               >
                 <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-accent/10 transition-colors group-hover:bg-accent/20 sm:h-12 sm:w-12">
                   <service.icon className="h-5 w-5 text-accent sm:h-6 sm:w-6" />
                 </div>
-                <h3 className="mb-2 min-h-[3.5rem] text-base font-semibold leading-snug text-foreground transition-colors group-hover:text-accent sm:min-h-[4rem] sm:text-lg">
+                <h3 className="mb-2 min-h-[3.5rem] text-base font-semibold leading-snug text-primary-foreground transition-colors group-hover:text-accent sm:min-h-[4rem] sm:text-lg">
                   {service.title}
                 </h3>
-                <p className="mb-4 line-clamp-2 text-sm text-muted-foreground">
+                <p className="mb-4 line-clamp-2 text-sm text-primary-foreground/60">
                   {service.description}
                 </p>
                 <ul className="space-y-1">
                   {service.features.map((feature) => (
-                    <li key={feature} className="flex items-center gap-2 text-[11px] text-muted-foreground sm:text-xs">
+                    <li key={feature} className="flex items-center gap-2 text-[11px] text-primary-foreground/50 sm:text-xs">
                       <span className="w-1 h-1 rounded-full bg-accent" />
                       {feature}
                     </li>
@@ -300,30 +300,30 @@ const ServicesPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="relative overflow-hidden bg-light py-14 sm:py-20 md:py-32">
+      <section className="relative overflow-hidden bg-background py-14 sm:py-20 md:py-32">
         <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border border-foreground" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full border border-foreground" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border border-primary-foreground" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full border border-primary-foreground" />
         </div>
         
         <Reveal className="container-custom section-padding relative z-10 text-center">
-          <h2 className="mb-6 text-2xl font-bold text-foreground sm:text-3xl md:text-5xl">
+          <h2 className="mb-6 text-2xl font-bold text-primary-foreground sm:text-3xl md:text-5xl">
             Ready to Create Something<br />
             <span className="text-gradient">Extraordinary?</span>
           </h2>
-          <p className="mx-auto mb-8 max-w-xl text-base text-muted-foreground sm:text-lg">
+          <p className="mx-auto mb-8 max-w-xl text-base text-primary-foreground/70 sm:text-lg">
             Let&apos;s discuss how we can bring your vision to life with our comprehensive suite of services.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link
               href="/contact"
-              className="w-full rounded-full bg-black px-6 py-3 text-center text-xs font-semibold text-white shadow-[0_12px_30px_rgba(0,0,0,0.2)] transition-transform hover:scale-[1.03] sm:w-auto sm:text-sm"
+              className="w-full rounded-full bg-accent px-6 py-3 text-center text-xs font-semibold text-white shadow-[0_12px_30px_rgba(17,203,155,0.35)] transition-transform hover:scale-[1.03] sm:w-auto sm:text-sm"
             >
               Start a Project
             </Link>
             <Link
               href="/work"
-              className="w-full rounded-full border border-black/15 px-6 py-3 text-center text-xs font-semibold text-black transition-transform hover:scale-[1.03] sm:w-auto sm:text-sm"
+              className="w-full rounded-full border border-primary-foreground/20 px-6 py-3 text-center text-xs font-semibold text-primary-foreground transition-transform hover:scale-[1.03] sm:w-auto sm:text-sm"
             >
               View Our Work
             </Link>

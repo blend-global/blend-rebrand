@@ -19,12 +19,32 @@ export default async function Home() {
     <main className="min-h-screen overflow-x-hidden bg-background">
       <Navbar isOverlay={true} />
       <Hero />
-      <LogosRow />
-      <AboutLocations />
-      <Services servicesSection={servicesSection} />
-      <LatestWork />
-      <Testimonials />
-      <BlogPreview blogSection={blogSection} />
+      <div className="flex min-h-[100svh] items-center bg-white">
+        <div className="w-full">
+          <LogosRow />
+          <AboutLocations />
+        </div>
+      </div>
+      <div className="flex min-h-[100svh] items-center bg-white">
+        <div className="w-full">
+          <Services servicesSection={servicesSection} />
+        </div>
+      </div>
+      <div className="flex min-h-[100svh] items-center bg-[#0d0f15]">
+        <div className="w-full">
+          <LatestWork />
+        </div>
+      </div>
+      <div className="flex min-h-[100svh] items-center bg-[#0d0f15]">
+        <div className="w-full">
+          <Testimonials />
+        </div>
+      </div>
+      <div className="flex min-h-[100svh] items-center bg-white">
+        <div className="w-full">
+          <BlogPreview blogSection={blogSection} />
+        </div>
+      </div>
       <Footer />
     </main>
   );

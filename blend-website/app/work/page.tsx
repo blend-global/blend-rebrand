@@ -92,10 +92,14 @@ export default function WorkPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0d0d0f] text-white">
+    <main className="min-h-screen bg-background text-white">
       <Navbar isOverlay={true} />
       <section className="relative overflow-hidden pt-32 sm:pt-40 md:pt-44">
-        <div className="container-max pb-16">
+        <div className="gradient-orb gradient-orb-pink h-[240px] w-[240px] -top-28 -left-28 animate-float sm:h-[400px] sm:w-[400px] sm:-top-32 sm:-left-32" />
+        <div className="gradient-orb gradient-orb-cyan h-[220px] w-[220px] top-24 right-0 animate-float-delayed sm:h-[360px] sm:w-[360px]" />
+        <div className="gradient-orb gradient-orb-pink h-[180px] w-[180px] bottom-20 left-1/3 opacity-50 sm:h-[280px] sm:w-[280px]" />
+
+        <div className="container-max relative z-10 pb-16">
           <div className="grid gap-10 md:gap-12 md:grid-cols-[1.1fr,1fr]">
             <Reveal className="flex flex-col gap-4">
               <h1 className="text-3xl font-semibold leading-tight sm:text-[2.6rem] lg:text-[3rem]">

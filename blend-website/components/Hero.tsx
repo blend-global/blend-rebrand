@@ -7,7 +7,10 @@ import { heroContent } from "@/lib/data";
 
 export default function Hero() {
   return (
-    <section id="home" className="relative overflow-hidden bg-[#0a0a0f] pb-20 pt-32 sm:pt-40 lg:pt-44 lg:pb-24">
+    <section
+      id="home"
+      className="relative flex min-h-[100svh] items-center overflow-hidden bg-[#0a0a0f] pb-12 pt-28 sm:pt-36 sm:pb-14 lg:pt-40 lg:pb-16"
+    >
       <div className="absolute inset-0">
         <Image
           src="/hero-bg.png"
@@ -19,7 +22,7 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/25 to-transparent" />
       </div>
 
-      <div className="relative container-max">
+      <div className="relative container-max w-full">
         <div className="relative z-10 flex flex-col items-center gap-10 text-center text-white sm:gap-12">
           <Reveal className="flex flex-col gap-4">
             <h1 className="bg-gradient-to-r from-green-300 via-[#78d1ff] to-pink-400 bg-clip-text text-[2.2rem] font-bold leading-tight text-transparent sm:text-[2.8rem] lg:text-[3.2rem]">
