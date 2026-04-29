@@ -69,12 +69,16 @@ export default function Hero() {
         allowFullScreen
       />
 
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/70 via-black/10 to-black/45" />
+      <div className="pointer-events-none absolute inset-0 bg-black/50" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/80 via-black/35 to-black/70" />
 
       <div className="pointer-events-none container-max relative z-10 flex min-h-[100svh] items-center justify-center text-center text-white">
         <Reveal>
-          <h1 className="bg-gradient-to-r from-green-300 via-[#78d1ff] to-pink-400 bg-clip-text text-[2.35rem] font-bold leading-tight text-transparent sm:text-[3.25rem] lg:text-[4.5rem]">
-            Empowering Connections Globally
+          <h1 className="text-[2.35rem] font-bold leading-tight text-white drop-shadow-[0_8px_32px_rgba(0,0,0,0.45)] sm:text-[3.25rem] lg:text-[4.5rem]">
+            Empowering Connections<br />
+            <span className="bg-gradient-to-r from-green-300 via-[#78d1ff] to-pink-400 bg-clip-text text-transparent">
+              Globally
+            </span>
           </h1>
         </Reveal>
       </div>

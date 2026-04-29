@@ -13,8 +13,10 @@ interface NavbarProps {
 
 export default function Navbar({ isOverlay = false }: NavbarProps) {
   const headerRef = useRef<HTMLElement>(null);
+  const hideMenuTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [open, setOpen] = useState(false);
   const [isOnLightBackground, setIsOnLightBackground] = useState(false);
+  const [desktopMenuVisible, setDesktopMenuVisible] = useState(true);
 
   useEffect(() => {
     const getRgb = (color: string) => {
@@ -70,6 +72,32 @@ export default function Navbar({ isOverlay = false }: NavbarProps) {
     };
   }, []);
 
+  useEffect(() => {
+    hideMenuTimeout.current = setTimeout(() => {
+      setDesktopMenuVisible(false);
+    }, 2200);
+
+    return () => {
+      if (hideMenuTimeout.current) {
+        clearTimeout(hideMenuTimeout.current);
+      }
+    };
+  }, []);
+
+  const showDesktopMenu = () => {
+    if (hideMenuTimeout.current) {
+      clearTimeout(hideMenuTimeout.current);
+    }
+
+    setDesktopMenuVisible(true);
+  };
+
+  const hideDesktopMenu = () => {
+    hideMenuTimeout.current = setTimeout(() => {
+      setDesktopMenuVisible(false);
+    }, 240);
+  };
+
   const menuTextColor = isOnLightBackground ? "rgba(16, 17, 20, 0.82)" : "rgba(255, 255, 255, 0.82)";
   const activeMenuTextColor = isOnLightBackground ? "#101114" : "#ffffff";
   const hoverMenuTextColor = isOnLightBackground ? "#101114" : "#ffffff";
@@ -84,13 +112,30 @@ export default function Navbar({ isOverlay = false }: NavbarProps) {
               href="/"
               className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#111216]/92 shadow-[0_14px_36px_rgba(0,0,0,0.35)] ring-1 ring-white/10 backdrop-blur sm:h-16 sm:w-16 md:h-20 md:w-20"
               aria-label="Blend home"
+              onMouseEnter={showDesktopMenu}
+              onMouseLeave={hideDesktopMenu}
+              onFocus={showDesktopMenu}
+              onBlur={hideDesktopMenu}
               whileHover={{ y: -2, scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
             >
               <Image src="/logo.png" alt="Blend logo" width={89} height={93} className="h-9 w-auto sm:h-11 md:h-14" priority />
             </MotionLink>
 
-            <div className="hidden md:block">
+            <motion.div
+              className="hidden md:block"
+              onMouseEnter={showDesktopMenu}
+              onMouseLeave={hideDesktopMenu}
+              onFocus={showDesktopMenu}
+              onBlur={hideDesktopMenu}
+              initial={{ opacity: 1, x: 0 }}
+              animate={{
+                opacity: desktopMenuVisible ? 1 : 0,
+                x: desktopMenuVisible ? 0 : 12,
+                pointerEvents: desktopMenuVisible ? "auto" : "none",
+              }}
+              transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+            >
               <div className="flex items-center gap-6 px-3 py-2.5 text-white lg:gap-8 lg:px-4">
                 <motion.nav
                   className="flex items-center gap-6 text-sm font-semibold lg:gap-8 lg:text-base"
@@ -125,7 +170,7 @@ export default function Navbar({ isOverlay = false }: NavbarProps) {
                   Contact
                 </MotionLink>
               </div>
-            </div>
+            </motion.div>
 
             <motion.button
               type="button"
