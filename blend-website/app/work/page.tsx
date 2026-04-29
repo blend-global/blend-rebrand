@@ -100,49 +100,56 @@ export default function WorkPage() {
         <div className="gradient-orb gradient-orb-pink h-[180px] w-[180px] bottom-20 left-1/3 opacity-50 sm:h-[280px] sm:w-[280px]" />
 
         <div className="container-max relative z-10 pb-16">
-          <div className="grid gap-10 md:gap-12 md:grid-cols-[1.1fr,1fr]">
-            <Reveal className="flex flex-col gap-4">
-              <h1 className="text-3xl font-semibold leading-tight sm:text-[2.6rem] lg:text-[3rem]">
-                Case Studies
+          <div className="flex min-h-[58svh] flex-col justify-center pb-14">
+            <Reveal className="max-w-4xl">
+              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-white/70">
+                <span className="h-2 w-2 rounded-full bg-gradient-to-r from-[#6bd688] to-[#f36fb4]" />
+                Our Work
+              </div>
+              <h1 className="text-balance text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-white sm:text-5xl lg:text-7xl">
+                Case studies that prove the <span className="bg-gradient-to-r from-[#f36fb4] via-[#9fb8ff] to-[#22d3ee] bg-clip-text text-transparent">experience</span>.
               </h1>
-              <p className="max-w-xl text-sm leading-relaxed text-white/80 sm:text-base">
-                Our success stories showcase innovative solutions brought to life with precision and creativity.
+              <p className="mt-6 max-w-2xl text-base leading-7 text-white/64 sm:text-lg">
+                Our success stories showcase innovative solutions brought to life with precision, creativity, and measurable brand impact.
               </p>
             </Reveal>
-            <Reveal delay={0.05} className="flex flex-col gap-3">
-              <span className="text-sm font-semibold uppercase tracking-wide text-white/70">Filter By Type</span>
-              <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-                {filters.map((filter) => {
-                  const isActive = activeFilters.includes(filter);
-                  return (
-                  <motion.span
-                    key={filter}
-                    role="button"
-                    onClick={() => toggleFilter(filter)}
-                    className={`inline-flex cursor-pointer items-center gap-2 rounded-full border px-3 py-1 text-xs sm:text-sm ${
-                      isActive
-                        ? "border-white/60 bg-white/10 text-white"
-                        : "border-white/30 text-white/90"
-                    }`}
-                    whileHover={{ y: -2 }}
+
+            <div className="mt-10">
+              <Reveal delay={0.05} className="flex flex-col gap-3">
+                <span className="text-sm font-semibold uppercase tracking-wide text-white/70">Filter By Type</span>
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                  {filters.map((filter) => {
+                    const isActive = activeFilters.includes(filter);
+                    return (
+                    <motion.span
+                      key={filter}
+                      role="button"
+                      onClick={() => toggleFilter(filter)}
+                      className={`inline-flex cursor-pointer items-center gap-2 rounded-full border px-3 py-1 text-xs sm:text-sm ${
+                        isActive
+                          ? "border-white/60 bg-white/10 text-white"
+                          : "border-white/30 text-white/90"
+                      }`}
+                      whileHover={{ y: -2 }}
+                    >
+                      {filter}
+                      <span className="text-xs">{isActive ? "✕" : "+"}</span>
+                    </motion.span>
+                  )})}
+                  <motion.button
+                    className="rounded-full border border-white/30 px-3 py-1 text-xs text-white/80 sm:text-sm"
+                    onClick={clearFilters}
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
                   >
-                    {filter}
-                    <span className="text-xs">{isActive ? "✕" : "+"}</span>
-                  </motion.span>
-                )})}
-                <motion.button
-                  className="rounded-full border border-white/30 px-3 py-1 text-xs text-white/80 sm:text-sm"
-                  onClick={clearFilters}
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                >
-                  Clear All
-                </motion.button>
-              </div>
-            </Reveal>
+                    Clear All
+                  </motion.button>
+                </div>
+              </Reveal>
+            </div>
           </div>
 
-          <div className="mt-8 grid gap-5 sm:mt-10 sm:gap-6 md:grid-cols-2">
+          <div className="grid gap-5 sm:gap-6 md:grid-cols-2">
             {pagedItems.map((item, index) => (
               <Reveal key={item.title} delay={0.05 * index}>
                 <MotionLink

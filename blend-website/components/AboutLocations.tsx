@@ -10,8 +10,6 @@ type Slide = {
   title: string;
   subtitle: string;
   description: string;
-  statValue: string;
-  statLabel: string;
   image: string;
 };
 
@@ -21,8 +19,6 @@ const slides: Slide[] = [
     subtitle: "Locations",
     description:
       "Spanning across the EMEA/META regions, our offices are strategically placed to maximize local and global connectivity and impact.",
-    statValue: "3+",
-    statLabel: "Continents",
     image: "/1_locations.png",
   },
   {
@@ -30,8 +26,6 @@ const slides: Slide[] = [
     subtitle: "The Team",
     description:
       "Dedicated, diverse professionals committed to excellence. Together, we innovate, inspire, and lead the industry in every endeavor we undertake.",
-    statValue: "50+",
-    statLabel: "Happy Employees",
     image: "/2_the-team.png",
   },
   {
@@ -39,8 +33,6 @@ const slides: Slide[] = [
     subtitle: "Blend Culture",
     description:
       "Our culture thrives on creativity and respect. We champion personal growth, teamwork, and sustainability to create meaningful experiences.",
-    statValue: "100+",
-    statLabel: "Successful Projects",
     image: "/3_successfull-projects.png",
   },
 ];
@@ -115,11 +107,6 @@ export default function AboutLocations() {
           <h3 className="text-xl font-semibold text-[#1d1d1f] sm:text-2xl">{current.title}</h3>
           <h4 className="text-lg font-semibold text-[#2d2d2f] sm:text-xl">{current.subtitle}</h4>
           <p className="max-w-xl text-sm leading-relaxed text-[#3c3f46] sm:text-base">{current.description}</p>
-
-          <div className="mt-0 text-4xl font-semibold text-[#1b1b1d] sm:text-5xl">
-            {current.statValue}
-            <div className="mt-0 text-lg font-semibold text-[#2e2f33] sm:text-xl">{current.statLabel}</div>
-          </div>
 
           <div className="mt-0 flex items-center gap-3 sm:gap-4">
             <motion.button

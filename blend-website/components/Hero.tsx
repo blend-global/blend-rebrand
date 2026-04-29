@@ -1,70 +1,95 @@
 "use client";
 
-import Image from "next/image";
-import { motion } from "framer-motion";
+import { Pause, Play } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import Reveal from "@/components/Reveal";
-import { heroContent } from "@/lib/data";
 
 export default function Hero() {
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const hideControlsTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [controlsVisible, setControlsVisible] = useState(true);
+
+  const showControlsTemporarily = () => {
+    setControlsVisible(true);
+
+    if (hideControlsTimeout.current) {
+      clearTimeout(hideControlsTimeout.current);
+    }
+
+    hideControlsTimeout.current = setTimeout(() => {
+      setControlsVisible(false);
+    }, 1800);
+  };
+
+  useEffect(() => {
+    hideControlsTimeout.current = setTimeout(() => {
+      setControlsVisible(false);
+    }, 1800);
+
+    return () => {
+      if (hideControlsTimeout.current) {
+        clearTimeout(hideControlsTimeout.current);
+      }
+    };
+  }, []);
+
+  const sendVideoCommand = (command: "playVideo" | "pauseVideo") => {
+    iframeRef.current?.contentWindow?.postMessage(
+      JSON.stringify({
+        event: "command",
+        func: command,
+        args: [],
+      }),
+      "https://www.youtube.com",
+    );
+  };
+
+  const togglePlayback = () => {
+    const nextPlaying = !isPlaying;
+
+    sendVideoCommand(nextPlaying ? "playVideo" : "pauseVideo");
+    setIsPlaying(nextPlaying);
+    showControlsTemporarily();
+  };
+
   return (
     <section
       id="home"
-      className="relative flex min-h-[100svh] items-center overflow-hidden bg-[#0a0a0f] pb-12 pt-28 sm:pt-36 sm:pb-14 lg:pt-40 lg:pb-16"
+      className="relative min-h-[100svh] overflow-hidden bg-black"
+      onPointerMove={showControlsTemporarily}
+      onPointerDown={showControlsTemporarily}
     >
-      <div className="absolute inset-0">
-        <Image
-          src="/hero-bg.png"
-          alt="Hero background"
-          fill
-          priority
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/25 to-transparent" />
+      <iframe
+        ref={iframeRef}
+        src="https://www.youtube.com/embed/1ZYbU82GVz4?autoplay=1&mute=1&loop=1&playlist=1ZYbU82GVz4&controls=0&playsinline=1&rel=0&modestbranding=1&enablejsapi=1"
+        title="Blend showreel"
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[56.25vw] min-h-full w-[177.777777vh] min-w-full -translate-x-1/2 -translate-y-1/2"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      />
+
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/70 via-black/10 to-black/45" />
+
+      <div className="pointer-events-none container-max relative z-10 flex min-h-[100svh] items-center justify-center text-center text-white">
+        <Reveal>
+          <h1 className="bg-gradient-to-r from-green-300 via-[#78d1ff] to-pink-400 bg-clip-text text-[2.35rem] font-bold leading-tight text-transparent sm:text-[3.25rem] lg:text-[4.5rem]">
+            Empowering Connections Globally
+          </h1>
+        </Reveal>
       </div>
 
-      <div className="relative container-max w-full">
-        <div className="relative z-10 flex flex-col items-center gap-10 text-center text-white sm:gap-12">
-          <Reveal className="flex flex-col gap-4">
-            <h1 className="bg-gradient-to-r from-green-300 via-[#78d1ff] to-pink-400 bg-clip-text text-[2.2rem] font-bold leading-tight text-transparent sm:text-[2.8rem] lg:text-[3.2rem]">
-              Empowering Connections Globally
-            </h1>
-            <p className="max-w-3xl text-base leading-7 text-white/80 sm:text-lg lg:max-w-5xl">
-              {heroContent.subtitleLines.map((line) => (
-                <span key={line} className="block">
-                  {line}
-                </span>
-              ))}
-            </p>
-          </Reveal>
-
-          <Reveal delay={0.1} className="flex w-full justify-center">
-            <motion.div
-              className="relative w-full max-w-5xl rounded-[28px] bg-[#0c0c0f]/80 p-3 shadow-[0_25px_60px_rgba(0,0,0,0.4)] ring-1 ring-white/5 sm:rounded-[32px] sm:p-4"
-              whileHover={{ scale: 1.01 }}
-              transition={{ type: "spring", stiffness: 200, damping: 18 }}
-            >
-              <div className="relative overflow-hidden rounded-[24px] bg-black sm:rounded-[30px]">
-              <iframe
-                src="https://www.youtube.com/embed/1ZYbU82GVz4"
-                title="Relaxing music"
-                className="h-[190px] w-full rounded-[24px] sm:h-[280px] sm:rounded-[30px] md:h-[330px] lg:h-[360px]"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-              </div>
-
-            {/* <div className="absolute left-[-42px] top-1/2 hidden -translate-y-1/2 md:flex">
-              <button
-                className="flex h-14 w-14 items-center justify-center rounded-full bg-white text-base shadow-[0_10px_20px_rgba(0,0,0,0.3)] ring-2 ring-white"
-                aria-label="Say Hi"
-              >
-                👋
-              </button>
-            </div> */}
-            </motion.div>
-          </Reveal>
-        </div>
-      </div>
+      <button
+        type="button"
+        aria-label={isPlaying ? "Pause hero video" : "Play hero video"}
+        className={`absolute left-1/2 top-1/2 z-20 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white shadow-[0_12px_34px_rgba(0,0,0,0.35)] ring-1 ring-white/20 backdrop-blur transition-opacity duration-300 ${
+          controlsVisible ? "opacity-100" : "pointer-events-none opacity-0"
+        }`}
+        onClick={togglePlayback}
+        onFocus={showControlsTemporarily}
+      >
+        {isPlaying ? <Pause className="h-7 w-7" fill="currentColor" /> : <Play className="h-7 w-7" fill="currentColor" />}
+      </button>
     </section>
   );
 }
