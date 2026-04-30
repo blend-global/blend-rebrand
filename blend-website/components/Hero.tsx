@@ -21,7 +21,7 @@ const heroHeadlines = [
 ];
 
 export default function Hero() {
-  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const hideControlsTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [controlsVisible, setControlsVisible] = useState(true);
@@ -60,21 +60,15 @@ export default function Hero() {
     return () => window.clearInterval(interval);
   }, []);
 
-  const sendVideoCommand = (command: "playVideo" | "pauseVideo") => {
-    iframeRef.current?.contentWindow?.postMessage(
-      JSON.stringify({
-        event: "command",
-        func: command,
-        args: [],
-      }),
-      "https://www.youtube.com",
-    );
-  };
-
   const togglePlayback = () => {
     const nextPlaying = !isPlaying;
 
-    sendVideoCommand(nextPlaying ? "playVideo" : "pauseVideo");
+    if (nextPlaying) {
+      void videoRef.current?.play();
+    } else {
+      videoRef.current?.pause();
+    }
+
     setIsPlaying(nextPlaying);
     showControlsTemporarily();
   };
@@ -86,13 +80,15 @@ export default function Hero() {
       onPointerMove={showControlsTemporarily}
       onPointerDown={showControlsTemporarily}
     >
-      <iframe
-        ref={iframeRef}
-        src="https://www.youtube.com/embed/1ZYbU82GVz4?autoplay=1&mute=1&loop=1&playlist=1ZYbU82GVz4&controls=0&playsinline=1&rel=0&modestbranding=1&enablejsapi=1"
-        title="Blend showreel"
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[56.25vw] min-h-full w-[177.777777vh] min-w-full -translate-x-1/2 -translate-y-1/2"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
+      <video
+        ref={videoRef}
+        src="https://www.pexels.com/download/video/28886728/"
+        className="absolute inset-0 h-full w-full object-cover"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
       />
 
       <div className="pointer-events-none absolute inset-0 bg-black/50" />
