@@ -11,6 +11,24 @@ import { getLatestCaseStudies } from "@/lib/cms-helpers";
 import type { CaseStudy } from "@/lib/cms-types";
 import { getFirebaseDb } from "@/lib/firebase/client";
 
+const getYouTubeEmbedUrl = (url: string) => {
+  try {
+    const parsedUrl = new URL(url);
+    const videoId =
+      parsedUrl.hostname.includes("youtu.be")
+        ? parsedUrl.pathname.replace("/", "")
+        : parsedUrl.searchParams.get("v") ?? parsedUrl.pathname.split("/").filter(Boolean).pop();
+
+    if (!videoId || (!parsedUrl.hostname.includes("youtube.com") && !parsedUrl.hostname.includes("youtu.be"))) {
+      return null;
+    }
+
+    return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&playsinline=1&rel=0&modestbranding=1`;
+  } catch {
+    return null;
+  }
+};
+
 async function readCaseStudiesFromFirestore(): Promise<CaseStudy[]> {
   const db = getFirebaseDb();
   const workSnapshot = await getDocs(query(collection(db, "caseStudies"), orderBy("order")));
@@ -22,6 +40,8 @@ async function readCaseStudiesFromFirestore(): Promise<CaseStudy[]> {
       title: data.title,
       project: data.project,
       image: data.image,
+      coverVideo: data.coverVideo,
+      logo: data.logo,
       tags: data.tags ?? [],
       summary: data.summary,
       tabs: data.tabs ?? {},
@@ -44,6 +64,7 @@ export default function LatestWork() {
 
   const latestWorkItems = getLatestCaseStudies(caseStudies, 6);
   const activeItem = latestWorkItems[activeIndex] ?? latestWorkItems[0];
+  const activeCoverVideo = activeItem?.coverVideo ? getYouTubeEmbedUrl(activeItem.coverVideo) : null;
   const goToPrevious = () => {
     setActiveIndex((current) => (current - 1 + latestWorkItems.length) % latestWorkItems.length);
   };
@@ -94,20 +115,50 @@ export default function LatestWork() {
                   transition={{ type: "spring", stiffness: 220, damping: 18 }}
                 >
                   <div className="relative aspect-[16/7] min-h-[320px] overflow-hidden rounded-[2rem]">
-                    <iframe
-                      src="https://www.youtube.com/embed/1ZYbU82GVz4?autoplay=1&mute=1&loop=1&playlist=1ZYbU82GVz4&controls=0&playsinline=1&rel=0&modestbranding=1"
-                      title={`${activeItem.title} placeholder video`}
-                      className="pointer-events-none absolute left-1/2 top-1/2 h-[56.25vw] min-h-full w-[177.777777vh] min-w-full -translate-x-1/2 -translate-y-1/2"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
+                    {activeCoverVideo ? (
+                      <iframe
+                        src={activeCoverVideo}
+                        title={`${activeItem.title} cover video`}
+                        className="pointer-events-none absolute left-1/2 top-1/2 h-[56.25vw] min-h-full w-[177.777777vh] min-w-full -translate-x-1/2 -translate-y-1/2"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    ) : activeItem.coverVideo ? (
+                      <video
+                        src={activeItem.coverVideo}
+                        className="absolute inset-0 h-full w-full object-cover"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                      />
+                    ) : (
+                      <Image
+                        src={activeItem.image}
+                        alt={activeItem.title}
+                        fill
+                        className="object-cover"
+                        sizes="(min-width: 1024px) 1100px, 100vw"
+                      />
+                    )}
                     <div className="absolute inset-0 bg-black/45" />
                     <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/35 to-black/60" />
                     <div className="absolute inset-x-0 top-0 flex items-start justify-between gap-6 p-6 sm:p-8">
                       <div>
-                        <div className="text-4xl font-semibold leading-none tracking-[-0.04em] text-white sm:text-5xl">
-                          {activeItem.title}
-                        </div>
+                        {activeItem.logo ? (
+                          <Image
+                            src={activeItem.logo}
+                            alt={`${activeItem.title} logo`}
+                            width={220}
+                            height={80}
+                            className="h-12 w-auto max-w-[220px] object-contain brightness-0 invert sm:h-14"
+                            unoptimized
+                          />
+                        ) : (
+                          <div className="text-4xl font-semibold leading-none tracking-[-0.04em] text-white sm:text-5xl">
+                            {activeItem.title}
+                          </div>
+                        )}
                         <div className="mt-3 max-w-xl text-sm font-semibold uppercase tracking-[0.18em] text-white/58">
                           {activeItem.project}
                         </div>

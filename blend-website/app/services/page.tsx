@@ -321,12 +321,6 @@ const ServicesPage = () => {
             >
               Start a Project
             </Link>
-            <Link
-              href="/work"
-              className="w-full rounded-full border border-primary-foreground/20 px-6 py-3 text-center text-xs font-semibold text-primary-foreground transition-transform hover:scale-[1.03] sm:w-auto sm:text-sm"
-            >
-              View Our Work
-            </Link>
           </div>
         </Reveal>
       </section>

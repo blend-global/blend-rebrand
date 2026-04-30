@@ -63,6 +63,8 @@ export type CaseStudy = {
   title: string;
   project: string;
   image: string;
+  coverVideo?: string;
+  logo?: string;
   tags: string[];
   summary: string;
   tabs: Record<string, CaseStudyTab>;

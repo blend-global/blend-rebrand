@@ -1,8 +1,8 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { X } from "lucide-react";
+import { Maximize2, X } from "lucide-react";
 import { motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
 import { MotionLink } from "@/components/MotionLink";
@@ -12,6 +12,113 @@ import type { CaseStudy } from "@/lib/cms-types";
 
 const tabs = ["Context", "Problem", "Process", "Solution", "Takeaway"] as const;
 type TabKey = (typeof tabs)[number];
+
+const getYouTubeEmbedUrl = (url: string) => {
+  try {
+    const parsedUrl = new URL(url);
+    const videoId =
+      parsedUrl.hostname.includes("youtu.be")
+        ? parsedUrl.pathname.replace("/", "")
+        : parsedUrl.searchParams.get("v") ?? parsedUrl.pathname.split("/").filter(Boolean).pop();
+
+    if (!videoId || (!parsedUrl.hostname.includes("youtube.com") && !parsedUrl.hostname.includes("youtu.be"))) {
+      return null;
+    }
+
+    return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&playsinline=1&rel=0&modestbranding=1`;
+  } catch {
+    return null;
+  }
+};
+
+function CaseStudyDetailMedia({
+  caseStudy,
+  fallbackImage,
+  shouldUseCoverVideo,
+}: {
+  caseStudy: CaseStudy;
+  fallbackImage: string;
+  shouldUseCoverVideo: boolean;
+}) {
+  const youtubeEmbedUrl = caseStudy.coverVideo ? getYouTubeEmbedUrl(caseStudy.coverVideo) : null;
+  const mediaElementRef = useRef<HTMLIFrameElement | HTMLVideoElement | null>(null);
+
+  const requestFullscreen = () => {
+    const element = mediaElementRef.current as (HTMLElement & { webkitRequestFullscreen?: () => void }) | null;
+
+    if (!element) {
+      return;
+    }
+
+    if (element.requestFullscreen) {
+      void element.requestFullscreen();
+      return;
+    }
+
+    element.webkitRequestFullscreen?.();
+  };
+
+  if (shouldUseCoverVideo && youtubeEmbedUrl) {
+    return (
+      <div className="relative">
+        <iframe
+          ref={mediaElementRef}
+          src={youtubeEmbedUrl}
+          title={`${caseStudy.title} cover video`}
+          className="pointer-events-none h-[240px] w-full object-cover sm:h-[280px] md:h-[320px]"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+        <motion.button
+          type="button"
+          aria-label="Watch video fullscreen"
+          onClick={requestFullscreen}
+          className="absolute bottom-4 right-4 flex h-11 w-11 items-center justify-center rounded-full bg-black/55 text-white shadow-[0_14px_34px_rgba(0,0,0,0.35)] ring-1 ring-white/20 backdrop-blur transition-colors hover:bg-black/75"
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <Maximize2 className="h-5 w-5" aria-hidden="true" />
+        </motion.button>
+      </div>
+    );
+  }
+
+  if (shouldUseCoverVideo && caseStudy.coverVideo) {
+    return (
+      <div className="relative">
+        <video
+          ref={mediaElementRef}
+          src={caseStudy.coverVideo}
+          className="h-[240px] w-full object-cover sm:h-[280px] md:h-[320px]"
+          autoPlay
+          muted
+          loop
+          playsInline
+        />
+        <motion.button
+          type="button"
+          aria-label="Watch video fullscreen"
+          onClick={requestFullscreen}
+          className="absolute bottom-4 right-4 flex h-11 w-11 items-center justify-center rounded-full bg-black/55 text-white shadow-[0_14px_34px_rgba(0,0,0,0.35)] ring-1 ring-white/20 backdrop-blur transition-colors hover:bg-black/75"
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <Maximize2 className="h-5 w-5" aria-hidden="true" />
+        </motion.button>
+      </div>
+    );
+  }
+
+  return (
+    <Image
+      src={fallbackImage}
+      alt="Project highlight"
+      width={900}
+      height={620}
+      className="h-[240px] w-full object-cover sm:h-[280px] md:h-[320px]"
+    />
+  );
+}
 
 interface Props {
   params: Promise<{
@@ -41,6 +148,8 @@ export default function WorkDetailPage({ params }: Props) {
 
   const activeSection = caseStudy.tabs[activeTab];
   const images = activeSection.images;
+  const fallbackImage = images[imageIndex] ?? caseStudy.image;
+  const shouldUseCoverVideo = activeTab === "Takeaway";
 
   const handleTabChange = (tab: TabKey) => {
     setActiveTab(tab);
@@ -99,12 +208,10 @@ export default function WorkDetailPage({ params }: Props) {
               whileHover={{ scale: 1.01 }}
               transition={{ type: "spring", stiffness: 200, damping: 18 }}
             >
-              <Image
-                src={images[imageIndex]}
-                alt="Project highlight"
-                width={900}
-                height={620}
-                className="h-[240px] w-full object-cover sm:h-[280px] md:h-[320px]"
+              <CaseStudyDetailMedia
+                caseStudy={caseStudy}
+                fallbackImage={fallbackImage}
+                shouldUseCoverVideo={shouldUseCoverVideo}
               />
             </motion.div>
 

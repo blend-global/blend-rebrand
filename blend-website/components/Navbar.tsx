@@ -95,7 +95,7 @@ export default function Navbar({ isOverlay = false }: NavbarProps) {
   const hideDesktopMenu = () => {
     hideMenuTimeout.current = setTimeout(() => {
       setDesktopMenuVisible(false);
-    }, 240);
+    }, 1800);
   };
 
   const menuTextColor = isOnLightBackground ? "rgba(16, 17, 20, 0.82)" : "rgba(255, 255, 255, 0.82)";

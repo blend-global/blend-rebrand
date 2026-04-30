@@ -43,6 +43,8 @@ const iconBySlug = {
 const fallbackIcon = Sparkles;
 type ServiceKind = "digital" | "experiential";
 
+const formatServiceLabel = (label: string) => label.replaceAll("/", " / ");
+
 export default function Services({ servicesSection }: { servicesSection: ServicesSection }) {
   const servicesContent = servicesSection.servicesContent;
   const serviceDetails = servicesSection.serviceDetails;
@@ -128,6 +130,7 @@ export default function Services({ servicesSection }: { servicesSection: Service
               {filteredServices.map((service) => {
                 const Icon = iconBySlug[service.slug as keyof typeof iconBySlug] ?? fallbackIcon;
                 const isActive = service.slug === activeSlug;
+                const serviceLabel = formatServiceLabel(service.label);
 
                 return (
                   <motion.button
@@ -150,8 +153,8 @@ export default function Services({ servicesSection }: { servicesSection: Service
                       <span className={isActive ? "block text-[10px] font-bold uppercase tracking-[0.22em] text-[#4d5561]" : "block text-[10px] font-bold uppercase tracking-[0.22em] text-white/42"}>
                         {service.category}
                       </span>
-                      <span className="mt-1 block overflow-hidden break-words text-base font-semibold leading-tight tracking-[-0.025em] xl:text-[1.05rem]">
-                        {service.label}
+                      <span className="mt-1 block break-normal text-[0.95rem] font-semibold leading-tight tracking-[-0.025em] [overflow-wrap:normal] [word-break:normal] xl:text-base">
+                        {serviceLabel}
                       </span>
                     </span>
                     <ArrowRight className={`h-4 w-4 transition-transform group-hover:translate-x-1 ${isActive ? "text-[#101114]" : "text-white/42"}`} aria-hidden="true" />
@@ -171,10 +174,10 @@ export default function Services({ servicesSection }: { servicesSection: Service
                     animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                     exit={{ opacity: 0, y: -12, filter: "blur(8px)" }}
                     transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                    className="relative min-h-[520px] overflow-hidden rounded-[1.6rem] bg-[#101114] p-5 sm:p-6"
+                    className="relative overflow-hidden rounded-[1.6rem] bg-[#101114] p-5 sm:p-6"
                   >
                     <div className={`absolute right-[-6rem] top-[-7rem] h-60 w-60 rounded-full bg-gradient-to-br ${activeService.accent} opacity-35 blur-3xl`} />
-                    <div className="relative flex min-h-[472px] flex-col">
+                    <div className="relative flex flex-col">
                       <div className="flex items-start justify-between gap-5">
                         <span className={`flex h-14 w-14 items-center justify-center rounded-[1.2rem] bg-gradient-to-br ${activeService.accent}`}>
                           <ActiveIcon className="h-7 w-7 text-[#07100e]" aria-hidden="true" />
@@ -185,8 +188,8 @@ export default function Services({ servicesSection }: { servicesSection: Service
                       </div>
 
                       <div className="mt-6">
-                        <h3 className="max-w-xl text-3xl font-semibold leading-[1.04] tracking-[-0.04em] sm:text-4xl">
-                          {activeService.label}
+                        <h3 className="max-w-xl break-normal text-3xl font-semibold leading-[1.04] tracking-[-0.04em] [overflow-wrap:normal] [word-break:normal] sm:text-[2.15rem]">
+                          {formatServiceLabel(activeService.label)}
                         </h3>
                         <p className="mt-4 max-w-2xl text-sm leading-6 text-white/68 sm:text-base">
                           {activeDetails?.summary ?? "A focused service built to support standout brand experiences."}

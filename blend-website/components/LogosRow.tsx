@@ -8,28 +8,30 @@ export default function LogosRow() {
   const logoItems = [...logos, ...logos];
 
   return (
-    <section className="flex min-h-[100svh] items-center overflow-hidden bg-white py-20 sm:py-24">
-      <div className="w-full">
+    <section className="relative flex min-h-[100svh] items-center overflow-hidden bg-black py-20 text-white sm:py-24">
+      <div className="absolute inset-0 bg-black" />
+      <div className="absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-[#090b10] to-transparent" />
+      <div className="absolute left-1/2 top-[42%] h-[680px] w-[680px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-green-300 via-[#78d1ff] to-pink-400 opacity-30 blur-[120px]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(120,209,255,0.16),rgba(0,0,0,0.76)_58%,rgba(0,0,0,0.96)_100%)]" />
+
+      <div className="relative z-10 w-full">
         <Reveal className="container-max mx-auto text-center">
-          <h2 className="mb-5 text-sm font-semibold uppercase tracking-[0.42em] text-[#7a7a7a] sm:text-base">
-            We Work With
+          <h2 className="mx-auto mb-16 max-w-5xl text-balance text-4xl font-semibold uppercase leading-[0.98] tracking-[-0.05em] text-white drop-shadow-[0_18px_60px_rgba(0,0,0,0.42)] sm:text-6xl lg:text-7xl">
+            Some of our clients.
           </h2>
-          <p className="mx-auto mb-14 max-w-5xl text-balance text-3xl font-semibold leading-[1.08] tracking-[-0.04em] text-[#101114] sm:text-5xl lg:text-6xl">
-            Trusted by brands that shape culture, commerce, and connection.
-          </p>
         </Reveal>
 
         <Reveal>
-          <div className="w-screen overflow-hidden bg-white px-0 py-10 shadow-[0_28px_90px_rgba(16,17,23,0.12)] ring-1 ring-black/5 sm:py-14">
+          <div className="w-screen overflow-hidden border-y border-white/10 bg-white/[0.08] px-0 py-10 shadow-[0_28px_90px_rgba(0,0,0,0.38)] backdrop-blur-xl sm:py-14">
             <div className="marquee-track flex w-max items-center gap-14 sm:gap-20">
               {logoItems.map((logo, index) => (
-                <div key={`${logo.src}-${index}`} className="flex items-center">
+                <div key={`${logo.src}-${index}`} className="flex min-w-36 items-center justify-center rounded-3xl bg-white px-8 py-5 shadow-[0_18px_50px_rgba(0,0,0,0.22)] ring-1 ring-white/25">
                   <Image
                     src={logo.src}
                     alt={logo.alt}
                     width={240}
                     height={80}
-                    className="h-14 w-auto object-contain opacity-95 transition duration-300 hover:scale-105 hover:opacity-100 sm:h-16 md:h-20"
+                    className="h-12 w-auto object-contain opacity-95 transition duration-300 hover:scale-105 hover:opacity-100 sm:h-14 md:h-16"
                     sizes="(min-width: 768px) 240px, 180px"
                   />
                 </div>

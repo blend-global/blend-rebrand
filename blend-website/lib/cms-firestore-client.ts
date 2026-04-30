@@ -197,6 +197,8 @@ async function readWorkSection(): Promise<CaseStudy[]> {
       title: data.title,
       project: data.project,
       image: data.image,
+      coverVideo: data.coverVideo,
+      logo: data.logo,
       tags: data.tags ?? [],
       summary: data.summary,
       tabs: data.tabs ?? {},

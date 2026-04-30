@@ -30,7 +30,7 @@ export default async function Home() {
           <LatestWork />
         </div>
       </div>
-      <div className="flex min-h-[100svh] items-center bg-[#0d0f15]">
+      <div className="bg-[#0d0f15]">
         <div className="w-full">
           <Testimonials />
         </div>

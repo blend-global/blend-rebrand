@@ -26,6 +26,80 @@ const tagToFilter: Record<string, string> = {
   "Email Marketing": "Digital",
 };
 
+const getYouTubeEmbedUrl = (url: string) => {
+  try {
+    const parsedUrl = new URL(url);
+    const videoId =
+      parsedUrl.hostname.includes("youtu.be")
+        ? parsedUrl.pathname.replace("/", "")
+        : parsedUrl.searchParams.get("v") ?? parsedUrl.pathname.split("/").filter(Boolean).pop();
+
+    if (!videoId || (!parsedUrl.hostname.includes("youtube.com") && !parsedUrl.hostname.includes("youtu.be"))) {
+      return null;
+    }
+
+    return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&playsinline=1&rel=0&modestbranding=1`;
+  } catch {
+    return null;
+  }
+};
+
+function CaseStudyCover({ item }: { item: CaseStudy }) {
+  const youtubeEmbedUrl = item.coverVideo ? getYouTubeEmbedUrl(item.coverVideo) : null;
+
+  if (youtubeEmbedUrl) {
+    return (
+      <iframe
+        src={youtubeEmbedUrl}
+        title={`${item.title} cover video`}
+        className="pointer-events-none h-[220px] w-full rounded-[24px] sm:h-[260px] lg:h-[320px]"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      />
+    );
+  }
+
+  if (item.coverVideo) {
+    return (
+      <video
+        src={item.coverVideo}
+        className="h-[220px] w-full rounded-[24px] object-cover sm:h-[260px] lg:h-[320px]"
+        autoPlay
+        muted
+        loop
+        playsInline
+      />
+    );
+  }
+
+  return (
+    <Image
+      src={item.image}
+      alt={item.title}
+      width={1200}
+      height={800}
+      className="h-[220px] w-full rounded-[24px] object-cover sm:h-[260px] lg:h-[320px]"
+    />
+  );
+}
+
+function CaseStudyLogo({ item }: { item: CaseStudy }) {
+  if (!item.logo) {
+    return <div className="text-xl font-semibold sm:text-2xl">{item.title}</div>;
+  }
+
+  return (
+    <Image
+      src={item.logo}
+      alt={`${item.title} logo`}
+      width={180}
+      height={64}
+      className="h-8 w-auto max-w-[180px] object-contain brightness-0 invert sm:h-10"
+      unoptimized
+    />
+  );
+}
+
 async function readCaseStudiesFromFirestore(): Promise<CaseStudy[]> {
   const db = getFirebaseDb();
   const workSnapshot = await getDocs(query(collection(db, "caseStudies"), orderBy("order")));
@@ -37,6 +111,8 @@ async function readCaseStudiesFromFirestore(): Promise<CaseStudy[]> {
       title: data.title,
       project: data.project,
       image: data.image,
+      coverVideo: data.coverVideo,
+      logo: data.logo,
       tags: data.tags ?? [],
       summary: data.summary,
       tabs: data.tabs ?? {},
@@ -159,16 +235,10 @@ export default function WorkPage() {
                   whileHover={{ y: -6, scale: 1.01 }}
                   transition={{ type: "spring", stiffness: 220, damping: 18 }}
                 >
-                  <Image
-                    src={item.image}
-                    alt={item.title}
-                    width={1200}
-                    height={800}
-                    className="h-[220px] w-full rounded-[24px] object-cover sm:h-[260px] lg:h-[320px]"
-                  />
+                  <CaseStudyCover item={item} />
                   <div className="absolute inset-0 rounded-[24px] bg-gradient-to-b from-black/15 via-black/20 to-black/55" />
                   <div className="absolute left-0 right-0 top-0 flex flex-col gap-1 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
-                    <div className="text-xl font-semibold sm:text-2xl">{item.title}</div>
+                    <CaseStudyLogo item={item} />
                     <div className="text-xs font-semibold text-white/85 sm:text-sm">{item.project}</div>
                   </div>
                   <div className="absolute bottom-3 left-0 right-0 flex flex-wrap gap-2 px-4">
