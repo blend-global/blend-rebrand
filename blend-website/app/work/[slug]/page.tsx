@@ -41,10 +41,10 @@ function CaseStudyDetailMedia({
   shouldUseCoverVideo: boolean;
 }) {
   const youtubeEmbedUrl = caseStudy.coverVideo ? getYouTubeEmbedUrl(caseStudy.coverVideo) : null;
-  const mediaElementRef = useRef<HTMLIFrameElement | HTMLVideoElement | null>(null);
+  const mediaWrapperRef = useRef<HTMLDivElement | null>(null);
 
   const requestFullscreen = () => {
-    const element = mediaElementRef.current as (HTMLElement & { webkitRequestFullscreen?: () => void }) | null;
+    const element = mediaWrapperRef.current as (HTMLDivElement & { webkitRequestFullscreen?: () => void }) | null;
 
     if (!element) {
       return;
@@ -60,9 +60,8 @@ function CaseStudyDetailMedia({
 
   if (shouldUseCoverVideo && youtubeEmbedUrl) {
     return (
-      <div className="relative">
+      <div ref={mediaWrapperRef} className="relative bg-black">
         <iframe
-          ref={mediaElementRef}
           src={youtubeEmbedUrl}
           title={`${caseStudy.title} cover video`}
           className="pointer-events-none h-[240px] w-full object-cover sm:h-[280px] md:h-[320px]"
@@ -85,9 +84,8 @@ function CaseStudyDetailMedia({
 
   if (shouldUseCoverVideo && caseStudy.coverVideo) {
     return (
-      <div className="relative">
+      <div ref={mediaWrapperRef} className="relative bg-black">
         <video
-          ref={mediaElementRef}
           src={caseStudy.coverVideo}
           className="h-[240px] w-full object-cover sm:h-[280px] md:h-[320px]"
           autoPlay
