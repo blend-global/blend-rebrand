@@ -105,7 +105,7 @@ export default function Navbar({ isOverlay = false }: NavbarProps) {
 
   return (
     <header ref={headerRef} className={`${isOverlay ? "fixed left-0" : "sticky"} top-3 z-50 w-full sm:top-6`}>
-      <div className="container-max">
+      <div className="nav-container">
         <div className="mt-4 sm:mt-6">
           <div className="flex items-center justify-between gap-5">
             <MotionLink

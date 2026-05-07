@@ -18,6 +18,7 @@ import {
   WandSparkles,
 } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
+import { MotionLink } from "@/components/MotionLink";
 import Reveal from "@/components/Reveal";
 import type { ServicesContent as ServicesSection } from "@/lib/cms-types";
 
@@ -68,9 +69,6 @@ export default function Services({ servicesSection }: { servicesSection: Service
   const activeService = filteredServices.find((service) => service.slug === activeSlug) ?? filteredServices[0] ?? services[0];
   const activeDetails = activeService ? serviceDetails[activeService.slug] : null;
   const ActiveIcon = activeService ? iconBySlug[activeService.slug as keyof typeof iconBySlug] ?? fallbackIcon : fallbackIcon;
-  const activeHighlights = activeDetails
-    ? (activeDetails.highlights.length ? activeDetails.highlights : activeDetails.deliverables).slice(0, 4)
-    : [];
   const serviceFilters: Array<{ kind: ServiceKind; label: string }> = [
     { kind: "digital", label: servicesContent.digitalLabel },
     { kind: "experiential", label: servicesContent.experientialLabel },
@@ -102,6 +100,10 @@ export default function Services({ servicesSection }: { servicesSection: Service
             <div className="mt-8 flex flex-wrap gap-3">
               {serviceFilters.map((filter) => {
                 const isActive = activeKind === filter.kind;
+                const activeFilterClass =
+                  filter.kind === "digital"
+                    ? "border-transparent bg-gradient-to-r from-[#6bd688] to-[#22d3ee] text-[#07100e] shadow-[0_14px_34px_rgba(34,211,238,0.24)]"
+                    : "border-transparent bg-gradient-to-r from-[#f36fb4] to-[#78d1ff] text-[#07100e] shadow-[0_14px_34px_rgba(243,111,180,0.24)]";
 
                 return (
                   <motion.button
@@ -110,7 +112,7 @@ export default function Services({ servicesSection }: { servicesSection: Service
                     onClick={() => selectServiceKind(filter.kind)}
                     className={`rounded-full border px-5 py-2.5 text-sm font-semibold transition-colors ${
                       isActive
-                        ? "border-white bg-white text-[#08090d]"
+                        ? activeFilterClass
                         : "border-white/15 bg-white/[0.04] text-white/70 hover:border-white/30 hover:text-white"
                     }`}
                     whileHover={{ y: -2 }}
@@ -133,10 +135,9 @@ export default function Services({ servicesSection }: { servicesSection: Service
                 const serviceLabel = formatServiceLabel(service.label);
 
                 return (
-                  <motion.button
+                  <motion.div
                     key={service.slug}
-                    type="button"
-                    onClick={() => setActiveSlug(service.slug)}
+                    onMouseEnter={() => setActiveSlug(service.slug)}
                     className={`group grid min-h-24 grid-cols-[3rem_minmax(0,1fr)_1rem] items-center gap-4 rounded-[1.4rem] border p-4 text-left transition-colors ${
                       isActive
                         ? "border-white/30 bg-white text-[#08090d] shadow-[0_22px_60px_rgba(255,255,255,0.14)]"
@@ -146,19 +147,29 @@ export default function Services({ servicesSection }: { servicesSection: Service
                     whileTap={{ scale: 0.98 }}
                     transition={{ type: "spring", stiffness: 260, damping: 20 }}
                   >
-                    <span className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${service.accent}`}>
-                      <Icon className="h-6 w-6 text-[#07100e]" aria-hidden="true" />
-                    </span>
-                    <span className="min-w-0">
-                      <span className={isActive ? "block text-[10px] font-bold uppercase tracking-[0.22em] text-[#4d5561]" : "block text-[10px] font-bold uppercase tracking-[0.22em] text-white/42"}>
-                        {service.category}
+                    <button
+                      type="button"
+                      onClick={() => setActiveSlug(service.slug)}
+                      onFocus={() => setActiveSlug(service.slug)}
+                      className="col-span-2 grid min-w-0 grid-cols-[3rem_minmax(0,1fr)] items-center gap-4 text-left"
+                    >
+                      <span className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${service.accent}`}>
+                        <Icon className="h-6 w-6 text-[#07100e]" aria-hidden="true" />
                       </span>
-                      <span className="mt-1 block break-normal text-[0.95rem] font-semibold leading-tight tracking-[-0.025em] [overflow-wrap:normal] [word-break:normal] xl:text-base">
+                      <span className={`block min-w-0 break-normal text-[0.95rem] font-semibold leading-tight tracking-[-0.025em] [overflow-wrap:normal] [word-break:normal] xl:text-base ${isActive ? "text-[#08090d]" : "text-white"}`}>
                         {serviceLabel}
                       </span>
-                    </span>
-                    <ArrowRight className={`h-4 w-4 transition-transform group-hover:translate-x-1 ${isActive ? "text-[#101114]" : "text-white/42"}`} aria-hidden="true" />
-                  </motion.button>
+                    </button>
+                    <MotionLink
+                      href={`/services/${service.slug}`}
+                      aria-label={`View ${serviceLabel} details`}
+                      className={`flex h-9 w-9 -translate-x-2 items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-white/40 ${isActive ? "text-[#101114]" : "text-white/42 hover:text-white"}`}
+                      whileHover={{ x: 1, scale: 1.18 }}
+                      whileTap={{ scale: 0.94 }}
+                    >
+                      <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                    </MotionLink>
+                  </motion.div>
                 );
               })}
             </div>
@@ -187,6 +198,10 @@ export default function Services({ servicesSection }: { servicesSection: Service
                         </span>
                       </div>
 
+                      <div className="mt-6 aspect-video overflow-hidden rounded-[1.35rem] border border-white/10 bg-black/30">
+                        <div className={`h-full w-full bg-gradient-to-br ${activeService.accent} opacity-35`} />
+                      </div>
+
                       <div className="mt-6">
                         <h3 className="max-w-xl break-normal text-3xl font-semibold leading-[1.04] tracking-[-0.04em] [overflow-wrap:normal] [word-break:normal] sm:text-[2.15rem]">
                           {formatServiceLabel(activeService.label)}
@@ -195,16 +210,6 @@ export default function Services({ servicesSection }: { servicesSection: Service
                           {activeDetails?.summary ?? "A focused service built to support standout brand experiences."}
                         </p>
                       </div>
-
-                      {activeHighlights.length ? (
-                        <div className="mt-7 grid gap-2">
-                          {activeHighlights.slice(0, 4).map((highlight) => (
-                            <div key={highlight} className="rounded-2xl border border-white/10 bg-white/[0.045] p-3 text-xs leading-5 text-white/72">
-                              {highlight}
-                            </div>
-                          ))}
-                        </div>
-                      ) : null}
 
                     </div>
                   </motion.div>

@@ -100,7 +100,6 @@ export default function LatestWork() {
             whileTap={{ scale: 0.98 }}
           >
             <span>View Case Studies</span>
-            <span className="text-lg">⚡</span>
           </MotionLink>
         </Reveal>
 

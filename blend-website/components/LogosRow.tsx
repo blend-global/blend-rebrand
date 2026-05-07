@@ -22,7 +22,7 @@ export default function LogosRow() {
         </Reveal>
 
         <Reveal>
-          <div className="w-screen overflow-hidden border-y border-white/10 bg-white/[0.08] px-0 py-10 shadow-[0_28px_90px_rgba(0,0,0,0.38)] backdrop-blur-xl sm:py-14">
+          <div className="w-screen overflow-hidden px-0 py-10 sm:py-14">
             <div className="marquee-track flex w-max items-center gap-14 sm:gap-20">
               {logoItems.map((logo, index) => (
                 <div key={`${logo.src}-${index}`} className="flex min-w-36 items-center justify-center rounded-3xl bg-white px-8 py-5 shadow-[0_18px_50px_rgba(0,0,0,0.22)] ring-1 ring-white/25">
