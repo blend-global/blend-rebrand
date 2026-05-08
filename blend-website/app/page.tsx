@@ -20,7 +20,7 @@ export default async function Home() {
           <LogosRow />
         </div>
       </div>
-      <div className="flex min-h-[100svh] items-center bg-white">
+      <div className="flex min-h-[100svh] items-center bg-[#0d0f15]">
         <div className="w-full">
           <Services servicesSection={servicesSection} />
         </div>

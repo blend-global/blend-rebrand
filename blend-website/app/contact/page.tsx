@@ -13,19 +13,21 @@ const ContactPage = () => {
   ];
 
   return (
-    <main className="min-h-screen bg-white text-black">
+    <main className="min-h-screen bg-[#0d0f15] text-white">
       <Navbar isOverlay={true} />
 
-      <section className="relative overflow-hidden pt-32 sm:pt-40 md:pt-44">
-        <div className="container-max pb-16 sm:pb-20">
-          <div className="grid gap-10 sm:gap-12 lg:grid-cols-[1fr,1.2fr]">
+      <section className="relative flex min-h-[100svh] items-center overflow-hidden pt-32 sm:pt-40 md:pt-44">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_34%_48%,rgba(120,209,255,0.18),transparent_34%),radial-gradient(circle_at_70%_45%,rgba(243,111,180,0.14),transparent_30%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-black/25" />
+        <div className="container-max relative z-10 pb-16 sm:pb-20">
+          <div className="flex flex-col gap-10 sm:gap-12">
             <Reveal className="flex flex-col justify-start gap-8">
               <div>
                 <h1 className="text-3xl font-semibold sm:text-4xl md:text-5xl">
                   <span className="text-[#3aa6b4]">Let&apos;s </span>
                   <span className="text-[#f26aa8]">Talk</span>
                 </h1>
-                <p className="mt-4 max-w-md text-sm text-[#33363f] sm:text-base">
+                <p className="mt-4 max-w-md text-sm text-white/70 sm:text-base">
                   Have some big idea or brand to develop and need help? Then reach out we&apos;d love to hear about your
                   project and provide help
                 </p>
@@ -33,12 +35,12 @@ const ContactPage = () => {
 
               <div>
                 <h2 className="text-xl font-semibold sm:text-2xl">Email</h2>
-                <p className="mt-2 text-sm text-[#33363f]">info@blend.global</p>
+                <p className="mt-2 text-sm text-white/70">info@blend.global</p>
               </div>
 
               <div>
                 <h2 className="text-xl font-semibold sm:text-2xl">Contact Number</h2>
-                <p className="mt-2 text-sm text-[#33363f]">+27 21 448 8282</p>
+                <p className="mt-2 text-sm text-white/70">+27 21 448 8282</p>
               </div>
 
               <div>
@@ -51,7 +53,7 @@ const ContactPage = () => {
                       target="_blank"
                       rel="noreferrer"
                       aria-label={item.label}
-                      className="flex h-9 w-9 items-center justify-center rounded-full bg-black sm:h-10 sm:w-10"
+                      className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-white ring-1 ring-white/20 sm:h-10 sm:w-10"
                       whileHover={{ scale: 1.08 }}
                       whileTap={{ scale: 0.96 }}
                     >
@@ -62,43 +64,43 @@ const ContactPage = () => {
               </div>
             </Reveal>
 
-            <Reveal delay={0.05} className="rounded-[12px] bg-white">
+            <Reveal delay={0.05} className="w-full">
               <form className="grid gap-5">
-                <label className="grid gap-2 text-sm font-medium text-[#33363f]">
+                <label className="grid gap-2 text-sm font-medium text-white/80">
                   Company Name
                   <input
                     type="text"
                     name="company"
-                    className="h-12 rounded-md border border-transparent bg-[#f2f2f2] px-4 text-sm text-black outline-none focus:border-[#3aa6b4]"
+                    className="h-12 rounded-md border border-white/10 bg-white/10 px-4 text-sm text-white outline-none transition focus:border-[#3aa6b4] focus:bg-white/14"
                   />
                 </label>
 
                 <div className="grid gap-5 md:grid-cols-2">
-                  <label className="grid gap-2 text-sm font-medium text-[#33363f]">
+                  <label className="grid gap-2 text-sm font-medium text-white/80">
                     Email Address
                     <input
                       type="email"
                       name="email"
-                      className="h-12 rounded-md border border-transparent bg-[#f2f2f2] px-4 text-sm text-black outline-none focus:border-[#3aa6b4]"
+                      className="h-12 rounded-md border border-white/10 bg-white/10 px-4 text-sm text-white outline-none transition focus:border-[#3aa6b4] focus:bg-white/14"
                     />
                   </label>
-                  <label className="grid gap-2 text-sm font-medium text-[#33363f]">
+                  <label className="grid gap-2 text-sm font-medium text-white/80">
                     <span className="flex items-center gap-2">
-                      Contact Number <span className="text-xs text-[#8a8f99]">(Optional)</span>
+                      Contact Number <span className="text-xs text-white/45">(Optional)</span>
                     </span>
                     <input
                       type="tel"
                       name="contactNumber"
-                      className="h-12 rounded-md border border-transparent bg-[#f2f2f2] px-4 text-sm text-black outline-none focus:border-[#3aa6b4]"
+                      className="h-12 rounded-md border border-white/10 bg-white/10 px-4 text-sm text-white outline-none transition focus:border-[#3aa6b4] focus:bg-white/14"
                     />
                   </label>
                 </div>
 
-                <label className="grid gap-2 text-sm font-medium text-[#33363f]">
+                <label className="grid gap-2 text-sm font-medium text-white/80">
                   Location
                   <select
                     name="location"
-                    className="h-12 rounded-md border border-transparent bg-[#f2f2f2] px-4 text-sm text-[#8a8f99] outline-none focus:border-[#3aa6b4]"
+                    className="h-12 rounded-md border border-white/10 bg-white/10 px-4 text-sm text-white/60 outline-none transition focus:border-[#3aa6b4] focus:bg-white/14"
                     defaultValue=""
                   >
                     <option value="" disabled>
@@ -110,11 +112,11 @@ const ContactPage = () => {
                   </select>
                 </label>
 
-                <label className="grid gap-2 text-sm font-medium text-[#33363f]">
+                <label className="grid gap-2 text-sm font-medium text-white/80">
                   What service are you interested in?
                   <select
                     name="service"
-                    className="h-12 rounded-md border border-transparent bg-[#f2f2f2] px-4 text-sm text-[#8a8f99] outline-none focus:border-[#3aa6b4]"
+                    className="h-12 rounded-md border border-white/10 bg-white/10 px-4 text-sm text-white/60 outline-none transition focus:border-[#3aa6b4] focus:bg-white/14"
                     defaultValue=""
                   >
                     <option value="" disabled>
@@ -126,11 +128,11 @@ const ContactPage = () => {
                   </select>
                 </label>
 
-                <label className="grid gap-2 text-sm font-medium text-[#33363f]">
+                <label className="grid gap-2 text-sm font-medium text-white/80">
                   Budget
                   <select
                     name="budget"
-                    className="h-12 rounded-md border border-transparent bg-[#f2f2f2] px-4 text-sm text-[#8a8f99] outline-none focus:border-[#3aa6b4]"
+                    className="h-12 rounded-md border border-white/10 bg-white/10 px-4 text-sm text-white/60 outline-none transition focus:border-[#3aa6b4] focus:bg-white/14"
                     defaultValue=""
                   >
                     <option value="" disabled>
@@ -142,18 +144,18 @@ const ContactPage = () => {
                   </select>
                 </label>
 
-                <label className="grid gap-2 text-sm font-medium text-[#33363f]">
+                <label className="grid gap-2 text-sm font-medium text-white/80">
                   Message
                   <textarea
                     name="message"
                     rows={5}
-                    className="rounded-md border border-transparent bg-[#f2f2f2] px-4 py-3 text-sm text-black outline-none focus:border-[#3aa6b4]"
+                    className="rounded-md border border-white/10 bg-white/10 px-4 py-3 text-sm text-white outline-none transition focus:border-[#3aa6b4] focus:bg-white/14"
                   />
                 </label>
 
                 <motion.button
                   type="submit"
-                  className="mt-2 flex h-12 w-full items-center justify-center rounded-md bg-black text-sm font-semibold text-white shadow-[0_14px_30px_rgba(0,0,0,0.25)]"
+                  className="mt-2 flex h-12 w-full items-center justify-center rounded-md bg-white text-sm font-semibold text-[#101114] shadow-[0_14px_30px_rgba(0,0,0,0.25)]"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.97 }}
                 >

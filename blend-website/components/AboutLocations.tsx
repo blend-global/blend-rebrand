@@ -56,8 +56,10 @@ export default function AboutLocations() {
   );
 
   return (
-    <section id="about" className="overflow-hidden bg-white py-12 sm:py-16">
-      <div className="container-max flex flex-col items-center gap-8 md:flex-row md:items-center md:justify-between md:gap-10">
+    <section id="about" className="relative flex min-h-[100svh] items-center overflow-hidden bg-[#0d0f15] py-12 text-white sm:py-16">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_34%_48%,rgba(120,209,255,0.18),transparent_34%),radial-gradient(circle_at_70%_45%,rgba(243,111,180,0.14),transparent_30%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-black/25" />
+      <div className="container-max relative z-10 flex flex-col items-center gap-8 md:flex-row md:items-center md:justify-between md:gap-10">
         <Reveal className="relative flex h-full w-full justify-center md:w-1/2">
           <div className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center">
             <Image
@@ -103,21 +105,21 @@ export default function AboutLocations() {
           </div>
         </Reveal>
 
-        <Reveal delay={0.05} className="flex w-full flex-col gap-5 text-[#1a1a1a] md:w-1/2">
-          <h2 className="text-balance text-4xl font-bold leading-[0.98] tracking-[-0.05em] text-[#101114] sm:text-5xl lg:text-6xl">
+        <Reveal delay={0.05} className="flex w-full flex-col gap-5 text-white md:w-1/2">
+          <h2 className="text-balance text-4xl font-bold leading-[0.98] tracking-[-0.05em] text-white sm:text-5xl lg:text-6xl">
             {current.title}
             <br />
             <span className="bg-gradient-to-r from-[#6bd688] via-[#78d1ff] to-[#f36fb4] bg-clip-text text-transparent">
               {current.subtitle}
             </span>
           </h2>
-          <p className="max-w-xl text-sm leading-relaxed text-[#3c3f46] sm:text-base">{current.description}</p>
+          <p className="max-w-xl text-sm leading-relaxed text-white/70 sm:text-base">{current.description}</p>
 
           <div className="mt-0 flex items-center gap-3 sm:gap-4">
             <motion.button
               onClick={handlePrev}
               aria-label="Previous about slide"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-white bg-[#0f0f12] text-white shadow-[0_10px_24px_rgba(0,0,0,0.25)] ring-1 ring-white/30 sm:h-12 sm:w-12"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-[#101114] shadow-[0_10px_24px_rgba(0,0,0,0.25)] ring-1 ring-white/30 sm:h-12 sm:w-12"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -126,7 +128,7 @@ export default function AboutLocations() {
             <motion.button
               onClick={handleNext}
               aria-label="Next about slide"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-white bg-[#0f0f12] text-white shadow-[0_10px_24px_rgba(0,0,0,0.25)] ring-1 ring-white/30 sm:h-12 sm:w-12"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-[#101114] shadow-[0_10px_24px_rgba(0,0,0,0.25)] ring-1 ring-white/30 sm:h-12 sm:w-12"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
