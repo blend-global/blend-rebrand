@@ -1,7 +1,6 @@
 "use client";
 
-import { Pause, Play } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
 
@@ -21,36 +20,8 @@ const heroHeadlines = [
 ];
 
 export default function Hero() {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const hideControlsTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [controlsVisible, setControlsVisible] = useState(true);
   const [headlineIndex, setHeadlineIndex] = useState(0);
   const activeHeadline = heroHeadlines[headlineIndex];
-
-  const showControlsTemporarily = () => {
-    setControlsVisible(true);
-
-    if (hideControlsTimeout.current) {
-      clearTimeout(hideControlsTimeout.current);
-    }
-
-    hideControlsTimeout.current = setTimeout(() => {
-      setControlsVisible(false);
-    }, 1800);
-  };
-
-  useEffect(() => {
-    hideControlsTimeout.current = setTimeout(() => {
-      setControlsVisible(false);
-    }, 1800);
-
-    return () => {
-      if (hideControlsTimeout.current) {
-        clearTimeout(hideControlsTimeout.current);
-      }
-    };
-  }, []);
 
   useEffect(() => {
     const interval = window.setInterval(() => {
@@ -60,28 +31,9 @@ export default function Hero() {
     return () => window.clearInterval(interval);
   }, []);
 
-  const togglePlayback = () => {
-    const nextPlaying = !isPlaying;
-
-    if (nextPlaying) {
-      void videoRef.current?.play();
-    } else {
-      videoRef.current?.pause();
-    }
-
-    setIsPlaying(nextPlaying);
-    showControlsTemporarily();
-  };
-
   return (
-    <section
-      id="home"
-      className="relative min-h-[100svh] overflow-hidden bg-black"
-      onPointerMove={showControlsTemporarily}
-      onPointerDown={showControlsTemporarily}
-    >
+    <section id="home" className="relative min-h-[100svh] overflow-hidden bg-black">
       <video
-        ref={videoRef}
         src="https://www.pexels.com/download/video/28886728/"
         className="absolute inset-0 h-full w-full object-cover"
         autoPlay
@@ -113,18 +65,6 @@ export default function Hero() {
           </AnimatePresence>
         </Reveal>
       </div>
-
-      <button
-        type="button"
-        aria-label={isPlaying ? "Pause hero video" : "Play hero video"}
-        className={`absolute left-1/2 top-1/2 z-20 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white shadow-[0_12px_34px_rgba(0,0,0,0.35)] ring-1 ring-white/20 backdrop-blur transition-opacity duration-300 ${
-          controlsVisible ? "opacity-100" : "pointer-events-none opacity-0"
-        }`}
-        onClick={togglePlayback}
-        onFocus={showControlsTemporarily}
-      >
-        {isPlaying ? <Pause className="h-7 w-7" fill="currentColor" /> : <Play className="h-7 w-7" fill="currentColor" />}
-      </button>
     </section>
   );
 }

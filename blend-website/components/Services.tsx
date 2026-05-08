@@ -69,6 +69,16 @@ export default function Services({ servicesSection }: { servicesSection: Service
   const activeService = filteredServices.find((service) => service.slug === activeSlug) ?? filteredServices[0] ?? services[0];
   const activeDetails = activeService ? serviceDetails[activeService.slug] : null;
   const ActiveIcon = activeService ? iconBySlug[activeService.slug as keyof typeof iconBySlug] ?? fallbackIcon : fallbackIcon;
+  const ambientColors =
+    activeService?.kind === "experiential"
+      ? {
+          primary: "rgba(243, 111, 180, 0.26)",
+          secondary: "rgba(120, 209, 255, 0.2)",
+        }
+      : {
+          primary: "rgba(107, 214, 136, 0.24)",
+          secondary: "rgba(34, 211, 238, 0.22)",
+        };
   const serviceFilters: Array<{ kind: ServiceKind; label: string }> = [
     { kind: "digital", label: servicesContent.digitalLabel },
     { kind: "experiential", label: servicesContent.experientialLabel },
@@ -81,23 +91,31 @@ export default function Services({ servicesSection }: { servicesSection: Service
 
   return (
     <section id="services" className="relative overflow-hidden bg-[#050608] py-20 text-white sm:py-24">
-      <div className="absolute left-[-10rem] top-[-8rem] h-96 w-96 rounded-full bg-[#22d3ee]/20 blur-3xl" />
-      <div className="absolute bottom-[-8rem] right-[-8rem] h-96 w-96 rounded-full bg-[#f36fb4]/20 blur-3xl" />
+      <motion.div
+        className="absolute left-[-10rem] top-[-8rem] h-96 w-96 rounded-full blur-3xl"
+        animate={{ backgroundColor: ambientColors.secondary }}
+        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+      />
+      <motion.div
+        className="absolute bottom-[-8rem] right-[-8rem] h-96 w-96 rounded-full blur-3xl"
+        animate={{ backgroundColor: ambientColors.primary }}
+        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+      />
 
       <div className="container-max relative">
-        <div className="max-w-4xl">
-          <Reveal className="max-w-4xl">
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-white/70">
-              <span className="h-2 w-2 rounded-full bg-gradient-to-r from-[#6bd688] to-[#f36fb4]" />
-              Services
-            </div>
-            <h2 className="text-balance text-4xl font-semibold leading-[1.05] tracking-[-0.045em] sm:text-5xl lg:text-6xl">
-              Services that move from screen to stage.
+        <div className="mx-auto max-w-5xl text-center">
+          <Reveal className="mx-auto max-w-5xl">
+            <h2 className="text-balance text-4xl font-bold leading-[0.98] tracking-[-0.05em] text-white drop-shadow-[0_18px_60px_rgba(0,0,0,0.42)] sm:text-5xl lg:text-6xl">
+              Services that move
+              <br />
+              <span className="bg-gradient-to-r from-[#6bd688] via-[#78d1ff] to-[#f36fb4] bg-clip-text text-transparent">
+                screen to stage
+              </span>
             </h2>
-            <p className="mt-6 max-w-2xl text-base leading-7 text-white/64 sm:text-lg">
+            <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-white/64 sm:text-lg">
               Pick a capability to preview how Blend supports the work, then open the full service when you need the details.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
               {serviceFilters.map((filter) => {
                 const isActive = activeKind === filter.kind;
                 const activeFilterClass =

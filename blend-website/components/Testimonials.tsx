@@ -26,9 +26,13 @@ export default function Testimonials() {
 
       <div className="container-max relative z-10">
         <Reveal className="mx-auto max-w-5xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.42em] text-white/60">
-            What people are saying
-          </p>
+          <h2 className="text-balance text-4xl font-bold leading-[0.98] tracking-[-0.05em] text-white drop-shadow-[0_18px_60px_rgba(0,0,0,0.42)] sm:text-5xl lg:text-6xl">
+            What People Are
+            <br />
+            <span className="bg-gradient-to-r from-[#6bd688] via-[#78d1ff] to-[#f36fb4] bg-clip-text text-transparent">
+              Saying
+            </span>
+          </h2>
         </Reveal>
 
         <div className="mx-auto mt-12 max-w-6xl text-center">

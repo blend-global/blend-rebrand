@@ -16,8 +16,12 @@ export default function LogosRow() {
 
       <div className="relative z-10 w-full">
         <Reveal className="container-max mx-auto text-center">
-          <h2 className="mx-auto mb-16 max-w-5xl text-balance text-4xl font-semibold uppercase leading-[0.98] tracking-[-0.05em] text-white drop-shadow-[0_18px_60px_rgba(0,0,0,0.42)] sm:text-6xl lg:text-7xl">
-            Some of our clients.
+          <h2 className="mx-auto mb-16 max-w-5xl text-balance text-4xl font-bold leading-[0.98] tracking-[-0.05em] text-white drop-shadow-[0_18px_60px_rgba(0,0,0,0.42)] sm:text-5xl lg:text-6xl">
+            Some of our
+            <br />
+            <span className="bg-gradient-to-r from-[#6bd688] via-[#78d1ff] to-[#f36fb4] bg-clip-text text-transparent">
+              clients
+            </span>
           </h2>
         </Reveal>
 

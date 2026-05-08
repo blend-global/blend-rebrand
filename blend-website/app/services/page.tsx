@@ -39,6 +39,8 @@ type ServiceCard = {
   description: string;
   features: string[];
   icon: typeof Video;
+  category: string;
+  accent: string;
 };
 
 const fallbackIcon = Sparkles;
@@ -54,6 +56,8 @@ const buildServiceCards = (
   services: Array<{ label: string; slug: string }>,
   serviceDetails: Record<string, { summary: string; highlights: string[]; deliverables: string[]; outcomes: string[] }>,
   iconMap: Record<string, typeof Video>,
+  category: string,
+  accent: string,
 ): ServiceCard[] =>
   services.map((service) => {
     const details = serviceDetails[service.slug];
@@ -64,6 +68,8 @@ const buildServiceCards = (
       description: details?.summary ?? "",
       features: (details?.highlights?.length ? details.highlights : details?.deliverables ?? []).slice(0, 4),
       icon: iconMap[service.slug] ?? fallbackIcon,
+      category,
+      accent,
     };
   });
 
@@ -137,11 +143,19 @@ const ServicesPage = () => {
     experiential: [],
   };
   const serviceDetails = servicesSection?.serviceDetails ?? {};
-  const digitalServices = buildServiceCards(servicesContent.digital, serviceDetails, digitalIconBySlug);
+  const digitalServices = buildServiceCards(
+    servicesContent.digital,
+    serviceDetails,
+    digitalIconBySlug,
+    servicesContent.digitalLabel,
+    "from-[#6bd688] to-[#22d3ee]",
+  );
   const experientialServices = buildServiceCards(
     servicesContent.experiential,
     serviceDetails,
     experientialIconBySlug,
+    servicesContent.experientialLabel,
+    "from-[#f36fb4] to-[#78d1ff]",
   );
 
   return (
@@ -206,39 +220,28 @@ const ServicesPage = () => {
             </p>
           </Reveal>
           
-          <div className="grid gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
             {experientialServices.map((service, index) => {
               return (
               <Reveal key={service.title} delay={0.03 * index}>
-                <div
+                <Link
+                href={`/services/${service.slug}`}
                 key={service.title}
-                className="group rounded-2xl border border-primary-foreground/10 bg-dark-surface p-5 transition-all duration-300 hover:-translate-y-1.5 hover:border-pink/50 hover:shadow-lg sm:p-6"
+                className="group block min-h-full rounded-[1.4rem] border border-white/10 bg-white/[0.045] p-4 text-white shadow-[0_18px_54px_rgba(0,0,0,0.18)] transition-all duration-300 hover:-translate-y-1.5 hover:border-white/24 hover:bg-white/[0.075] hover:shadow-[0_28px_70px_rgba(0,0,0,0.28)] sm:p-5"
               >
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-pink/10 transition-colors group-hover:bg-pink/20 sm:h-12 sm:w-12">
-                  <service.icon className="h-5 w-5 text-pink sm:h-6 sm:w-6" />
+                <div className="grid grid-cols-[3rem_minmax(0,1fr)_1.5rem] items-center gap-4">
+                  <span className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${service.accent}`}>
+                    <service.icon className="h-6 w-6 text-[#07100e]" aria-hidden="true" />
+                  </span>
+                  <h3 className="break-normal text-[1.05rem] font-semibold leading-tight tracking-[-0.025em] text-white [overflow-wrap:normal] [word-break:normal] sm:text-lg">
+                    {service.title}
+                  </h3>
+                  <ArrowRight className="h-4 w-4 -translate-x-1 text-white/42 transition-transform group-hover:translate-x-0 group-hover:scale-110 group-hover:text-white" aria-hidden="true" />
                 </div>
-                <h3 className="mb-2 min-h-[3.5rem] text-base font-semibold leading-snug text-primary-foreground transition-colors group-hover:text-pink sm:min-h-[4rem] sm:text-lg">
-                  {service.title}
-                </h3>
-                <p className="mb-4 line-clamp-2 text-sm text-primary-foreground/60">
+                <p className="mt-5 line-clamp-3 text-sm leading-6 text-white/64">
                   {service.description}
                 </p>
-                <ul className="space-y-1">
-                  {service.features.map((feature) => (
-                    <li key={feature} className="flex items-center gap-2 text-[11px] text-primary-foreground/50 sm:text-xs">
-                      <span className="w-1 h-1 rounded-full bg-pink" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href={`/services/${service.slug}`}
-                  className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-pink opacity-100 transition-opacity sm:text-sm sm:opacity-0 sm:group-hover:opacity-100"
-                >
-                  Learn More
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
+              </Link>
               </Reveal>
               );
             })}
@@ -259,39 +262,28 @@ const ServicesPage = () => {
             </p>
           </Reveal>
           
-          <div className="grid gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
             {digitalServices.map((service, index) => {
               return (
               <Reveal key={service.title} delay={0.03 * index}>
-                <div
+                <Link
+                href={`/services/${service.slug}`}
                 key={service.title}
-                className="group rounded-2xl border border-primary-foreground/10 bg-dark-surface p-5 transition-all duration-300 hover:-translate-y-1.5 hover:border-accent/50 hover:shadow-lg sm:p-6"
+                className="group block min-h-full rounded-[1.4rem] border border-white/10 bg-white/[0.045] p-4 text-white shadow-[0_18px_54px_rgba(0,0,0,0.18)] transition-all duration-300 hover:-translate-y-1.5 hover:border-white/24 hover:bg-white/[0.075] hover:shadow-[0_28px_70px_rgba(0,0,0,0.28)] sm:p-5"
               >
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-accent/10 transition-colors group-hover:bg-accent/20 sm:h-12 sm:w-12">
-                  <service.icon className="h-5 w-5 text-accent sm:h-6 sm:w-6" />
+                <div className="grid grid-cols-[3rem_minmax(0,1fr)_1.5rem] items-center gap-4">
+                  <span className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${service.accent}`}>
+                    <service.icon className="h-6 w-6 text-[#07100e]" aria-hidden="true" />
+                  </span>
+                  <h3 className="break-normal text-[1.05rem] font-semibold leading-tight tracking-[-0.025em] text-white [overflow-wrap:normal] [word-break:normal] sm:text-lg">
+                    {service.title}
+                  </h3>
+                  <ArrowRight className="h-4 w-4 -translate-x-1 text-white/42 transition-transform group-hover:translate-x-0 group-hover:scale-110 group-hover:text-white" aria-hidden="true" />
                 </div>
-                <h3 className="mb-2 min-h-[3.5rem] text-base font-semibold leading-snug text-primary-foreground transition-colors group-hover:text-accent sm:min-h-[4rem] sm:text-lg">
-                  {service.title}
-                </h3>
-                <p className="mb-4 line-clamp-2 text-sm text-primary-foreground/60">
+                <p className="mt-5 line-clamp-3 text-sm leading-6 text-white/64">
                   {service.description}
                 </p>
-                <ul className="space-y-1">
-                  {service.features.map((feature) => (
-                    <li key={feature} className="flex items-center gap-2 text-[11px] text-primary-foreground/50 sm:text-xs">
-                      <span className="w-1 h-1 rounded-full bg-accent" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href={`/services/${service.slug}`}
-                  className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-accent opacity-100 transition-opacity sm:text-sm sm:opacity-0 sm:group-hover:opacity-100"
-                >
-                  Learn More
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
+              </Link>
               </Reveal>
               );
             })}

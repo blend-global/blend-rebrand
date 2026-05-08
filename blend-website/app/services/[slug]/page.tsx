@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { getAllServices } from "@/lib/cms-helpers";
@@ -17,6 +18,28 @@ const titleCase = (value: string) =>
     .filter(Boolean)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
+
+const formatServiceLabel = (label: string) => label.replaceAll("/", " / ");
+
+const getServiceTone = (category: string) => {
+  const isExperiential = category.toLowerCase().includes("experiential");
+
+  return isExperiential
+    ? {
+        accent: "from-[#f36fb4] to-[#78d1ff]",
+        soft: "from-[#f36fb4]/18 to-[#78d1ff]/12",
+        orbPrimary: "bg-[#f36fb4]/20",
+        orbSecondary: "bg-[#78d1ff]/16",
+        text: "text-[#f6a6d4]",
+      }
+    : {
+        accent: "from-[#6bd688] to-[#22d3ee]",
+        soft: "from-[#6bd688]/18 to-[#22d3ee]/12",
+        orbPrimary: "bg-[#6bd688]/18",
+        orbSecondary: "bg-[#22d3ee]/18",
+        text: "text-[#7de4c6]",
+      };
+};
 
 const resolveService = (slug: string, allServices: ReturnType<typeof getAllServices>, serviceDetails: Record<string, { summary: string; highlights: string[]; deliverables: string[]; outcomes: string[] }>) => {
   const normalized = decodeURIComponent(slug).toLowerCase();
@@ -78,143 +101,163 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
   const details = serviceDetails[normalized] ?? (service ? serviceDetails[service.slug] : null);
   const serviceLabel = service?.label ?? (details ? titleCase(normalized) : "Service Details");
   const serviceCategory = service?.category ?? "Services";
+  const tone = getServiceTone(serviceCategory);
+  const deliverables = details?.deliverables?.length ? details.deliverables : ["Structured deliverables tailored to your goals."];
+  const outcomes = details?.outcomes?.length ? details.outcomes : ["Clearer scope, stronger execution, and a more memorable audience experience."];
+  const highlights = details?.highlights?.length ? details.highlights : ["Discovery", "Creative direction", "Delivery planning"];
 
   return (
-    <main className="min-h-screen bg-[#0d0d0f] text-white">
+    <main className="min-h-screen overflow-hidden bg-[#050608] text-white">
       <Navbar />
-      <section className="container-max pb-20 pt-16 sm:pt-20">
-        <div className="grid gap-10 lg:grid-cols-[1.2fr,0.8fr]">
-          <div className="max-w-3xl">
+      <section className="relative pb-20 pt-28 sm:pt-36">
+        <div className={`absolute left-[-10rem] top-[-10rem] h-96 w-96 rounded-full ${tone.orbSecondary} blur-3xl`} />
+        <div className={`absolute bottom-[18rem] right-[-12rem] h-96 w-96 rounded-full ${tone.orbPrimary} blur-3xl`} />
+
+        <div className="container-max relative">
+          <Link
+            href="/services"
+            className="mb-8 inline-flex items-center gap-2 text-sm font-semibold text-white/58 transition-colors hover:text-white"
+          >
+            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+            All services
+          </Link>
+
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_440px] lg:items-start">
+            <div className="max-w-4xl">
             {details || service ? (
               <>
-                <span className="text-xs font-semibold uppercase tracking-[0.3em] text-white/60 sm:text-sm">
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.045] px-4 py-2 text-xs font-bold uppercase tracking-[0.28em] text-white/64">
+                  <span className={`h-2 w-2 rounded-full bg-gradient-to-r ${tone.accent}`} />
                   {serviceCategory}
                 </span>
-                <h1 className="mt-4 text-3xl font-semibold leading-tight sm:text-4xl md:text-5xl">
-                  {serviceLabel}
+                <h1 className="mt-6 max-w-4xl text-4xl font-semibold leading-[0.98] tracking-[-0.055em] sm:text-6xl lg:text-7xl">
+                  {formatServiceLabel(serviceLabel)}
                 </h1>
-                <p className="mt-4 text-base leading-relaxed text-white/80 sm:text-lg">
+                <p className="mt-6 max-w-2xl text-base leading-7 text-white/68 sm:text-lg">
                   {details?.summary ??
                     `We design and deliver tailored ${serviceLabel.toLowerCase()} solutions that align with your goals and elevate every moment of your project.`}
                 </p>
-                <div className="mt-6 flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-wide text-white/70">
-                  {(details?.highlights ?? []).map((item) => (
-                    <span
-                      key={item}
-                      className="rounded-full border border-white/15 px-3 py-1 text-[11px] text-white/75"
-                    >
-                      {item}
-                    </span>
-                  ))}
+                <div className="mt-8 flex flex-wrap gap-3">
+                  <Link
+                    href="/contact"
+                    className={`inline-flex items-center justify-center rounded-full bg-gradient-to-r ${tone.accent} px-5 py-3 text-sm font-bold text-[#07100e] shadow-[0_18px_42px_rgba(0,0,0,0.28)] transition-transform hover:-translate-y-0.5`}
+                  >
+                    Start a Project
+                  </Link>
+                  <Link
+                    href="/services"
+                    className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/[0.045] px-5 py-3 text-sm font-semibold text-white transition-colors hover:border-white/28 hover:bg-white/[0.075]"
+                  >
+                    View Services
+                  </Link>
                 </div>
               </>
             ) : (
               <>
-                <span className="text-xs font-semibold uppercase tracking-[0.3em] text-white/60 sm:text-sm">
+                <span className="inline-flex rounded-full border border-white/10 bg-white/[0.045] px-4 py-2 text-xs font-bold uppercase tracking-[0.28em] text-white/64">
                   Services
                 </span>
-                <h1 className="mt-4 text-3xl font-semibold leading-tight sm:text-4xl md:text-5xl">
+                <h1 className="mt-6 text-4xl font-semibold leading-tight tracking-[-0.045em] sm:text-6xl">
                   Service Details
                 </h1>
-                <p className="mt-4 text-base leading-relaxed text-white/80 sm:text-lg">
+                <p className="mt-6 max-w-2xl text-base leading-7 text-white/68 sm:text-lg">
                   We couldn&apos;t find that service. Explore our digital and experiential offerings to see how we can
                   help your team.
                 </p>
               </>
             )}
-          </div>
-          <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
-            <h2 className="text-lg font-semibold">What We Deliver</h2>
-            <div className="mt-4 flex flex-col gap-2 text-sm text-white/80">
-              {details?.deliverables?.length ? (
-                details.deliverables.map((item) => (
-                  <div key={item} className="flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-r from-green-300 to-pink-400" />
-                    <span>{item}</span>
-                  </div>
-                ))
-              ) : (
-                <span>Structured deliverables tailored to your goals.</span>
-              )}
             </div>
-            <div className="mt-6 rounded-2xl border border-white/10 bg-black/40 p-4">
-              <p className="text-xs uppercase tracking-[0.3em] text-white/60">Need this service?</p>
-              <p className="mt-2 text-sm text-white/80">
-                Tell us about your goals and we&apos;ll craft the right scope.
-              </p>
-              <Link
-                href="/contact"
-                className="mt-4 inline-flex items-center justify-center rounded-full border border-white/15 bg-[#111114] px-5 py-2.5 text-xs font-semibold text-white shadow-[0_10px_25px_rgba(0,0,0,0.35)]"
-              >
-                Start a Project
-              </Link>
-            </div>
-          </div>
-        </div>
 
-        {(details || service) && (
-          <>
-            <div className="mt-12 grid gap-6 md:grid-cols-2">
-              <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
-                <h2 className="text-lg font-semibold">Outcomes</h2>
-                <div className="mt-4 space-y-2 text-sm text-white/75">
-                  {(details?.outcomes ?? []).map((item) => (
-                    <div key={item} className="flex items-center gap-2">
-                      <span className="h-1.5 w-1.5 rounded-full bg-white/70" />
-                      <span>{item}</span>
+            <aside className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.06] p-3 shadow-[0_30px_90px_rgba(0,0,0,0.38)] backdrop-blur">
+              <div className="relative overflow-hidden rounded-[1.6rem] bg-[#101114] p-5">
+                <div className={`absolute right-[-5rem] top-[-6rem] h-56 w-56 rounded-full bg-gradient-to-br ${tone.accent} opacity-35 blur-3xl`} />
+                <div className="relative">
+                  <div className={`aspect-video overflow-hidden rounded-[1.35rem] border border-white/10 bg-gradient-to-br ${tone.soft}`} />
+                  <div className="mt-6 grid grid-cols-3 gap-2">
+                    {highlights.slice(0, 3).map((item) => (
+                      <div key={item} className="rounded-2xl border border-white/10 bg-white/[0.045] p-3">
+                        <p className={`text-[10px] font-bold uppercase tracking-[0.2em] ${tone.text}`}>
+                          {item}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </aside>
+          </div>
+
+          <div className="mt-12 grid gap-5 lg:grid-cols-[minmax(0,1fr)_420px]">
+            <div className="rounded-[1.6rem] border border-white/10 bg-white/[0.045] p-5 sm:p-6">
+              <div className="flex items-center justify-between gap-4">
+                <h2 className="text-xl font-semibold tracking-[-0.025em]">What We Deliver</h2>
+                <span className={`h-3 w-16 rounded-full bg-gradient-to-r ${tone.accent}`} />
+              </div>
+              <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                {deliverables.map((item) => (
+                  <div key={item} className="rounded-2xl border border-white/10 bg-[#101114] p-4 text-sm leading-6 text-white/74">
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-[1.6rem] border border-white/10 bg-white/[0.045] p-5 sm:p-6">
+              <h2 className="text-xl font-semibold tracking-[-0.025em]">How We Work</h2>
+              <ol className="mt-6 space-y-4 text-sm text-white/72">
+                {[
+                  ["Discover", "Align on goals, audience, and success metrics."],
+                  ["Design", "Craft the creative, production plan, and deliverables."],
+                  ["Deliver", "Execute with precision and optimize for impact."],
+                ].map(([title, copy], index) => (
+                  <li key={title} className="flex gap-3">
+                    <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br ${tone.accent} text-xs font-bold text-[#07100e]`}>
+                      {index + 1}
+                    </span>
+                    <div>
+                      <div className="font-semibold text-white">{title}</div>
+                      <p className="mt-1 leading-6">{copy}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+
+          {(details || service) && (
+            <>
+              <div className="mt-5 rounded-[1.6rem] border border-white/10 bg-white/[0.045] p-5 sm:p-6">
+                <h2 className="text-xl font-semibold tracking-[-0.025em]">Outcomes</h2>
+                <div className="mt-6 grid gap-3 md:grid-cols-3">
+                  {outcomes.map((item) => (
+                    <div key={item} className="rounded-2xl border border-white/10 bg-[#101114] p-4">
+                      <span className={`mb-4 block h-2 w-10 rounded-full bg-gradient-to-r ${tone.accent}`} />
+                      <p className="text-sm leading-6 text-white/74">{item}</p>
                     </div>
                   ))}
                 </div>
               </div>
-              <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
-                <h2 className="text-lg font-semibold">How We Work</h2>
-                <ol className="mt-4 space-y-3 text-sm text-white/75">
-                  <li className="flex gap-3">
-                    <span className="flex h-7 w-7 items-center justify-center rounded-full border border-white/20 text-xs">
-                      1
-                    </span>
-                    <div>
-                      <div className="font-semibold text-white">Discover</div>
-                      <p className="text-white/70">Align on goals, audience, and success metrics.</p>
-                    </div>
-                  </li>
-                  <li className="flex gap-3">
-                    <span className="flex h-7 w-7 items-center justify-center rounded-full border border-white/20 text-xs">
-                      2
-                    </span>
-                    <div>
-                      <div className="font-semibold text-white">Design</div>
-                      <p className="text-white/70">Craft the creative, production plan, and deliverables.</p>
-                    </div>
-                  </li>
-                  <li className="flex gap-3">
-                    <span className="flex h-7 w-7 items-center justify-center rounded-full border border-white/20 text-xs">
-                      3
-                    </span>
-                    <div>
-                      <div className="font-semibold text-white">Deliver</div>
-                      <p className="text-white/70">Execute with precision and optimize for impact.</p>
-                    </div>
-                  </li>
-                </ol>
-              </div>
-            </div>
-            <div className="mt-12 flex flex-wrap items-center justify-between gap-4 rounded-3xl border border-white/10 bg-gradient-to-r from-white/5 via-white/0 to-white/5 p-6">
-              <div>
-                <h3 className="text-lg font-semibold">Explore more services</h3>
-                <p className="text-sm text-white/70">
+
+              <div className={`mt-5 overflow-hidden rounded-[1.6rem] border border-white/10 bg-gradient-to-r ${tone.soft} p-6`}>
+                <div className="flex flex-wrap items-center justify-between gap-5">
+                  <div>
+                    <h3 className="text-xl font-semibold tracking-[-0.025em]">Explore more services</h3>
+                    <p className="mt-2 text-sm leading-6 text-white/70">
                   Browse the full list to find the right blend of digital and experiential support.
-                </p>
+                    </p>
+                  </div>
+                  <Link
+                    href="/services"
+                    className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/20 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-black/35"
+                  >
+                    View All Services
+                    <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                  </Link>
+                </div>
               </div>
-              <Link
-                href="/services"
-                className="inline-flex items-center justify-center rounded-full border border-white/20 px-4 py-2 text-xs font-semibold text-white"
-              >
-                View All Services
-              </Link>
-            </div>
-          </>
-        )}
+            </>
+          )}
+        </div>
       </section>
       <Footer />
     </main>

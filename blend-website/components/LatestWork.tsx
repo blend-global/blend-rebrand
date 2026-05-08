@@ -87,8 +87,12 @@ export default function LatestWork() {
       <div className="absolute inset-0 -z-5 bg-[#0d0f15]/85" />
       <div className="container-max relative z-10 py-4 lg:py-6">
         <Reveal className="mx-auto max-w-3xl text-center">
-          <h2 className="text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-white sm:text-5xl lg:text-6xl">
-            Our Latest Work
+          <h2 className="text-balance text-4xl font-bold leading-[0.98] tracking-[-0.05em] text-white drop-shadow-[0_18px_60px_rgba(0,0,0,0.42)] sm:text-5xl lg:text-6xl">
+            Our Latest
+            <br />
+            <span className="bg-gradient-to-r from-[#6bd688] via-[#78d1ff] to-[#f36fb4] bg-clip-text text-transparent">
+              Work
+            </span>
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-base leading-7 text-white/64 sm:text-lg">
             One focused story at a time. Use the arrows to browse selected case studies.

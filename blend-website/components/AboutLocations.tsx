@@ -103,9 +103,14 @@ export default function AboutLocations() {
           </div>
         </Reveal>
 
-        <Reveal delay={0.05} className="flex w-full flex-col gap-4 text-[#1a1a1a] md:w-1/2">
-          <h3 className="text-xl font-semibold text-[#1d1d1f] sm:text-2xl">{current.title}</h3>
-          <h4 className="text-lg font-semibold text-[#2d2d2f] sm:text-xl">{current.subtitle}</h4>
+        <Reveal delay={0.05} className="flex w-full flex-col gap-5 text-[#1a1a1a] md:w-1/2">
+          <h2 className="text-balance text-4xl font-bold leading-[0.98] tracking-[-0.05em] text-[#101114] sm:text-5xl lg:text-6xl">
+            {current.title}
+            <br />
+            <span className="bg-gradient-to-r from-[#6bd688] via-[#78d1ff] to-[#f36fb4] bg-clip-text text-transparent">
+              {current.subtitle}
+            </span>
+          </h2>
           <p className="max-w-xl text-sm leading-relaxed text-[#3c3f46] sm:text-base">{current.description}</p>
 
           <div className="mt-0 flex items-center gap-3 sm:gap-4">
