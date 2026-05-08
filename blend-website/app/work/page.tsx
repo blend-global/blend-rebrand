@@ -26,6 +26,13 @@ const tagToFilter: Record<string, string> = {
   "Email Marketing": "Digital",
 };
 
+const clientLogoByTitle: Record<string, string> = {
+  Deloitte: "/new-client-logos/Deloitte.svg",
+  Geberit: "/new-client-logos/Geberit.svg",
+  Google: "/new-client-logos/Google%20Cloud.svg",
+  Shoprite: "/new-client-logos/Shoprite.svg",
+};
+
 const getYouTubeEmbedUrl = (url: string) => {
   try {
     const parsedUrl = new URL(url);
@@ -84,19 +91,23 @@ function CaseStudyCover({ item }: { item: CaseStudy }) {
 }
 
 function CaseStudyLogo({ item }: { item: CaseStudy }) {
-  if (!item.logo) {
+  const logoSrc = clientLogoByTitle[item.title] ?? item.logo;
+
+  if (!logoSrc) {
     return <div className="text-xl font-semibold sm:text-2xl">{item.title}</div>;
   }
 
   return (
-    <Image
-      src={item.logo}
-      alt={`${item.title} logo`}
-      width={180}
-      height={64}
-      className="h-8 w-auto max-w-[180px] object-contain brightness-0 invert sm:h-10"
-      unoptimized
-    />
+    <span className="flex h-10 w-36 items-center justify-center overflow-hidden rounded-full bg-white px-3 shadow-[0_10px_24px_rgba(0,0,0,0.24)] ring-1 ring-white/70 sm:w-40">
+      <Image
+        src={logoSrc}
+        alt={`${item.title} logo`}
+        width={160}
+        height={160}
+        className="h-40 w-40 max-w-none object-contain"
+        unoptimized
+      />
+    </span>
   );
 }
 

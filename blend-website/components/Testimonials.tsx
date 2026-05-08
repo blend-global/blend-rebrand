@@ -17,7 +17,7 @@ export default function Testimonials() {
   }, []);
 
   return (
-    <section className="relative flex min-h-[100svh] items-center overflow-hidden py-20 text-white sm:py-24">
+    <section className="relative flex min-h-[78svh] items-center overflow-hidden py-14 text-white sm:py-16">
       <div className="absolute inset-0 bg-black" />
       <div className="absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-[#0d0f15] to-transparent" />
       <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-b from-transparent to-white" />
@@ -35,7 +35,7 @@ export default function Testimonials() {
           </h2>
         </Reveal>
 
-        <div className="mx-auto mt-12 max-w-6xl text-center">
+        <div className="mx-auto mt-10 max-w-6xl text-center">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeIndex}
