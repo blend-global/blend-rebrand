@@ -34,7 +34,7 @@ export default function Hero() {
   return (
     <section id="home" className="relative min-h-[100svh] overflow-hidden bg-black">
       <video
-        src="https://www.pexels.com/download/video/28886728/"
+        src="/hero-video/hero-video.mp4"
         className="absolute inset-0 h-full w-full object-cover"
         autoPlay
         muted

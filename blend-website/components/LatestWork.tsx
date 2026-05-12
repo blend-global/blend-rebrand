@@ -149,14 +149,16 @@ export default function LatestWork() {
                     <div className="absolute inset-x-0 top-0 flex items-start justify-between gap-6 p-6 sm:p-8">
                       <div>
                         {activeItem.logo ? (
-                          <Image
-                            src={activeItem.logo}
-                            alt={`${activeItem.title} logo`}
-                            width={220}
-                            height={80}
-                            className="h-12 w-auto max-w-[220px] object-contain brightness-0 invert sm:h-14"
-                            unoptimized
-                          />
+                          <span className="flex h-[30px] w-28 items-center justify-center overflow-hidden rounded-full bg-white px-2 shadow-[0_10px_24px_rgba(0,0,0,0.24)] ring-1 ring-white/70 sm:h-8 sm:w-32">
+                            <Image
+                              src={activeItem.logo}
+                              alt={`${activeItem.title} logo`}
+                              width={160}
+                              height={160}
+                              className="h-20 w-20 max-w-none object-contain sm:h-[5.5rem] sm:w-[5.5rem]"
+                              unoptimized
+                            />
+                          </span>
                         ) : (
                           <div className="text-4xl font-semibold leading-none tracking-[-0.04em] text-white sm:text-5xl">
                             {activeItem.title}

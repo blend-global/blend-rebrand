@@ -4,10 +4,12 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ChevronDown, Facebook, Instagram, Linkedin } from "lucide-react";
 import { motion } from "framer-motion";
+import { useState } from "react";
 import Reveal from "@/components/Reveal";
 import { contactSection } from "@/lib/data";
 
 const ContactPage = () => {
+  const [selectedService, setSelectedService] = useState("");
   const socials = [
     { label: "Facebook", icon: Facebook },
     { label: "Instagram", icon: Instagram },
@@ -111,7 +113,8 @@ const ContactPage = () => {
                     <select
                       name="service"
                       className="h-12 w-full appearance-none rounded-md border border-white/10 bg-white/10 py-0 pl-4 pr-16 text-sm text-white/60 outline-none transition focus:border-[#3aa6b4] focus:bg-white/14"
-                      defaultValue=""
+                      value={selectedService}
+                      onChange={(event) => setSelectedService(event.target.value)}
                     >
                       <option value="" disabled>
                         Select project type
@@ -126,6 +129,17 @@ const ContactPage = () => {
                     />
                   </span>
                 </label>
+
+                {selectedService === "hybrid" ? (
+                  <label className="grid gap-2 text-sm font-medium text-white/80">
+                    Tell us a bit more...
+                    <textarea
+                      name="hybridDetails"
+                      rows={4}
+                      className="rounded-md border border-white/10 bg-white/10 px-4 py-3 text-sm text-white outline-none transition focus:border-[#3aa6b4] focus:bg-white/14"
+                    />
+                  </label>
+                ) : null}
 
                 <label className="grid gap-2 text-sm font-medium text-white/80">
                   Budget
