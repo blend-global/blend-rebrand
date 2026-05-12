@@ -22,7 +22,7 @@ const ContactPage = () => {
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_34%_48%,rgba(120,209,255,0.18),transparent_34%),radial-gradient(circle_at_70%_45%,rgba(243,111,180,0.14),transparent_30%)]" />
         <div className="pointer-events-none absolute inset-0 bg-black/25" />
         <div className="container-max relative z-10 pb-16 sm:pb-20">
-          <div className="flex flex-col gap-10 sm:gap-12">
+          <div className="grid w-full gap-10 sm:gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-start lg:gap-16">
             <Reveal className="flex flex-col justify-start gap-8">
               <div>
                 <h1 className="text-3xl font-semibold sm:text-4xl md:text-5xl">
@@ -66,7 +66,7 @@ const ContactPage = () => {
               </div>
             </Reveal>
 
-            <Reveal delay={0.05} className="w-full max-w-5xl">
+            <Reveal delay={0.05} className="w-full">
               <form className="grid gap-5">
                 <label className="grid gap-2 text-sm font-medium text-white/80">
                   Company Name

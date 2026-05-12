@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
-import { motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
 import { MotionLink } from "@/components/MotionLink";
 import Navbar from "@/components/Navbar";
@@ -11,20 +10,6 @@ import Footer from "@/components/Footer";
 import Pagination from "@/components/Pagination";
 import type { CaseStudy } from "@/lib/cms-types";
 import { getFirebaseDb } from "@/lib/firebase/client";
-
-const filters = ["Experiences", "Digital"];
-
-const tagToFilter: Record<string, string> = {
-  "Event Management": "Experiences",
-  Photography: "Experiences",
-  Videography: "Experiences",
-  Staffing: "Experiences",
-  "Swag and Gifting": "Experiences",
-  Animation: "Digital",
-  "Web Development": "Digital",
-  "Social Media": "Digital",
-  "Email Marketing": "Digital",
-};
 
 const clientLogoByTitle: Record<string, string> = {
   Deloitte: "/new-client-logos/Deloitte.svg",
@@ -98,13 +83,13 @@ function CaseStudyLogo({ item }: { item: CaseStudy }) {
   }
 
   return (
-    <span className="flex h-10 w-36 items-center justify-center overflow-hidden rounded-full bg-white px-3 shadow-[0_10px_24px_rgba(0,0,0,0.24)] ring-1 ring-white/70 sm:w-40">
+    <span className="flex h-[30px] w-28 items-center justify-center overflow-hidden rounded-full bg-white px-2 shadow-[0_10px_24px_rgba(0,0,0,0.24)] ring-1 ring-white/70 sm:h-8 sm:w-32">
       <Image
         src={logoSrc}
         alt={`${item.title} logo`}
         width={160}
         height={160}
-        className="h-40 w-40 max-w-none object-contain"
+        className="h-20 w-20 max-w-none object-contain sm:h-[5.5rem] sm:w-[5.5rem]"
         unoptimized
       />
     </span>
@@ -133,7 +118,6 @@ async function readCaseStudiesFromFirestore(): Promise<CaseStudy[]> {
 
 export default function WorkPage() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [activeFilters, setActiveFilters] = useState<string[]>(filters);
   const [workCaseStudies, setWorkCaseStudies] = useState<CaseStudy[]>([]);
   const itemsPerPage = 8;
 
@@ -146,37 +130,10 @@ export default function WorkPage() {
       });
   }, []);
 
-  const filteredItems = useMemo(() => {
-    if (activeFilters.length === 0 || activeFilters.length === filters.length) {
-      return workCaseStudies;
-    }
-
-    return workCaseStudies.filter((item) =>
-      item.tags.some((tag) => {
-        const mapped = tagToFilter[tag];
-        return mapped ? activeFilters.includes(mapped) : false;
-      }),
-    );
-  }, [activeFilters, workCaseStudies]);
-
   const pagedItems = useMemo(() => {
     const start = (currentPage - 1) * itemsPerPage;
-    return filteredItems.slice(start, start + itemsPerPage);
-  }, [currentPage, itemsPerPage, filteredItems]);
-
-  const totalFilteredItems = filteredItems.length;
-
-  const toggleFilter = (filter: string) => {
-    setCurrentPage(1);
-    setActiveFilters((prev) =>
-      prev.includes(filter) ? prev.filter((item) => item !== filter) : [...prev, filter],
-    );
-  };
-
-  const clearFilters = () => {
-    setCurrentPage(1);
-    setActiveFilters([]);
-  };
+    return workCaseStudies.slice(start, start + itemsPerPage);
+  }, [currentPage, itemsPerPage, workCaseStudies]);
 
   return (
     <main className="min-h-screen bg-background text-white">
@@ -189,10 +146,6 @@ export default function WorkPage() {
         <div className="container-max relative z-10 pb-16">
           <div className="flex min-h-[58svh] flex-col justify-center pb-14">
             <Reveal className="max-w-4xl">
-              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-white/70">
-                <span className="h-2 w-2 rounded-full bg-gradient-to-r from-[#6bd688] to-[#f36fb4]" />
-                Our Work
-              </div>
               <h1 className="text-balance text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-white sm:text-5xl lg:text-7xl">
                 Case studies that prove the <span className="bg-gradient-to-r from-[#f36fb4] via-[#9fb8ff] to-[#22d3ee] bg-clip-text text-transparent">experience</span>.
               </h1>
@@ -201,39 +154,6 @@ export default function WorkPage() {
               </p>
             </Reveal>
 
-            <div className="mt-10">
-              <Reveal delay={0.05} className="flex flex-col gap-3">
-                <span className="text-sm font-semibold uppercase tracking-wide text-white/70">Filter By Type</span>
-                <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-                  {filters.map((filter) => {
-                    const isActive = activeFilters.includes(filter);
-                    return (
-                    <motion.span
-                      key={filter}
-                      role="button"
-                      onClick={() => toggleFilter(filter)}
-                      className={`inline-flex cursor-pointer items-center gap-2 rounded-full border px-3 py-1 text-xs sm:text-sm ${
-                        isActive
-                          ? "border-white/60 bg-white/10 text-white"
-                          : "border-white/30 text-white/90"
-                      }`}
-                      whileHover={{ y: -2 }}
-                    >
-                      {filter}
-                      <span className="text-xs">{isActive ? "✕" : "+"}</span>
-                    </motion.span>
-                  )})}
-                  <motion.button
-                    className="rounded-full border border-white/30 px-3 py-1 text-xs text-white/80 sm:text-sm"
-                    onClick={clearFilters}
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                  >
-                    Clear All
-                  </motion.button>
-                </div>
-              </Reveal>
-            </div>
           </div>
 
           <div className="grid gap-5 sm:gap-6 md:grid-cols-2">
@@ -269,7 +189,7 @@ export default function WorkPage() {
 
           <div className="mt-8 sm:mt-10">
             <Pagination
-              totalItems={totalFilteredItems}
+              totalItems={workCaseStudies.length}
               itemsPerPage={itemsPerPage}
               currentPage={currentPage}
               onPageChange={setCurrentPage}
