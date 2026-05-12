@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, Play, Sparkles, Zap, Globe, Video, Camera, Palette, Code, Radio, Users, Star, Utensils, UserCheck, Megaphone } from "lucide-react";
+import { ArrowRight, Play, Sparkles, Zap, Globe, Video, Camera, Palette, Code, Radio, Users, Star, Utensils, UserCheck, Megaphone, X } from "lucide-react";
 import { collection, doc, getDoc, getDocs, orderBy, query } from "firebase/firestore";
 import Reveal from "@/components/Reveal";
 import Link from "next/link";
@@ -120,6 +120,7 @@ async function readServicesFromFirestore(): Promise<ServicesContent> {
 const ServicesPage = () => {
   const [servicesSection, setServicesSection] = useState<ServicesContent | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [isShowreelOpen, setIsShowreelOpen] = useState(false);
 
   useEffect(() => {
     void readServicesFromFirestore()
@@ -170,10 +171,7 @@ const ServicesPage = () => {
         
         <div className="container-custom section-padding relative z-10 py-16 sm:py-20">
           <Reveal className="max-w-3xl">
-            <span className="mb-5 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs text-white/80 sm:mb-6 sm:text-sm">
-              <Sparkles className="w-4 h-4" />
-              Our Services
-            </span>
+
             <h1 className="mb-6 text-3xl font-bold leading-tight text-primary-foreground sm:text-4xl md:text-6xl lg:text-7xl">
               Crafting Dreams,<br />
               <span className="text-gradient">Delivering Results</span>
@@ -188,15 +186,14 @@ const ServicesPage = () => {
               >
                 Get Started
               </Link>
-              <a
-                href="https://www.youtube.com/"
-                target="_blank"
-                rel="noreferrer"
+              <button
+                type="button"
+                onClick={() => setIsShowreelOpen(true)}
                 className="flex items-center gap-2 rounded-full border border-white/30 px-5 py-2.5 text-xs font-semibold text-white/90 transition-transform hover:scale-[1.03] sm:px-6 sm:py-3 sm:text-sm"
               >
                 <Play className="w-4 h-4" />
                 Watch Showreel
-              </a>
+              </button>
             </div>
             {loadError ? (
               <p className="mt-4 text-sm font-medium text-[#ffb3d1]">
@@ -316,6 +313,26 @@ const ServicesPage = () => {
           </div>
         </Reveal>
       </section>
+
+      {isShowreelOpen ? (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm">
+          <button
+            type="button"
+            aria-label="Close showreel"
+            onClick={() => setIsShowreelOpen(false)}
+            className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#101114] shadow-[0_16px_32px_rgba(0,0,0,0.24)] transition-transform hover:scale-105"
+          >
+            <X className="h-5 w-5" aria-hidden="true" />
+          </button>
+          <video
+            src="/hero-video/hero-video.mp4"
+            className="max-h-[86vh] w-full max-w-6xl rounded-2xl bg-black shadow-[0_24px_90px_rgba(0,0,0,0.5)]"
+            controls
+            autoPlay
+            playsInline
+          />
+        </div>
+      ) : null}
 
       <Footer />
     </div>
