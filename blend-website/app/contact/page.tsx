@@ -2,14 +2,16 @@
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Instagram, Linkedin } from "lucide-react";
+import { ChevronDown, Facebook, Instagram, Linkedin } from "lucide-react";
 import { motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
+import { contactSection } from "@/lib/data";
 
 const ContactPage = () => {
   const socials = [
-    { label: "Instagram", icon: Instagram, href: "https://www.instagram.com/blend.global" },
-    { label: "LinkedIn", icon: Linkedin, href: "https://www.linkedin.com/company/blend-eventlife/" },
+    { label: "Facebook", icon: Facebook },
+    { label: "Instagram", icon: Instagram },
+    { label: "LinkedIn", icon: Linkedin },
   ];
 
   return (
@@ -49,7 +51,7 @@ const ContactPage = () => {
                   {socials.map((item) => (
                     <motion.a
                       key={item.label}
-                      href={item.href}
+                      href={contactSection.socials.find((social) => social.label === item.label)?.href ?? "#"}
                       target="_blank"
                       rel="noreferrer"
                       aria-label={item.label}
@@ -64,7 +66,7 @@ const ContactPage = () => {
               </div>
             </Reveal>
 
-            <Reveal delay={0.05} className="w-full">
+            <Reveal delay={0.05} className="w-full max-w-5xl">
               <form className="grid gap-5">
                 <label className="grid gap-2 text-sm font-medium text-white/80">
                   Company Name
@@ -75,73 +77,76 @@ const ContactPage = () => {
                   />
                 </label>
 
+                <label className="grid gap-2 text-sm font-medium text-white/80">
+                  Email Address
+                  <input
+                    type="email"
+                    name="email"
+                    className="h-12 rounded-md border border-white/10 bg-white/10 px-4 text-sm text-white outline-none transition focus:border-[#3aa6b4] focus:bg-white/14"
+                  />
+                </label>
+
                 <div className="grid gap-5 md:grid-cols-2">
                   <label className="grid gap-2 text-sm font-medium text-white/80">
-                    Email Address
+                    City
                     <input
-                      type="email"
-                      name="email"
+                      type="text"
+                      name="city"
                       className="h-12 rounded-md border border-white/10 bg-white/10 px-4 text-sm text-white outline-none transition focus:border-[#3aa6b4] focus:bg-white/14"
                     />
                   </label>
                   <label className="grid gap-2 text-sm font-medium text-white/80">
-                    <span className="flex items-center gap-2">
-                      Contact Number <span className="text-xs text-white/45">(Optional)</span>
-                    </span>
+                    Country
                     <input
-                      type="tel"
-                      name="contactNumber"
+                      type="text"
+                      name="country"
                       className="h-12 rounded-md border border-white/10 bg-white/10 px-4 text-sm text-white outline-none transition focus:border-[#3aa6b4] focus:bg-white/14"
                     />
                   </label>
                 </div>
 
                 <label className="grid gap-2 text-sm font-medium text-white/80">
-                  Location
-                  <select
-                    name="location"
-                    className="h-12 rounded-md border border-white/10 bg-white/10 px-4 text-sm text-white/60 outline-none transition focus:border-[#3aa6b4] focus:bg-white/14"
-                    defaultValue=""
-                  >
-                    <option value="" disabled>
-                      Select project type
-                    </option>
-                    <option value="cape-town">Cape Town</option>
-                    <option value="johannesburg">Johannesburg</option>
-                    <option value="remote">Remote</option>
-                  </select>
-                </label>
-
-                <label className="grid gap-2 text-sm font-medium text-white/80">
                   What service are you interested in?
-                  <select
-                    name="service"
-                    className="h-12 rounded-md border border-white/10 bg-white/10 px-4 text-sm text-white/60 outline-none transition focus:border-[#3aa6b4] focus:bg-white/14"
-                    defaultValue=""
-                  >
-                    <option value="" disabled>
-                      Select project type
-                    </option>
-                    <option value="digital">Digital</option>
-                    <option value="experiential">Experiential</option>
-                    <option value="hybrid">Hybrid</option>
-                  </select>
+                  <span className="relative block">
+                    <select
+                      name="service"
+                      className="h-12 w-full appearance-none rounded-md border border-white/10 bg-white/10 py-0 pl-4 pr-16 text-sm text-white/60 outline-none transition focus:border-[#3aa6b4] focus:bg-white/14"
+                      defaultValue=""
+                    >
+                      <option value="" disabled>
+                        Select project type
+                      </option>
+                      <option value="digital">Digital</option>
+                      <option value="experiential">Experiential</option>
+                      <option value="hybrid">Hybrid</option>
+                    </select>
+                    <ChevronDown
+                      className="pointer-events-none absolute right-5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/70"
+                      aria-hidden="true"
+                    />
+                  </span>
                 </label>
 
                 <label className="grid gap-2 text-sm font-medium text-white/80">
                   Budget
-                  <select
-                    name="budget"
-                    className="h-12 rounded-md border border-white/10 bg-white/10 px-4 text-sm text-white/60 outline-none transition focus:border-[#3aa6b4] focus:bg-white/14"
-                    defaultValue=""
-                  >
-                    <option value="" disabled>
-                      Select project budget
-                    </option>
-                    <option value="under-50k">Under R50k</option>
-                    <option value="50k-150k">R50k - R150k</option>
-                    <option value="150k-plus">R150k+</option>
-                  </select>
+                  <span className="relative block">
+                    <select
+                      name="budget"
+                      className="h-12 w-full appearance-none rounded-md border border-white/10 bg-white/10 py-0 pl-4 pr-16 text-sm text-white/60 outline-none transition focus:border-[#3aa6b4] focus:bg-white/14"
+                      defaultValue=""
+                    >
+                      <option value="" disabled>
+                        Select project budget
+                      </option>
+                      <option value="under-50k">Under ZAR 50k</option>
+                      <option value="50k-150k">ZAR 50k - ZAR 150k</option>
+                      <option value="150k-plus">ZAR 150k+</option>
+                    </select>
+                    <ChevronDown
+                      className="pointer-events-none absolute right-5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/70"
+                      aria-hidden="true"
+                    />
+                  </span>
                 </label>
 
                 <label className="grid gap-2 text-sm font-medium text-white/80">

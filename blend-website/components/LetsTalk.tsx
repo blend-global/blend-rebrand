@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Instagram, Linkedin } from "lucide-react";
+import { Facebook, Instagram, Linkedin } from "lucide-react";
 import Reveal from "@/components/Reveal";
 import { contactSection } from "@/lib/data";
 
@@ -41,6 +41,7 @@ export default function LetsTalk() {
             <span className="text-sm font-semibold text-[#6c6f77]">Socials</span>
             <div className="flex gap-3">
               {[
+                { label: "Facebook", icon: Facebook },
                 { label: "Instagram", icon: Instagram },
                 { label: "LinkedIn", icon: Linkedin },
               ].map((item) => (

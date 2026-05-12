@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Instagram, Linkedin, Mail, Phone } from "lucide-react";
+import { Facebook, Instagram, Linkedin, Mail, Phone } from "lucide-react";
 import Reveal from "@/components/Reveal";
+import { contactSection } from "@/lib/data";
 
 export default function Footer() {
   const siteLinks = ["Home", "Services", "Work"];
@@ -99,12 +100,13 @@ export default function Footer() {
 
           <Reveal delay={0.09} className="flex items-center gap-3">
             {[
-              { label: "Instagram", icon: Instagram, href: "https://www.instagram.com/blend.global" },
-              { label: "LinkedIn", icon: Linkedin, href: "https://www.linkedin.com/company/blend-eventlife/" },
+              { label: "Facebook", icon: Facebook },
+              { label: "Instagram", icon: Instagram },
+              { label: "LinkedIn", icon: Linkedin },
             ].map((item) => (
               <motion.a
                 key={item.label}
-                href={item.href}
+                href={contactSection.socials.find((social) => social.label === item.label)?.href ?? "#"}
                 target="_blank"
                 rel="noreferrer"
                 aria-label={item.label}

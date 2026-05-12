@@ -145,6 +145,7 @@ export const contactSection = {
   address: "20 Viola Road Table View, Cape Town",
   socials: [
     { label: "Twitter", href: "#" },
+    { label: "Facebook", href: "https://www.facebook.com/blendcompany/" },
     { label: "Instagram", href: "https://www.instagram.com/blend.global" },
     { label: "LinkedIn", href: "https://www.linkedin.com/company/blend-eventlife/" },
   ],
