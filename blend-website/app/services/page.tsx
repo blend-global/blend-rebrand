@@ -2,6 +2,7 @@
 
 import { ArrowRight, Play, Sparkles, Zap, Globe, Video, Camera, Palette, Code, Radio, Users, Star, Utensils, UserCheck, Megaphone, X } from "lucide-react";
 import { collection, doc, getDoc, getDocs, orderBy, query } from "firebase/firestore";
+import Image from "next/image";
 import Reveal from "@/components/Reveal";
 import Link from "next/link";
 // import { Button } from "@/components/ui/button";
@@ -121,6 +122,7 @@ const ServicesPage = () => {
   const [servicesSection, setServicesSection] = useState<ServicesContent | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [isShowreelOpen, setIsShowreelOpen] = useState(false);
+  const [isShowreelReady, setIsShowreelReady] = useState(false);
 
   useEffect(() => {
     void readServicesFromFirestore()
@@ -188,7 +190,10 @@ const ServicesPage = () => {
               </Link>
               <button
                 type="button"
-                onClick={() => setIsShowreelOpen(true)}
+                onClick={() => {
+                  setIsShowreelReady(false);
+                  setIsShowreelOpen(true);
+                }}
                 className="flex items-center gap-2 rounded-full border border-white/30 px-5 py-2.5 text-xs font-semibold text-white/90 transition-transform hover:scale-[1.03] sm:px-6 sm:py-3 sm:text-sm"
               >
                 <Play className="w-4 h-4" />
@@ -316,11 +321,26 @@ const ServicesPage = () => {
 
       {isShowreelOpen ? (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm">
+          {!isShowreelReady ? (
+            <div className="absolute inset-0 z-10 flex items-center justify-center bg-black text-white">
+              <div className="flex flex-col items-center gap-5">
+                <div className="relative flex h-16 w-16 items-center justify-center">
+                  <div className="absolute inset-0 rounded-full border border-white/15" />
+                  <div className="absolute inset-0 animate-spin rounded-full border-2 border-transparent border-r-[#f36fb4] border-t-[#6bd688]" />
+                  <Image src="/logo.png" alt="Blend" width={32} height={34} className="h-8 w-auto" priority />
+                </div>
+                <span className="text-xs font-semibold uppercase tracking-[0.28em] text-white/60">Loading</span>
+              </div>
+            </div>
+          ) : null}
           <button
             type="button"
             aria-label="Close showreel"
-            onClick={() => setIsShowreelOpen(false)}
-            className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#101114] shadow-[0_16px_32px_rgba(0,0,0,0.24)] transition-transform hover:scale-105"
+            onClick={() => {
+              setIsShowreelOpen(false);
+              setIsShowreelReady(false);
+            }}
+            className="absolute right-4 top-4 z-20 flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#101114] shadow-[0_16px_32px_rgba(0,0,0,0.24)] transition-transform hover:scale-105"
           >
             <X className="h-5 w-5" aria-hidden="true" />
           </button>
@@ -330,6 +350,10 @@ const ServicesPage = () => {
             controls
             autoPlay
             playsInline
+            preload="auto"
+            onLoadedData={() => setIsShowreelReady(true)}
+            onCanPlay={() => setIsShowreelReady(true)}
+            onError={() => setIsShowreelReady(true)}
           />
         </div>
       ) : null}
