@@ -28,13 +28,6 @@ const slides: Slide[] = [
       "Dedicated, diverse professionals committed to excellence. Together, we innovate, inspire, and lead the industry in every endeavor we undertake.",
     image: "/2_the-team.png",
   },
-  {
-    title: "About Us",
-    subtitle: "Blend Culture",
-    description:
-      "Our culture thrives on creativity and respect. We champion personal growth, teamwork, and sustainability to create meaningful experiences.",
-    image: "/3_successfull-projects.png",
-  },
 ];
 
 export default function AboutLocations() {
@@ -48,10 +41,14 @@ export default function AboutLocations() {
   const handleNext = () => setIndex((idx) => (idx + 1) % slides.length);
 
   const stackImages = useMemo(
-    () => [
-      { slide: prev, className: "left-[-16%] top-12 scale-90 opacity-60" },
-      { slide: next, className: "left-[12%] top-10 scale-95 opacity-70" },
-    ],
+    () =>
+      [
+        { slide: prev, className: "left-[-16%] top-12 scale-90 opacity-60" },
+        { slide: next, className: "left-[12%] top-10 scale-95 opacity-70" },
+      ].filter(
+        ({ slide }, idx, all) =>
+          all.findIndex(({ slide: candidate }) => candidate.subtitle === slide.subtitle) === idx,
+      ),
     [prev, next]
   );
 
@@ -107,7 +104,7 @@ export default function AboutLocations() {
 
         <Reveal delay={0.05} className="flex w-full flex-col gap-5 text-white md:w-1/2">
           <h2 className="text-balance text-4xl font-bold leading-[0.98] tracking-[-0.05em] text-white sm:text-5xl lg:text-6xl">
-            {current.title}
+            {current.title}:
             <br />
             <span className="bg-gradient-to-r from-[#6bd688] via-[#78d1ff] to-[#f36fb4] bg-clip-text text-transparent">
               {current.subtitle}

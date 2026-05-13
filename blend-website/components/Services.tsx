@@ -106,10 +106,10 @@ export default function Services({ servicesSection }: { servicesSection: Service
         <div className="mx-auto max-w-5xl text-center">
           <Reveal className="mx-auto max-w-5xl">
             <h2 className="text-balance text-4xl font-bold leading-[0.98] tracking-[-0.05em] text-white drop-shadow-[0_18px_60px_rgba(0,0,0,0.42)] sm:text-5xl lg:text-6xl">
-              Services that move
+              Services to move
               <br />
               <span className="bg-gradient-to-r from-[#6bd688] via-[#78d1ff] to-[#f36fb4] bg-clip-text text-transparent">
-                screen to stage
+                Renders to Reality
               </span>
             </h2>
             <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-white/64 sm:text-lg">

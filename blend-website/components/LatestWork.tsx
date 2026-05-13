@@ -110,6 +110,23 @@ export default function LatestWork() {
         {activeItem ? (
           <Reveal delay={0.05}>
             <div className="mx-auto mt-12 max-w-6xl">
+              <div className="pointer-events-none absolute h-0 w-0 overflow-hidden opacity-0" aria-hidden="true">
+                {latestWorkItems
+                  .filter((item) => item.logo)
+                  .map((item) => (
+                    <Image
+                      key={`${item.slug}-logo-preload`}
+                      src={item.logo as string}
+                      alt=""
+                      width={160}
+                      height={160}
+                      className="h-20 w-20"
+                      priority
+                      unoptimized
+                    />
+                  ))}
+              </div>
+
               <div className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.055] p-3 shadow-[0_30px_90px_rgba(0,0,0,0.38)]">
                 <MotionLink
                   href={`/work/${activeItem.slug}`}
@@ -156,6 +173,7 @@ export default function LatestWork() {
                               width={160}
                               height={160}
                               className="h-20 w-20 max-w-none object-contain sm:h-[5.5rem] sm:w-[5.5rem]"
+                              priority
                               unoptimized
                             />
                           </span>
