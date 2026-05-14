@@ -1,9 +1,11 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { getAllServices } from "@/lib/cms-helpers";
 import { readCmsSection } from "@/lib/cms-server";
+import { getServiceIllustration } from "@/lib/service-illustrations";
 
 const slugify = (value: string) =>
   value
@@ -101,6 +103,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
   const details = serviceDetails[normalized] ?? (service ? serviceDetails[service.slug] : null);
   const serviceLabel = service?.label ?? (details ? titleCase(normalized) : "Service Details");
   const serviceCategory = service?.category ?? "Services";
+  const serviceIllustration = getServiceIllustration(service?.slug ?? normalized);
   const tone = getServiceTone(serviceCategory);
   const deliverables = details?.deliverables?.length ? details.deliverables : ["Structured deliverables tailored to your goals."];
   const outcomes = details?.outcomes?.length ? details.outcomes : ["Clearer scope, stronger execution, and a more memorable audience experience."];
@@ -172,7 +175,20 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
               <div className="relative overflow-hidden rounded-[1.6rem] bg-[#101114] p-5">
                 <div className={`absolute right-[-5rem] top-[-6rem] h-56 w-56 rounded-full bg-gradient-to-br ${tone.accent} opacity-35 blur-3xl`} />
                 <div className="relative">
-                  <div className={`aspect-video overflow-hidden rounded-[1.35rem] border border-white/10 bg-gradient-to-br ${tone.soft}`} />
+                  <div className={`aspect-video overflow-hidden rounded-[1.35rem] border border-white/10 bg-gradient-to-br ${tone.soft}`}>
+                    {serviceIllustration ? (
+                      <div className={`relative flex h-full w-full items-center justify-center bg-gradient-to-br ${tone.accent} p-6`}>
+                        <Image
+                          src={serviceIllustration}
+                          alt=""
+                          fill
+                          sizes="(min-width: 1024px) 400px, 100vw"
+                          className="object-contain p-6 drop-shadow-[0_20px_42px_rgba(0,0,0,0.28)]"
+                          aria-hidden="true"
+                        />
+                      </div>
+                    ) : null}
+                  </div>
                   <div className="mt-6 grid grid-cols-3 gap-2">
                     {highlights.slice(0, 3).map((item) => (
                       <div key={item} className="rounded-2xl border border-white/10 bg-white/[0.045] p-3">

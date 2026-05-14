@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import {
   ArrowRight,
   Camera,
@@ -21,6 +22,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { MotionLink } from "@/components/MotionLink";
 import Reveal from "@/components/Reveal";
 import type { ServicesContent as ServicesSection } from "@/lib/cms-types";
+import { getServiceIllustration } from "@/lib/service-illustrations";
 
 const iconBySlug = {
   "video-production": Video,
@@ -69,6 +71,7 @@ export default function Services({ servicesSection }: { servicesSection: Service
   const activeService = filteredServices.find((service) => service.slug === activeSlug) ?? filteredServices[0] ?? services[0];
   const activeDetails = activeService ? serviceDetails[activeService.slug] : null;
   const ActiveIcon = activeService ? iconBySlug[activeService.slug as keyof typeof iconBySlug] ?? fallbackIcon : fallbackIcon;
+  const activeIllustration = activeService ? getServiceIllustration(activeService.slug) : null;
   const ambientColors =
     activeService?.kind === "experiential"
       ? {
@@ -217,7 +220,20 @@ export default function Services({ servicesSection }: { servicesSection: Service
                       </div>
 
                       <div className="mt-6 aspect-video overflow-hidden rounded-[1.35rem] border border-white/10 bg-black/30">
-                        <div className={`h-full w-full bg-gradient-to-br ${activeService.accent} opacity-35`} />
+                        {activeIllustration ? (
+                          <div className={`relative flex h-full w-full items-center justify-center bg-gradient-to-br ${activeService.accent} p-6`}>
+                            <Image
+                              src={activeIllustration}
+                              alt=""
+                              fill
+                              sizes="(min-width: 1024px) 460px, 100vw"
+                              className="object-contain p-6 drop-shadow-[0_20px_42px_rgba(0,0,0,0.28)]"
+                              aria-hidden="true"
+                            />
+                          </div>
+                        ) : (
+                          <div className={`h-full w-full bg-gradient-to-br ${activeService.accent} opacity-35`} />
+                        )}
                       </div>
 
                       <div className="mt-6">

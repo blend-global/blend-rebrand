@@ -1,6 +1,7 @@
 "use client";
 
-import { ArrowRight, Sparkles, Zap, Globe, Video, Camera, Palette, Code, Radio, Users, Star, Utensils, UserCheck, Megaphone } from "lucide-react";
+import Image from "next/image";
+import { Sparkles, Zap, Globe, Video, Camera, Palette, Code, Radio, Users, Star, Utensils, UserCheck, Megaphone } from "lucide-react";
 import { collection, doc, getDoc, getDocs, orderBy, query } from "firebase/firestore";
 import Reveal from "@/components/Reveal";
 import Link from "next/link";
@@ -10,6 +11,7 @@ import Footer from "@/components/Footer";
 import { useEffect, useState } from "react";
 import type { ServicesContent } from "@/lib/cms-types";
 import { getFirebaseDb } from "@/lib/firebase/client";
+import { getServiceIllustration } from "@/lib/service-illustrations";
 
 const digitalIconBySlug = {
   "video-production": Video,
@@ -72,6 +74,55 @@ const buildServiceCards = (
       accent,
     };
   });
+
+const ServiceListingCard = ({ service }: { service: ServiceCard }) => {
+  const illustration = getServiceIllustration(service.slug);
+
+  return (
+    <Link
+      href={`/services/${service.slug}`}
+      className="group block h-full overflow-hidden rounded-[1.45rem] border border-white/10 bg-white/[0.055] p-2 text-white shadow-[0_18px_54px_rgba(0,0,0,0.22)] backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-white/24 hover:bg-white/[0.08]"
+    >
+      <div className="relative flex h-full flex-col overflow-hidden rounded-[1.2rem] bg-[#101114] p-4">
+        <div className={`absolute right-[-5rem] top-[-6rem] h-48 w-48 rounded-full bg-gradient-to-br ${service.accent} opacity-30 blur-3xl`} />
+        <div className="relative flex items-start justify-between gap-4">
+          <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-[0.95rem] bg-gradient-to-br ${service.accent}`}>
+            <service.icon className="h-5 w-5 text-[#07100e]" aria-hidden="true" />
+          </span>
+          <span className="rounded-full border border-white/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">
+            {service.category}
+          </span>
+        </div>
+
+        <div className="relative mt-4 aspect-[16/9] overflow-hidden rounded-[1rem] border border-white/10 bg-black/30">
+          {illustration ? (
+            <div className={`relative h-full w-full bg-gradient-to-br ${service.accent}`}>
+              <Image
+                src={illustration}
+                alt=""
+                fill
+                sizes="(min-width: 1280px) 25vw, (min-width: 640px) 50vw, 100vw"
+                className="object-contain p-4 drop-shadow-[0_16px_34px_rgba(0,0,0,0.26)] transition-transform duration-300 group-hover:scale-[1.03]"
+                aria-hidden="true"
+              />
+            </div>
+          ) : (
+            <div className={`h-full w-full bg-gradient-to-br ${service.accent} opacity-35`} />
+          )}
+        </div>
+
+        <div className="relative mt-4">
+          <h3 className="break-normal text-xl font-semibold leading-[1.08] tracking-[-0.035em] text-white [overflow-wrap:normal] [word-break:normal] sm:text-2xl">
+            {service.title}
+          </h3>
+          <p className="mt-3 line-clamp-3 text-sm leading-6 text-white/68">
+            {service.description}
+          </p>
+        </div>
+      </div>
+    </Link>
+  );
+};
 
 async function readServicesFromFirestore(): Promise<ServicesContent> {
   const db = getFirebaseDb();
@@ -200,28 +251,11 @@ const ServicesPage = () => {
             </p>
           </Reveal>
           
-          <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {experientialServices.map((service, index) => {
               return (
               <Reveal key={service.title} delay={0.03 * index}>
-                <Link
-                href={`/services/${service.slug}`}
-                key={service.title}
-                className="group block min-h-full rounded-[1.4rem] border border-white/10 bg-white/[0.045] p-4 text-white shadow-[0_18px_54px_rgba(0,0,0,0.18)] transition-all duration-300 hover:-translate-y-1.5 hover:border-white/24 hover:bg-white/[0.075] hover:shadow-[0_28px_70px_rgba(0,0,0,0.28)] sm:p-5"
-              >
-                <div className="grid grid-cols-[3rem_minmax(0,1fr)_1.5rem] items-center gap-4">
-                  <span className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${service.accent}`}>
-                    <service.icon className="h-6 w-6 text-[#07100e]" aria-hidden="true" />
-                  </span>
-                  <h3 className="break-normal text-[1.05rem] font-semibold leading-tight tracking-[-0.025em] text-white [overflow-wrap:normal] [word-break:normal] sm:text-lg">
-                    {service.title}
-                  </h3>
-                  <ArrowRight className="h-4 w-4 -translate-x-1 text-white/42 transition-transform group-hover:translate-x-0 group-hover:scale-110 group-hover:text-white" aria-hidden="true" />
-                </div>
-                <p className="mt-5 line-clamp-3 text-sm leading-6 text-white/64">
-                  {service.description}
-                </p>
-              </Link>
+                <ServiceListingCard service={service} />
               </Reveal>
               );
             })}
@@ -242,28 +276,11 @@ const ServicesPage = () => {
             </p>
           </Reveal>
           
-          <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {digitalServices.map((service, index) => {
               return (
               <Reveal key={service.title} delay={0.03 * index}>
-                <Link
-                href={`/services/${service.slug}`}
-                key={service.title}
-                className="group block min-h-full rounded-[1.4rem] border border-white/10 bg-white/[0.045] p-4 text-white shadow-[0_18px_54px_rgba(0,0,0,0.18)] transition-all duration-300 hover:-translate-y-1.5 hover:border-white/24 hover:bg-white/[0.075] hover:shadow-[0_28px_70px_rgba(0,0,0,0.28)] sm:p-5"
-              >
-                <div className="grid grid-cols-[3rem_minmax(0,1fr)_1.5rem] items-center gap-4">
-                  <span className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${service.accent}`}>
-                    <service.icon className="h-6 w-6 text-[#07100e]" aria-hidden="true" />
-                  </span>
-                  <h3 className="break-normal text-[1.05rem] font-semibold leading-tight tracking-[-0.025em] text-white [overflow-wrap:normal] [word-break:normal] sm:text-lg">
-                    {service.title}
-                  </h3>
-                  <ArrowRight className="h-4 w-4 -translate-x-1 text-white/42 transition-transform group-hover:translate-x-0 group-hover:scale-110 group-hover:text-white" aria-hidden="true" />
-                </div>
-                <p className="mt-5 line-clamp-3 text-sm leading-6 text-white/64">
-                  {service.description}
-                </p>
-              </Link>
+                <ServiceListingCard service={service} />
               </Reveal>
               );
             })}
