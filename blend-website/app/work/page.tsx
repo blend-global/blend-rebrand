@@ -118,6 +118,7 @@ async function readCaseStudiesFromFirestore(): Promise<CaseStudy[]> {
 
 export default function WorkPage() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [activeFilter, setActiveFilter] = useState("All");
   const [workCaseStudies, setWorkCaseStudies] = useState<CaseStudy[]>([]);
   const itemsPerPage = 8;
 
@@ -130,10 +131,24 @@ export default function WorkPage() {
       });
   }, []);
 
+  const projectFilters = useMemo(() => {
+    const tags = new Set<string>();
+    workCaseStudies.forEach((item) => {
+      item.tags.forEach((tag) => tags.add(tag));
+    });
+
+    return ["All", ...Array.from(tags).sort((a, b) => a.localeCompare(b))];
+  }, [workCaseStudies]);
+
+  const filteredItems = useMemo(() => {
+    if (activeFilter === "All") return workCaseStudies;
+    return workCaseStudies.filter((item) => item.tags.includes(activeFilter));
+  }, [activeFilter, workCaseStudies]);
+
   const pagedItems = useMemo(() => {
     const start = (currentPage - 1) * itemsPerPage;
-    return workCaseStudies.slice(start, start + itemsPerPage);
-  }, [currentPage, itemsPerPage, workCaseStudies]);
+    return filteredItems.slice(start, start + itemsPerPage);
+  }, [currentPage, filteredItems, itemsPerPage]);
 
   return (
     <main className="min-h-screen bg-background text-white">
@@ -144,7 +159,7 @@ export default function WorkPage() {
         <div className="gradient-orb gradient-orb-pink h-[180px] w-[180px] bottom-20 left-1/3 opacity-50 sm:h-[280px] sm:w-[280px]" />
 
         <div className="container-max relative z-10 pb-16">
-          <div className="flex min-h-[58svh] flex-col justify-center pb-14">
+          <div className="flex min-h-[36svh] flex-col justify-center pb-8 sm:pb-10">
             <Reveal className="max-w-4xl">
               <h1 className="text-balance text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-white sm:text-5xl lg:text-7xl">
                 Case studies that prove the <span className="bg-gradient-to-r from-[#f36fb4] via-[#9fb8ff] to-[#22d3ee] bg-clip-text text-transparent">experience</span>.
@@ -156,11 +171,35 @@ export default function WorkPage() {
 
           </div>
 
+          <div className="mb-8 flex flex-wrap items-center gap-2 sm:mb-10 sm:gap-3">
+            {projectFilters.map((filter) => {
+              const isActive = filter === activeFilter;
+
+              return (
+                <button
+                  key={filter}
+                  type="button"
+                  onClick={() => {
+                    setActiveFilter(filter);
+                    setCurrentPage(1);
+                  }}
+                  className={`rounded-full border px-4 py-2 text-xs font-semibold transition sm:px-5 sm:text-sm ${
+                    isActive
+                      ? "border-transparent bg-white text-black shadow-[0_14px_32px_rgba(255,255,255,0.16)]"
+                      : "border-white/14 bg-white/[0.06] text-white/70 hover:border-white/30 hover:bg-white/[0.1] hover:text-white"
+                  }`}
+                  aria-pressed={isActive}
+                >
+                  {filter === "All" ? "All Projects" : filter}
+                </button>
+              );
+            })}
+          </div>
+
           <div className="grid gap-5 sm:gap-6 md:grid-cols-2">
             {pagedItems.map((item, index) => (
-              <Reveal key={item.title} delay={0.05 * index}>
+              <Reveal key={item.slug} delay={0.05 * index}>
                 <MotionLink
-                  key={item.title}
                   href={`/work/${item.slug}`}
                   className="relative block overflow-hidden rounded-[24px] bg-white/5 shadow-[0_18px_48px_rgba(0,0,0,0.4)]"
                   whileHover={{ y: -6, scale: 1.01 }}
@@ -187,9 +226,15 @@ export default function WorkPage() {
             ))}
           </div>
 
+          {filteredItems.length === 0 ? (
+            <div className="rounded-[24px] border border-white/10 bg-white/[0.04] px-6 py-10 text-center text-sm font-medium text-white/64">
+              No case studies match this filter yet.
+            </div>
+          ) : null}
+
           <div className="mt-8 sm:mt-10">
             <Pagination
-              totalItems={workCaseStudies.length}
+              totalItems={filteredItems.length}
               itemsPerPage={itemsPerPage}
               currentPage={currentPage}
               onPageChange={setCurrentPage}

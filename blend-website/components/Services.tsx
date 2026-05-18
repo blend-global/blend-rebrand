@@ -156,9 +156,12 @@ export default function Services({ servicesSection }: { servicesSection: Service
                 const serviceLabel = formatServiceLabel(service.label);
 
                 return (
-                  <motion.div
+                  <MotionLink
                     key={service.slug}
+                    href={`/services/${service.slug}`}
+                    aria-label={`View ${serviceLabel} details`}
                     onMouseEnter={() => setActiveSlug(service.slug)}
+                    onFocus={() => setActiveSlug(service.slug)}
                     className={`group grid min-h-24 grid-cols-[3rem_minmax(0,1fr)_1rem] items-center gap-4 rounded-[1.4rem] border p-4 text-left transition-colors ${
                       isActive
                         ? "border-white/30 bg-white text-[#08090d] shadow-[0_22px_60px_rgba(255,255,255,0.14)]"
@@ -168,29 +171,22 @@ export default function Services({ servicesSection }: { servicesSection: Service
                     whileTap={{ scale: 0.98 }}
                     transition={{ type: "spring", stiffness: 260, damping: 20 }}
                   >
-                    <button
-                      type="button"
-                      onClick={() => setActiveSlug(service.slug)}
-                      onFocus={() => setActiveSlug(service.slug)}
-                      className="col-span-2 grid min-w-0 grid-cols-[3rem_minmax(0,1fr)] items-center gap-4 text-left"
-                    >
+                    <div className="col-span-2 grid min-w-0 grid-cols-[3rem_minmax(0,1fr)] items-center gap-4 text-left">
                       <span className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${service.accent}`}>
                         <Icon className="h-6 w-6 text-[#07100e]" aria-hidden="true" />
                       </span>
                       <span className={`block min-w-0 break-normal text-[0.95rem] font-semibold leading-tight tracking-[-0.025em] [overflow-wrap:normal] [word-break:normal] xl:text-base ${isActive ? "text-[#08090d]" : "text-white"}`}>
                         {serviceLabel}
                       </span>
-                    </button>
-                    <MotionLink
-                      href={`/services/${service.slug}`}
-                      aria-label={`View ${serviceLabel} details`}
-                      className={`flex h-9 w-9 -translate-x-2 items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-white/40 ${isActive ? "text-[#101114]" : "text-white/42 hover:text-white"}`}
-                      whileHover={{ x: 1, scale: 1.18 }}
-                      whileTap={{ scale: 0.94 }}
+                    </div>
+                    <span
+                      className={`flex h-9 w-9 -translate-x-2 items-center justify-center transition-colors group-hover:translate-x-0.5 ${
+                        isActive ? "text-[#101114]" : "text-white/42 group-hover:text-white"
+                      }`}
                     >
                       <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                    </MotionLink>
-                  </motion.div>
+                    </span>
+                  </MotionLink>
                 );
               })}
             </div>

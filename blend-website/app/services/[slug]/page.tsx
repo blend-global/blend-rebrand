@@ -1,11 +1,9 @@
 import Link from "next/link";
-import Image from "next/image";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { getAllServices } from "@/lib/cms-helpers";
 import { readCmsSection } from "@/lib/cms-server";
-import { getServiceIllustration } from "@/lib/service-illustrations";
 
 const slugify = (value: string) =>
   value
@@ -103,11 +101,8 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
   const details = serviceDetails[normalized] ?? (service ? serviceDetails[service.slug] : null);
   const serviceLabel = service?.label ?? (details ? titleCase(normalized) : "Service Details");
   const serviceCategory = service?.category ?? "Services";
-  const serviceIllustration = getServiceIllustration(service?.slug ?? normalized);
   const tone = getServiceTone(serviceCategory);
   const deliverables = details?.deliverables?.length ? details.deliverables : ["Structured deliverables tailored to your goals."];
-  const outcomes = details?.outcomes?.length ? details.outcomes : ["Clearer scope, stronger execution, and a more memorable audience experience."];
-  const highlights = details?.highlights?.length ? details.highlights : ["Discovery", "Creative direction", "Delivery planning"];
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#050608] text-white">
@@ -171,108 +166,45 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
             )}
             </div>
 
-            <aside className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.06] p-3 shadow-[0_30px_90px_rgba(0,0,0,0.38)] backdrop-blur">
-              <div className="relative overflow-hidden rounded-[1.6rem] bg-[#101114] p-5">
-                <div className={`absolute right-[-5rem] top-[-6rem] h-56 w-56 rounded-full bg-gradient-to-br ${tone.accent} opacity-35 blur-3xl`} />
-                <div className="relative">
-                  <div className={`aspect-video overflow-hidden rounded-[1.35rem] border border-white/10 bg-gradient-to-br ${tone.soft}`}>
-                    {serviceIllustration ? (
-                      <div className={`relative flex h-full w-full items-center justify-center bg-gradient-to-br ${tone.accent} p-6`}>
-                        <Image
-                          src={serviceIllustration}
-                          alt=""
-                          fill
-                          sizes="(min-width: 1024px) 400px, 100vw"
-                          className="object-contain p-6 drop-shadow-[0_20px_42px_rgba(0,0,0,0.28)]"
-                          aria-hidden="true"
-                        />
-                      </div>
-                    ) : null}
-                  </div>
-                  <div className="mt-6 grid grid-cols-3 gap-2">
-                    {highlights.slice(0, 3).map((item) => (
-                      <div key={item} className="rounded-2xl border border-white/10 bg-white/[0.045] p-3">
-                        <p className={`text-[10px] font-bold uppercase tracking-[0.2em] ${tone.text}`}>
-                          {item}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
+            <aside className="space-y-5">
+              <div className="rounded-[1.6rem] border border-white/10 bg-white/[0.045] p-5 sm:p-6">
+                <div className="flex items-center justify-between gap-4">
+                  <h2 className="text-xl font-semibold tracking-[-0.025em]">What We Deliver</h2>
+                  <span className={`h-3 w-16 rounded-full bg-gradient-to-r ${tone.accent}`} />
                 </div>
+                <ul className="mt-6 space-y-3 text-sm leading-6 text-white/74">
+                  {deliverables.map((item) => (
+                    <li key={item} className="flex gap-3 border-b border-white/10 pb-3 last:border-b-0 last:pb-0">
+                      <span className={`mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-r ${tone.accent}`} aria-hidden="true" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="rounded-[1.6rem] border border-white/10 bg-white/[0.045] p-5 sm:p-6">
+                <h2 className="text-xl font-semibold tracking-[-0.025em]">How We Work</h2>
+                <ol className="mt-6 space-y-4 text-sm text-white/72">
+                  {[
+                    ["Discover", "Align on goals, audience, and success metrics."],
+                    ["Design", "Craft the creative, production plan, and deliverables."],
+                    ["Deliver", "Execute with precision and optimize for impact."],
+                  ].map(([title, copy], index) => (
+                    <li key={title} className="flex gap-3">
+                      <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br ${tone.accent} text-xs font-bold text-[#07100e]`}>
+                        {index + 1}
+                      </span>
+                      <div>
+                        <div className="font-semibold text-white">{title}</div>
+                        <p className="mt-1 leading-6">{copy}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
               </div>
             </aside>
           </div>
 
-          <div className="mt-12 grid gap-5 lg:grid-cols-[minmax(0,1fr)_420px]">
-            <div className="rounded-[1.6rem] border border-white/10 bg-white/[0.045] p-5 sm:p-6">
-              <div className="flex items-center justify-between gap-4">
-                <h2 className="text-xl font-semibold tracking-[-0.025em]">What We Deliver</h2>
-                <span className={`h-3 w-16 rounded-full bg-gradient-to-r ${tone.accent}`} />
-              </div>
-              <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                {deliverables.map((item) => (
-                  <div key={item} className="rounded-2xl border border-white/10 bg-[#101114] p-4 text-sm leading-6 text-white/74">
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="rounded-[1.6rem] border border-white/10 bg-white/[0.045] p-5 sm:p-6">
-              <h2 className="text-xl font-semibold tracking-[-0.025em]">How We Work</h2>
-              <ol className="mt-6 space-y-4 text-sm text-white/72">
-                {[
-                  ["Discover", "Align on goals, audience, and success metrics."],
-                  ["Design", "Craft the creative, production plan, and deliverables."],
-                  ["Deliver", "Execute with precision and optimize for impact."],
-                ].map(([title, copy], index) => (
-                  <li key={title} className="flex gap-3">
-                    <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br ${tone.accent} text-xs font-bold text-[#07100e]`}>
-                      {index + 1}
-                    </span>
-                    <div>
-                      <div className="font-semibold text-white">{title}</div>
-                      <p className="mt-1 leading-6">{copy}</p>
-                    </div>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </div>
-
-          {(details || service) && (
-            <>
-              <div className="mt-5 rounded-[1.6rem] border border-white/10 bg-white/[0.045] p-5 sm:p-6">
-                <h2 className="text-xl font-semibold tracking-[-0.025em]">Outcomes</h2>
-                <div className="mt-6 grid gap-3 md:grid-cols-3">
-                  {outcomes.map((item) => (
-                    <div key={item} className="rounded-2xl border border-white/10 bg-[#101114] p-4">
-                      <span className={`mb-4 block h-2 w-10 rounded-full bg-gradient-to-r ${tone.accent}`} />
-                      <p className="text-sm leading-6 text-white/74">{item}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className={`mt-5 overflow-hidden rounded-[1.6rem] border border-white/10 bg-gradient-to-r ${tone.soft} p-6`}>
-                <div className="flex flex-wrap items-center justify-between gap-5">
-                  <div>
-                    <h3 className="text-xl font-semibold tracking-[-0.025em]">Explore more services</h3>
-                    <p className="mt-2 text-sm leading-6 text-white/70">
-                  Browse the full list to find the right blend of digital and experiential support.
-                    </p>
-                  </div>
-                  <Link
-                    href="/services"
-                    className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/20 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-black/35"
-                  >
-                    View All Services
-                    <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                  </Link>
-                </div>
-              </div>
-            </>
-          )}
         </div>
       </section>
       <Footer />

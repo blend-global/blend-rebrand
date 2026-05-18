@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { Menu } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { MotionLink } from "@/components/MotionLink";
 import { navLinks } from "@/lib/data";
 
@@ -122,21 +122,23 @@ export default function Navbar({ isOverlay = false }: NavbarProps) {
               <Image src="/logo.png" alt="Blend logo" width={89} height={93} className="h-9 w-auto sm:h-11 md:h-14" priority />
             </MotionLink>
 
-            <motion.div
+            <div
               className="hidden md:block"
               onMouseEnter={showDesktopMenu}
               onMouseLeave={hideDesktopMenu}
-              onFocus={showDesktopMenu}
-              onBlur={hideDesktopMenu}
-              initial={{ opacity: 1, x: 0 }}
-              animate={{
-                opacity: desktopMenuVisible ? 1 : 0,
-                x: desktopMenuVisible ? 0 : 12,
-                pointerEvents: desktopMenuVisible ? "auto" : "none",
-              }}
-              transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
             >
-              <div className="flex items-center gap-6 px-3 py-2.5 text-white lg:gap-8 lg:px-4">
+              <motion.div
+                onFocus={showDesktopMenu}
+                onBlur={hideDesktopMenu}
+                initial={{ opacity: 1, x: 0 }}
+                animate={{
+                  opacity: desktopMenuVisible ? 1 : 0,
+                  x: desktopMenuVisible ? 0 : 12,
+                  pointerEvents: desktopMenuVisible ? "auto" : "none",
+                }}
+                transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+                className="flex items-center gap-6 px-3 py-2.5 text-white lg:gap-8 lg:px-4"
+              >
                 <motion.nav
                   className="flex items-center gap-6 text-sm font-semibold lg:gap-8 lg:text-base"
                   animate={{ color: menuTextColor }}
@@ -169,29 +171,38 @@ export default function Navbar({ isOverlay = false }: NavbarProps) {
                 >
                   Contact
                 </MotionLink>
-              </div>
-            </motion.div>
+              </motion.div>
+            </div>
 
             <motion.button
               type="button"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-[#111216]/92 text-white shadow-[0_14px_36px_rgba(0,0,0,0.35)] md:hidden"
+              className={`inline-flex h-11 w-11 items-center justify-center rounded-full border bg-[#111216]/92 text-white shadow-[0_14px_36px_rgba(0,0,0,0.35)] md:hidden ${
+                open ? "border-[#f2c94c] ring-2 ring-[#f2c94c]/40" : "border-white/10"
+              }`}
               onClick={() => setOpen((prev) => !prev)}
-              aria-label="Toggle navigation"
+              aria-label={open ? "Close navigation" : "Open navigation"}
+              aria-expanded={open}
               whileTap={{ scale: 0.95 }}
             >
-              <Menu className="h-5 w-5" aria-hidden="true" />
+              {open ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
             </motion.button>
           </div>
         </div>
 
         {open && (
-          <div className="mt-2 rounded-3xl bg-[#0c0d13] p-3 text-white shadow-xl md:hidden sm:p-4">
-            <nav className="flex flex-col gap-3 text-sm font-medium text-white/80">
+          <motion.div
+            className="fixed inset-x-0 top-[5.75rem] bottom-0 z-[-1] flex flex-col bg-[#050608]/98 px-4 pb-8 pt-6 text-white shadow-xl backdrop-blur md:hidden sm:top-[7rem]"
+            initial={{ opacity: 0, y: -16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <nav className="flex flex-1 flex-col justify-center gap-6 text-3xl font-semibold tracking-[-0.04em] text-white/86">
               {navLinks.map((link) => (
                 <MotionLink
                   key={link.label}
                   href={link.href}
-                  className="rounded-full px-3 py-2 transition-colors hover:bg-white/5 hover:text-white"
+                  className="rounded-2xl px-2 py-3 transition-colors hover:bg-white/5 hover:text-white"
                   onClick={() => setOpen(false)}
                   whileHover={{ x: 4 }}
                 >
@@ -201,14 +212,14 @@ export default function Navbar({ isOverlay = false }: NavbarProps) {
             </nav>
             <MotionLink
               href="/contact"
-              className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-[#6bd688] via-[#78d1ff] to-[#22d3ee] px-5 py-3 text-sm font-bold text-[#07100e]"
+              className="inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-[#6bd688] via-[#78d1ff] to-[#22d3ee] px-5 py-4 text-base font-bold text-[#07100e]"
               onClick={() => setOpen(false)}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.97 }}
             >
               Contact Us
             </MotionLink>
-          </div>
+          </motion.div>
         )}
       </div>
     </header>

@@ -251,14 +251,17 @@ const ServicesPage = () => {
             </p>
           </Reveal>
           
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            {experientialServices.map((service, index) => {
-              return (
-              <Reveal key={service.title} delay={0.03 * index}>
-                <ServiceListingCard service={service} />
-              </Reveal>
-              );
-            })}
+          <div className="relative">
+            <div className="pointer-events-none absolute -inset-x-6 -inset-y-10 rounded-[2rem] bg-[radial-gradient(circle_at_18%_20%,rgba(243,111,180,0.16),transparent_34%),radial-gradient(circle_at_82%_78%,rgba(120,209,255,0.12),transparent_36%),linear-gradient(135deg,rgba(255,255,255,0.045),rgba(255,255,255,0))]" />
+            <div className="relative z-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+              {experientialServices.map((service, index) => {
+                return (
+                <Reveal key={service.title} delay={0.03 * index}>
+                  <ServiceListingCard service={service} />
+                </Reveal>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
@@ -276,14 +279,17 @@ const ServicesPage = () => {
             </p>
           </Reveal>
           
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            {digitalServices.map((service, index) => {
-              return (
-              <Reveal key={service.title} delay={0.03 * index}>
-                <ServiceListingCard service={service} />
-              </Reveal>
-              );
-            })}
+          <div className="relative">
+            <div className="pointer-events-none absolute -inset-x-6 -inset-y-10 rounded-[2rem] bg-[radial-gradient(circle_at_20%_76%,rgba(107,214,136,0.14),transparent_34%),radial-gradient(circle_at_82%_24%,rgba(34,211,238,0.13),transparent_36%),linear-gradient(135deg,rgba(255,255,255,0.04),rgba(255,255,255,0))]" />
+            <div className="relative z-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+              {digitalServices.map((service, index) => {
+                return (
+                <Reveal key={service.title} delay={0.03 * index}>
+                  <ServiceListingCard service={service} />
+                </Reveal>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
