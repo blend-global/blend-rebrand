@@ -233,10 +233,17 @@ export default function Services({ servicesSection }: { servicesSection: Service
                       </div>
 
                       <div className="mt-6">
-                        <h3 className="max-w-xl break-normal text-3xl font-semibold leading-[1.04] tracking-[-0.04em] [overflow-wrap:normal] [word-break:normal] sm:text-[2.15rem]">
+                        <h3 className="max-w-xl truncate break-normal pb-1 text-3xl font-semibold leading-[1.04] tracking-[-0.04em] [overflow-wrap:normal] [word-break:normal] sm:text-[2.15rem]">
                           {formatServiceLabel(activeService.label)}
                         </h3>
-                        <p className="mt-4 max-w-2xl text-sm leading-6 text-white/68 sm:text-base">
+                        <p
+                          className="mt-3 h-[3rem] min-h-[3rem] max-h-[3rem] max-w-2xl overflow-hidden text-sm leading-6 text-white/68 sm:text-base"
+                          style={{
+                            display: "-webkit-box",
+                            WebkitBoxOrient: "vertical",
+                            WebkitLineClamp: 2,
+                          }}
+                        >
                           {activeDetails?.summary ?? "A focused service built to support standout brand experiences."}
                         </p>
                       </div>

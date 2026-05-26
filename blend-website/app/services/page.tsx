@@ -112,10 +112,17 @@ const ServiceListingCard = ({ service }: { service: ServiceCard }) => {
         </div>
 
         <div className="relative mt-4">
-          <h3 className="break-normal text-xl font-semibold leading-[1.08] tracking-[-0.035em] text-white [overflow-wrap:normal] [word-break:normal] sm:text-2xl">
+          <h3 className="truncate break-normal pb-1 text-xl font-semibold leading-[1.08] tracking-[-0.035em] text-white [overflow-wrap:normal] [word-break:normal] sm:text-2xl">
             {service.title}
           </h3>
-          <p className="mt-3 line-clamp-3 text-sm leading-6 text-white/68">
+          <p
+            className="mt-2 h-[3rem] min-h-[3rem] max-h-[3rem] flex-none overflow-hidden text-sm leading-6 text-white/68"
+            style={{
+              display: "-webkit-box",
+              WebkitBoxOrient: "vertical",
+              WebkitLineClamp: 2,
+            }}
+          >
             {service.description}
           </p>
         </div>

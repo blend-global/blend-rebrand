@@ -191,7 +191,7 @@ export default function Navbar({ isOverlay = false }: NavbarProps) {
 
         {open && (
           <motion.div
-            className="fixed inset-x-0 top-[5.75rem] bottom-0 z-[-1] flex flex-col bg-[#050608]/98 px-4 pb-8 pt-6 text-white shadow-xl backdrop-blur md:hidden sm:top-[7rem]"
+            className="fixed inset-0 z-[-1] flex flex-col bg-[#050608]/98 px-4 pb-8 pt-[5.75rem] text-white shadow-xl backdrop-blur md:hidden sm:pt-[7rem]"
             initial={{ opacity: 0, y: -16 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
