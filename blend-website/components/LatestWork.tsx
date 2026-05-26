@@ -11,6 +11,13 @@ import { getLatestCaseStudies } from "@/lib/cms-helpers";
 import type { CaseStudy } from "@/lib/cms-types";
 import { getFirebaseDb } from "@/lib/firebase/client";
 
+const mobileSummaryBySlug: Record<string, string> = {
+  google: "A polished Google Cloud partner experience built for hybrid audiences.",
+  deloitte: "A next-gen summit campaign across staffing, digital, and live delivery.",
+  geberit: "Product storytelling, event capture, and motion assets for a showcase rollout.",
+  shoprite: "A retail campaign blending gifting, digital communication, and social amplification.",
+};
+
 const getYouTubeEmbedUrl = (url: string) => {
   try {
     const parsedUrl = new URL(url);
@@ -134,12 +141,12 @@ export default function LatestWork() {
                   whileHover={{ scale: 1.005 }}
                   transition={{ type: "spring", stiffness: 220, damping: 18 }}
                 >
-                  <div className="relative aspect-[16/7] min-h-[320px] overflow-hidden rounded-[2rem]">
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] sm:aspect-[16/7] sm:min-h-[320px]">
                     {activeCoverVideo ? (
                       <iframe
                         src={activeCoverVideo}
                         title={`${activeItem.title} cover video`}
-                        className="pointer-events-none absolute left-1/2 top-1/2 h-[56.25vw] min-h-full w-[177.777777vh] min-w-full -translate-x-1/2 -translate-y-1/2"
+                        className="pointer-events-none absolute left-1/2 top-1/2 h-full w-[133.333%] -translate-x-1/2 -translate-y-1/2 sm:h-[56.25vw] sm:min-h-full sm:w-[177.777777vh] sm:min-w-full"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen
                       />
@@ -190,15 +197,18 @@ export default function LatestWork() {
                         ▶
                       </span>
                     </div>
-                    <div className="absolute bottom-0 left-0 max-w-2xl p-6 sm:p-8">
-                      <p className="text-base leading-7 text-white/74 sm:text-lg">
-                        {activeItem.summary}
+                    <div className="absolute inset-x-0 bottom-0 max-w-2xl p-6 pr-10 sm:p-8">
+                      <p className="text-sm leading-6 text-white/74 sm:text-lg sm:leading-7">
+                        <span className="block max-w-[calc(100vw-7rem)] whitespace-normal sm:hidden">
+                          {mobileSummaryBySlug[activeItem.slug] ?? activeItem.summary}
+                        </span>
+                        <span className="hidden sm:inline">{activeItem.summary}</span>
                       </p>
                     </div>
                   </div>
                 </MotionLink>
 
-                <div className="pointer-events-none absolute inset-y-0 left-0 right-0 flex items-center justify-between px-5">
+                <div className="pointer-events-none absolute inset-x-5 top-1/2 z-20 flex -translate-y-1/2 items-center justify-between sm:inset-x-8">
                   <motion.button
                     type="button"
                     aria-label="Previous case study"
