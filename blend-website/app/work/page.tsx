@@ -183,7 +183,7 @@ export default function WorkPage() {
                     setActiveFilter(filter);
                     setCurrentPage(1);
                   }}
-                  className={`rounded-full border px-4 py-2 text-xs font-semibold transition sm:px-5 sm:text-sm ${
+                  className={`cursor-pointer rounded-full border px-4 py-2 text-xs font-semibold transition sm:px-5 sm:text-sm ${
                     isActive
                       ? "border-transparent bg-white text-black shadow-[0_14px_32px_rgba(255,255,255,0.16)]"
                       : "border-white/14 bg-white/[0.06] text-white/70 hover:border-white/30 hover:bg-white/[0.1] hover:text-white"

@@ -131,7 +131,7 @@ export default function Services({ servicesSection }: { servicesSection: Service
                     key={filter.kind}
                     type="button"
                     onClick={() => selectServiceKind(filter.kind)}
-                    className={`rounded-full border px-5 py-2.5 text-sm font-semibold transition-colors ${
+                    className={`cursor-pointer rounded-full border px-5 py-2.5 text-sm font-semibold transition-colors ${
                       isActive
                         ? activeFilterClass
                         : "border-white/15 bg-white/[0.04] text-white/70 hover:border-white/30 hover:text-white"
