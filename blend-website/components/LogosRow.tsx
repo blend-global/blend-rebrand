@@ -46,7 +46,7 @@ export default function LogosRow() {
       </div>
       <style jsx>{`
         .marquee-track {
-          animation: marquee 52s linear infinite;
+          animation: marquee 84s linear infinite;
         }
 
         @keyframes marquee {
