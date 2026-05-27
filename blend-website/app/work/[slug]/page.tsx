@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
 import { MotionLink } from "@/components/MotionLink";
 import { notFound } from "next/navigation";
+import { getCaseStudyCoverVideo } from "@/lib/case-study-media";
 import { fetchCmsSection } from "@/lib/cms-client";
 import type { CaseStudy } from "@/lib/cms-types";
 
@@ -40,7 +41,8 @@ function CaseStudyDetailMedia({
   fallbackImage: string;
   shouldUseCoverVideo: boolean;
 }) {
-  const youtubeEmbedUrl = caseStudy.coverVideo ? getYouTubeEmbedUrl(caseStudy.coverVideo) : null;
+  const coverVideo = getCaseStudyCoverVideo(caseStudy);
+  const youtubeEmbedUrl = coverVideo ? getYouTubeEmbedUrl(coverVideo) : null;
   const mediaWrapperRef = useRef<HTMLDivElement | null>(null);
 
   const requestFullscreen = () => {
@@ -82,11 +84,11 @@ function CaseStudyDetailMedia({
     );
   }
 
-  if (shouldUseCoverVideo && caseStudy.coverVideo) {
+  if (shouldUseCoverVideo && coverVideo) {
     return (
       <div ref={mediaWrapperRef} className="relative bg-black">
         <video
-          src={caseStudy.coverVideo}
+          src={coverVideo}
           className="h-[240px] w-full object-cover sm:h-[280px] md:h-[320px]"
           autoPlay
           muted

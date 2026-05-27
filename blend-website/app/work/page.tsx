@@ -8,6 +8,7 @@ import { MotionLink } from "@/components/MotionLink";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Pagination from "@/components/Pagination";
+import { getCaseStudyCoverVideo } from "@/lib/case-study-media";
 import type { CaseStudy } from "@/lib/cms-types";
 import { getFirebaseDb } from "@/lib/firebase/client";
 
@@ -37,7 +38,8 @@ const getYouTubeEmbedUrl = (url: string) => {
 };
 
 function CaseStudyCover({ item }: { item: CaseStudy }) {
-  const youtubeEmbedUrl = item.coverVideo ? getYouTubeEmbedUrl(item.coverVideo) : null;
+  const coverVideo = getCaseStudyCoverVideo(item);
+  const youtubeEmbedUrl = coverVideo ? getYouTubeEmbedUrl(coverVideo) : null;
 
   if (youtubeEmbedUrl) {
     return (
@@ -51,10 +53,10 @@ function CaseStudyCover({ item }: { item: CaseStudy }) {
     );
   }
 
-  if (item.coverVideo) {
+  if (coverVideo) {
     return (
       <video
-        src={item.coverVideo}
+        src={coverVideo}
         className="h-[220px] w-full rounded-[24px] object-cover sm:h-[260px] lg:h-[320px]"
         autoPlay
         muted

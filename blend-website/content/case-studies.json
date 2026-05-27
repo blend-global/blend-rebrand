@@ -4,6 +4,7 @@
     "title": "Google",
     "project": "Cloud Partner Experience",
     "image": "/placeholders/work-google.svg",
+    "coverVideo": "/case-studies/google-cloud.mp4",
     "tags": ["Event Management", "Photography", "Videography"],
     "summary": "A hybrid partner experience connecting Google Cloud audiences through polished production and clear storytelling.",
     "tabs": {
@@ -44,6 +45,7 @@
     "title": "Deloitte",
     "project": "Future Leaders Summit",
     "image": "/placeholders/work-deloitte.svg",
+    "coverVideo": "/case-studies/deloitte.mp4",
     "tags": ["Social Media", "Staffing", "Web Development"],
     "summary": "A multi-layered summit campaign spanning staffing, digital touchpoints, and on-site delivery for Deloitte’s next-gen audience.",
     "tabs": {
@@ -84,6 +86,7 @@
     "title": "Geberit",
     "project": "Product Showcase Series",
     "image": "/placeholders/work-geberit.svg",
+    "coverVideo": "/case-studies/geberit.mp4",
     "tags": ["Videography", "Photography", "Animation"],
     "summary": "A content-led case study built around product storytelling, event capture, and motion assets for Geberit’s showcase rollout.",
     "tabs": {
@@ -124,6 +127,7 @@
     "title": "Shoprite",
     "project": "Retail Campaign Rollout",
     "image": "/placeholders/work-deloitte.svg",
+    "coverVideo": "/case-studies/shoprite.mp4",
     "tags": ["Swag and Gifting", "Email Marketing", "Social Media"],
     "summary": "A retail-facing campaign combining gifting, digital communication, and social amplification to support a broader rollout.",
     "tabs": {
