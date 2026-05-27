@@ -19,6 +19,16 @@ const mobileSummaryBySlug: Record<string, string> = {
   shoprite: "A retail campaign blending gifting, digital communication, and social amplification.",
 };
 
+const logoBySlug: Record<string, string> = {
+  deloitte: "/new-client-logos/Deloitte.svg",
+  geberit: "/new-client-logos/Geberit.svg",
+  google: "/new-client-logos/Google%20Cloud.svg",
+  shoprite: "/new-client-logos/Shoprite.svg",
+};
+
+const getCaseStudyLogo = (caseStudy: Pick<CaseStudy, "slug" | "logo">) =>
+  logoBySlug[caseStudy.slug] ?? caseStudy.logo ?? null;
+
 const getYouTubeEmbedUrl = (url: string) => {
   try {
     const parsedUrl = new URL(url);
@@ -75,6 +85,7 @@ export default function LatestWork() {
   const activeItem = latestWorkItems[activeIndex] ?? latestWorkItems[0];
   const activeCoverVideoSrc = activeItem ? getCaseStudyCoverVideo(activeItem) : null;
   const activeCoverVideo = activeCoverVideoSrc ? getYouTubeEmbedUrl(activeCoverVideoSrc) : null;
+  const activeLogo = activeItem ? getCaseStudyLogo(activeItem) : null;
   const goToPrevious = () => {
     if (latestWorkItems.length <= 1) return;
     setActiveDirection(-1);
@@ -126,11 +137,12 @@ export default function LatestWork() {
             <div className="mx-auto mt-12 max-w-6xl">
               <div className="pointer-events-none absolute h-0 w-0 overflow-hidden opacity-0" aria-hidden="true">
                 {latestWorkItems
-                  .filter((item) => item.logo)
-                  .map((item) => (
+                  .map((item) => ({ item, logo: getCaseStudyLogo(item) }))
+                  .filter(({ logo }) => logo)
+                  .map(({ item, logo }) => (
                     <Image
                       key={`${item.slug}-logo-preload`}
-                      src={item.logo as string}
+                      src={logo as string}
                       alt=""
                       width={160}
                       height={160}
@@ -185,10 +197,10 @@ export default function LatestWork() {
                       <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/35 to-black/60" />
                       <div className="absolute inset-x-0 top-0 p-6 sm:p-8">
                         <div>
-                          {activeItem.logo ? (
+                          {activeLogo ? (
                             <span className="flex h-[30px] w-28 items-center justify-center overflow-hidden rounded-full bg-white px-2 shadow-[0_10px_24px_rgba(0,0,0,0.24)] ring-1 ring-white/70 sm:h-8 sm:w-32">
                               <Image
-                                src={activeItem.logo}
+                                src={activeLogo}
                                 alt={`${activeItem.title} logo`}
                                 width={160}
                                 height={160}
@@ -202,24 +214,21 @@ export default function LatestWork() {
                               {activeItem.title}
                             </div>
                           )}
-                          <div className="mt-3 max-w-xl text-sm font-semibold uppercase tracking-[0.18em] text-white/58">
+                          <div className="mt-3 hidden max-w-xl text-sm font-semibold uppercase tracking-[0.18em] text-white/58 sm:block">
                             {activeItem.project}
                           </div>
                         </div>
                       </div>
-                      <div className="absolute inset-x-0 bottom-0 max-w-2xl p-6 pr-10 sm:p-8">
+                      <div className="absolute inset-x-0 bottom-0 hidden max-w-2xl p-6 pr-10 sm:block sm:p-8">
                         <p className="text-sm leading-6 text-white/74 sm:text-lg sm:leading-7">
-                          <span className="block max-w-[calc(100vw-7rem)] whitespace-normal sm:hidden">
-                            {mobileSummaryBySlug[activeItem.slug] ?? activeItem.summary}
-                          </span>
-                          <span className="hidden sm:inline">{activeItem.summary}</span>
+                          {activeItem.summary}
                         </p>
                       </div>
                     </div>
                   </MotionLink>
                 </AnimatePresence>
 
-                <div className="pointer-events-none absolute inset-x-5 top-1/2 z-20 flex -translate-y-1/2 items-center justify-between sm:inset-x-8">
+                <div className="pointer-events-none absolute inset-x-5 top-1/2 z-20 hidden -translate-y-1/2 items-center justify-between sm:inset-x-8 sm:flex">
                   <motion.button
                     type="button"
                     aria-label="Previous case study"
@@ -242,6 +251,46 @@ export default function LatestWork() {
                   </motion.button>
                 </div>
               </div>
+
+              <AnimatePresence initial={false} mode="wait">
+                <motion.div
+                  key={`${activeItem.slug}-mobile-details`}
+                  className="mt-5 flex flex-col items-center gap-4 px-4 text-center sm:hidden"
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <div className="text-sm font-semibold uppercase tracking-[0.18em] text-white/58">
+                    {activeItem.project}
+                  </div>
+                  <p className="max-w-[22rem] text-sm leading-6 text-white/74">
+                    {mobileSummaryBySlug[activeItem.slug] ?? activeItem.summary}
+                  </p>
+                  <div className="flex items-center justify-center gap-5">
+                    <motion.button
+                      type="button"
+                      aria-label="Previous case study"
+                      className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white/90 text-[#101114] shadow-[0_16px_32px_rgba(0,0,0,0.24)]"
+                      onClick={goToPrevious}
+                      whileHover={{ x: -2, scale: 1.04 }}
+                      whileTap={{ scale: 0.96 }}
+                    >
+                      <ArrowLeft className="h-5 w-5" aria-hidden="true" />
+                    </motion.button>
+                    <motion.button
+                      type="button"
+                      aria-label="Next case study"
+                      className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white/90 text-[#101114] shadow-[0_16px_32px_rgba(0,0,0,0.24)]"
+                      onClick={goToNext}
+                      whileHover={{ x: 2, scale: 1.04 }}
+                      whileTap={{ scale: 0.96 }}
+                    >
+                      <ArrowRight className="h-5 w-5" aria-hidden="true" />
+                    </motion.button>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
 
               <AnimatePresence initial={false} mode="wait">
                 <motion.div
