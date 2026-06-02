@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Sparkles, Zap, Globe, Video, Camera, Palette, Code, Radio, Users, Star, Utensils, UserCheck, Megaphone } from "lucide-react";
+import { Sparkles, Zap, Globe, Video, Camera, Palette, Laptop, Radio, Users, Star, Utensils, UserCheck, Megaphone } from "lucide-react";
 import { collection, doc, getDoc, getDocs, orderBy, query } from "firebase/firestore";
 import Reveal from "@/components/Reveal";
 import Link from "next/link";
@@ -18,7 +18,7 @@ const digitalIconBySlug = {
   photography: Camera,
   animation: Sparkles,
   "design-creative": Palette,
-  "web-development": Code,
+  "web-development": Laptop,
   "live-streaming": Radio,
   "hybrid-virtual-events": Globe,
   "marketing-advertising-social-media": Megaphone,

@@ -135,20 +135,6 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
                   {details?.summary ??
                     `We design and deliver tailored ${serviceLabel.toLowerCase()} solutions that align with your goals and elevate every moment of your project.`}
                 </p>
-                <div className="mt-8 flex flex-wrap gap-3">
-                  <Link
-                    href="/contact"
-                    className={`inline-flex items-center justify-center rounded-full bg-gradient-to-r ${tone.accent} px-5 py-3 text-sm font-bold text-[#07100e] shadow-[0_18px_42px_rgba(0,0,0,0.28)] transition-transform hover:-translate-y-0.5`}
-                  >
-                    Start a Project
-                  </Link>
-                  <Link
-                    href="/services"
-                    className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/[0.045] px-5 py-3 text-sm font-semibold text-white transition-colors hover:border-white/28 hover:bg-white/[0.075]"
-                  >
-                    View Services
-                  </Link>
-                </div>
               </>
             ) : (
               <>
@@ -166,44 +152,32 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
             )}
             </div>
 
-            <aside className="space-y-5">
-              <div className="rounded-[1.6rem] border border-white/10 bg-white/[0.045] p-5 sm:p-6">
-                <div className="flex items-center justify-between gap-4">
-                  <h2 className="text-xl font-semibold tracking-[-0.025em]">What We Deliver</h2>
-                  <span className={`h-3 w-16 rounded-full bg-gradient-to-r ${tone.accent}`} />
-                </div>
-                <ul className="mt-6 space-y-3 text-sm leading-6 text-white/74">
-                  {deliverables.map((item) => (
-                    <li key={item} className="flex gap-3 border-b border-white/10 pb-3 last:border-b-0 last:pb-0">
-                      <span className={`mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-r ${tone.accent}`} aria-hidden="true" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="rounded-[1.6rem] border border-white/10 bg-white/[0.045] p-5 sm:p-6">
-                <h2 className="text-xl font-semibold tracking-[-0.025em]">How We Work</h2>
-                <ol className="mt-6 space-y-4 text-sm text-white/72">
-                  {[
-                    ["Discover", "Align on goals, audience, and success metrics."],
-                    ["Design", "Craft the creative, production plan, and deliverables."],
-                    ["Deliver", "Execute with precision and optimize for impact."],
-                  ].map(([title, copy], index) => (
-                    <li key={title} className="flex gap-3">
-                      <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br ${tone.accent} text-xs font-bold text-[#07100e]`}>
-                        {index + 1}
-                      </span>
-                      <div>
-                        <div className="font-semibold text-white">{title}</div>
-                        <p className="mt-1 leading-6">{copy}</p>
-                      </div>
-                    </li>
-                  ))}
-                </ol>
-              </div>
+            <aside className="flex h-full items-end justify-start lg:justify-end">
+              <Link
+                href="/contact"
+                className={`inline-flex items-center justify-center rounded-full bg-gradient-to-r ${tone.accent} px-8 py-3 text-sm font-bold text-[#07100e] shadow-[0_18px_42px_rgba(0,0,0,0.28)] transition-transform hover:-translate-y-0.5`}
+              >
+                Start a Project
+              </Link>
             </aside>
           </div>
+
+          {(details || service) && (
+            <div className="mt-10 w-full rounded-[1.6rem] border border-white/10 bg-white/[0.045] p-5 sm:p-6">
+              <div className="flex items-center justify-between gap-4">
+                <h2 className="text-xl font-semibold tracking-[-0.025em]">What We Deliver</h2>
+                <span className={`h-3 w-16 rounded-full bg-gradient-to-r ${tone.accent}`} />
+              </div>
+              <ul className="mt-6 flex flex-row flex-wrap gap-x-6 gap-y-3 text-sm leading-6 text-white/74">
+                {deliverables.map((item) => (
+                  <li key={item} className="flex min-w-[12rem] flex-1 items-start gap-3">
+                    <span className={`mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-r ${tone.accent}`} aria-hidden="true" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
         </div>
       </section>

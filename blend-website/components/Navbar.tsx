@@ -123,10 +123,29 @@ export default function Navbar({ isOverlay = false }: NavbarProps) {
             </MotionLink>
 
             <div
-              className="hidden md:block"
+              className="relative hidden md:block"
               onMouseEnter={showDesktopMenu}
               onMouseLeave={hideDesktopMenu}
             >
+              <motion.button
+                type="button"
+                className="absolute bottom-0 right-0 top-0 z-10 my-auto inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-[#111216]/92 text-white shadow-[0_14px_36px_rgba(0,0,0,0.35)]"
+                onClick={showDesktopMenu}
+                onFocus={showDesktopMenu}
+                onBlur={hideDesktopMenu}
+                aria-label="Show navigation"
+                animate={{
+                  opacity: desktopMenuVisible ? 0 : 1,
+                  scale: desktopMenuVisible ? 0.92 : 1,
+                  pointerEvents: desktopMenuVisible ? "none" : "auto",
+                }}
+                transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Menu className="h-5 w-5" aria-hidden="true" />
+              </motion.button>
+
               <motion.div
                 onFocus={showDesktopMenu}
                 onBlur={hideDesktopMenu}
