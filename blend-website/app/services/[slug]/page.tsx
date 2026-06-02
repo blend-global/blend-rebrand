@@ -120,7 +120,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
             All services
           </Link>
 
-          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_440px] lg:items-start">
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,720px)_max-content] lg:items-start lg:gap-16">
             <div className="max-w-4xl">
             {details || service ? (
               <>
@@ -152,7 +152,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
             )}
             </div>
 
-            <aside className="flex h-full items-end justify-start lg:justify-end">
+            <aside className="flex h-full items-end justify-start">
               <Link
                 href="/contact"
                 className={`inline-flex items-center justify-center rounded-full bg-gradient-to-r ${tone.accent} px-8 py-3 text-sm font-bold text-[#07100e] shadow-[0_18px_42px_rgba(0,0,0,0.28)] transition-transform hover:-translate-y-0.5`}
@@ -163,7 +163,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
           </div>
 
           {(details || service) && (
-            <div className="mt-10 w-full rounded-[1.6rem] border border-white/10 bg-white/[0.045] p-5 sm:p-6">
+            <div className="mt-24 w-full rounded-[1.6rem] border border-white/10 bg-white/[0.045] p-5 sm:mt-28 sm:p-6">
               <div className="flex items-center justify-between gap-4">
                 <h2 className="text-xl font-semibold tracking-[-0.025em]">What We Deliver</h2>
                 <span className={`h-3 w-16 rounded-full bg-gradient-to-r ${tone.accent}`} />
