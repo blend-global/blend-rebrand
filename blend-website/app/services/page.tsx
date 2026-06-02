@@ -218,7 +218,7 @@ const ServicesPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header isOverlay={true} />
+      <Header />
       
       {/* Hero Section */}
       <section className="relative min-h-[60vh] bg-background overflow-hidden flex items-center pt-32 sm:pt-40 sm:min-h-[70vh]">
@@ -253,7 +253,7 @@ const ServicesPage = () => {
               <h2 className="text-2xl font-bold text-primary-foreground sm:text-3xl md:text-4xl">Experiential</h2>
               <span className="text-pink text-2xl">✦</span>
             </div>
-            <p className="mb-10 max-w-2xl text-base text-primary-foreground/70 sm:text-lg">
+            <p className="mb-16 max-w-2xl text-base text-primary-foreground/70 sm:mb-20 sm:text-lg">
               Immersive experiences that create lasting memories and forge powerful emotional connections with your audience.
             </p>
           </Reveal>
@@ -281,7 +281,7 @@ const ServicesPage = () => {
               <h2 className="text-2xl font-bold text-primary-foreground sm:text-3xl md:text-4xl">Digital</h2>
               <span className="text-accent text-2xl">✦</span>
             </div>
-            <p className="mb-10 max-w-2xl text-base text-primary-foreground/70 sm:text-lg">
+            <p className="mb-16 max-w-2xl text-base text-primary-foreground/70 sm:mb-20 sm:text-lg">
               Innovative digital solutions that transform your ideas into powerful visual stories and experiences.
             </p>
           </Reveal>

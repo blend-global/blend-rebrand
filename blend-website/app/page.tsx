@@ -13,7 +13,7 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen overflow-x-hidden bg-background">
-      <Navbar isOverlay={true} />
+      <Navbar />
       <Hero />
       <div className="bg-white">
         <div className="w-full">

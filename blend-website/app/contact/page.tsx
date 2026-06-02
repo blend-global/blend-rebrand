@@ -18,7 +18,7 @@ const ContactPage = () => {
 
   return (
     <main className="min-h-screen bg-[#0d0f15] text-white">
-      <Navbar isOverlay={true} />
+      <Navbar />
 
       <section className="relative flex min-h-[100svh] items-center overflow-hidden pt-32 sm:pt-40 md:pt-44">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_34%_48%,rgba(120,209,255,0.18),transparent_34%),radial-gradient(circle_at_70%_45%,rgba(243,111,180,0.14),transparent_30%)]" />

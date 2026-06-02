@@ -154,7 +154,7 @@ export default function WorkPage() {
 
   return (
     <main className="min-h-screen bg-background text-white">
-      <Navbar isOverlay={true} />
+      <Navbar />
       <section className="relative overflow-hidden pt-32 sm:pt-40 md:pt-44">
         <div className="gradient-orb gradient-orb-pink h-[240px] w-[240px] -top-28 -left-28 animate-float sm:h-[400px] sm:w-[400px] sm:-top-32 sm:-left-32" />
         <div className="gradient-orb gradient-orb-cyan h-[220px] w-[220px] top-24 right-0 animate-float-delayed sm:h-[360px] sm:w-[360px]" />

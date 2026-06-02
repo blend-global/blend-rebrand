@@ -24,7 +24,7 @@ export default function BlogDetailsClient({ blogSection, post }: BlogDetailsClie
 
   return (
     <main className="min-h-screen bg-white text-[#0b0b0b]">
-      <Navbar isOverlay={true} />
+      <Navbar />
 
       <section className="relative overflow-hidden pt-32 sm:pt-40 md:pt-44">
         <div className="container-max pb-16 lg:pb-20">

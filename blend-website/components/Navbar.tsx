@@ -7,11 +7,7 @@ import { Menu, X } from "lucide-react";
 import { MotionLink } from "@/components/MotionLink";
 import { navLinks } from "@/lib/data";
 
-interface NavbarProps {
-  isOverlay?: boolean;
-}
-
-export default function Navbar({ isOverlay = false }: NavbarProps) {
+export default function Navbar() {
   const headerRef = useRef<HTMLElement>(null);
   const hideMenuTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [open, setOpen] = useState(false);
@@ -104,7 +100,7 @@ export default function Navbar({ isOverlay = false }: NavbarProps) {
   const toneTransition = { duration: 0.45, ease: [0.22, 1, 0.36, 1] } as const;
 
   return (
-    <header ref={headerRef} className={`${isOverlay ? "fixed left-0" : "sticky"} top-3 z-50 w-full sm:top-6`}>
+    <header ref={headerRef} className="fixed left-0 top-3 z-50 w-full sm:top-6">
       <div className="nav-container">
         <div className="mt-4 sm:mt-6">
           <div className="flex items-center justify-between gap-5">
