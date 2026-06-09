@@ -79,6 +79,7 @@ web_modules/
 
 .env.production.local
 .env.local
+!.env.example
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -135,6 +136,7 @@ dist
 __pycache__/
 venv/
 .env.*
+!.env.example
 .mypy_cache/
 .dmypy.json
 .pyre/

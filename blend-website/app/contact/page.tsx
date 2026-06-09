@@ -4,17 +4,58 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ChevronDown, Facebook, Instagram, Linkedin } from "lucide-react";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { type FormEvent, useState } from "react";
 import Reveal from "@/components/Reveal";
 import { contactSection } from "@/lib/data";
 
 const ContactPage = () => {
   const [selectedService, setSelectedService] = useState("");
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
   const socials = [
     { label: "Facebook", icon: Facebook },
     { label: "Instagram", icon: Instagram },
     { label: "LinkedIn", icon: Linkedin },
   ];
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setStatus("submitting");
+    setErrorMessage("");
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          company: formData.get("company"),
+          email: formData.get("email"),
+          city: formData.get("city"),
+          country: formData.get("country"),
+          service: formData.get("service"),
+          budget: formData.get("budget"),
+          message: formData.get("message"),
+          hybridDetails: formData.get("hybridDetails"),
+          source: "Contact page form",
+        }),
+      });
+      const data = (await response.json()) as { error?: string };
+
+      if (!response.ok) {
+        throw new Error(data.error || "We could not send your message right now.");
+      }
+
+      form.reset();
+      setSelectedService("");
+      setStatus("success");
+    } catch (error) {
+      setStatus("error");
+      setErrorMessage(error instanceof Error ? error.message : "We could not send your message right now.");
+    }
+  };
 
   return (
     <main className="min-h-screen bg-[#0d0f15] text-white">
@@ -69,12 +110,13 @@ const ContactPage = () => {
             </Reveal>
 
             <Reveal delay={0.05} className="w-full">
-              <form className="grid gap-5">
+              <form className="grid gap-5" onSubmit={handleSubmit}>
                 <label className="grid gap-2 text-sm font-medium text-white/80">
                   Company Name
                   <input
                     type="text"
                     name="company"
+                    autoComplete="organization"
                     className="h-12 rounded-md border border-white/10 bg-white/10 px-4 text-sm text-white outline-none transition focus:border-[#3aa6b4] focus:bg-white/14"
                   />
                 </label>
@@ -84,6 +126,8 @@ const ContactPage = () => {
                   <input
                     type="email"
                     name="email"
+                    autoComplete="email"
+                    required
                     className="h-12 rounded-md border border-white/10 bg-white/10 px-4 text-sm text-white outline-none transition focus:border-[#3aa6b4] focus:bg-white/14"
                   />
                 </label>
@@ -94,6 +138,7 @@ const ContactPage = () => {
                     <input
                       type="text"
                       name="city"
+                      autoComplete="address-level2"
                       className="h-12 rounded-md border border-white/10 bg-white/10 px-4 text-sm text-white outline-none transition focus:border-[#3aa6b4] focus:bg-white/14"
                     />
                   </label>
@@ -102,6 +147,7 @@ const ContactPage = () => {
                     <input
                       type="text"
                       name="country"
+                      autoComplete="country-name"
                       className="h-12 rounded-md border border-white/10 bg-white/10 px-4 text-sm text-white outline-none transition focus:border-[#3aa6b4] focus:bg-white/14"
                     />
                   </label>
@@ -168,17 +214,24 @@ const ContactPage = () => {
                   <textarea
                     name="message"
                     rows={5}
+                    required
                     className="rounded-md border border-white/10 bg-white/10 px-4 py-3 text-sm text-white outline-none transition focus:border-[#3aa6b4] focus:bg-white/14"
                   />
                 </label>
 
+                <div className="min-h-5 text-sm" aria-live="polite">
+                  {status === "success" ? <p className="font-semibold text-[#51d498]">Thanks, your message has been sent.</p> : null}
+                  {status === "error" ? <p className="font-semibold text-[#ff8ab8]">{errorMessage}</p> : null}
+                </div>
+
                 <motion.button
                   type="submit"
-                  className="mt-2 flex h-12 w-full items-center justify-center rounded-md bg-white text-sm font-semibold text-[#101114] shadow-[0_14px_30px_rgba(0,0,0,0.25)]"
+                  className="mt-2 flex h-12 w-full items-center justify-center rounded-md bg-white text-sm font-semibold text-[#101114] shadow-[0_14px_30px_rgba(0,0,0,0.25)] disabled:cursor-not-allowed disabled:opacity-60"
+                  disabled={status === "submitting"}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.97 }}
                 >
-                  Submit
+                  {status === "submitting" ? "Sending..." : "Submit"}
                 </motion.button>
               </form>
             </Reveal>

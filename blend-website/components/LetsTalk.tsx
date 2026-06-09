@@ -2,10 +2,49 @@
 
 import { motion } from "framer-motion";
 import { Facebook, Instagram, Linkedin } from "lucide-react";
+import { type FormEvent, useState } from "react";
 import Reveal from "@/components/Reveal";
 import { contactSection } from "@/lib/data";
 
 export default function LetsTalk() {
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setStatus("submitting");
+    setErrorMessage("");
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: formData.get("firstName"),
+          lastName: formData.get("lastName"),
+          email: formData.get("email"),
+          contactNumber: formData.get("contactNumber"),
+          message: formData.get("message"),
+          source: "Homepage contact form",
+        }),
+      });
+      const data = (await response.json()) as { error?: string };
+
+      if (!response.ok) {
+        throw new Error(data.error || "We could not send your message right now.");
+      }
+
+      form.reset();
+      setStatus("success");
+    } catch (error) {
+      setStatus("error");
+      setErrorMessage(error instanceof Error ? error.message : "We could not send your message right now.");
+    }
+  };
+
   return (
     <section id="contact" className="bg-white py-12 sm:py-16">
       <div className="container-max grid gap-8 sm:gap-10 md:grid-cols-[1fr,1.1fr]">
@@ -63,30 +102,44 @@ export default function LetsTalk() {
         </Reveal>
 
         <Reveal delay={0.05} className="rounded-[28px] bg-white p-5 shadow-light ring-1 ring-black/5 sm:p-6">
-          <form className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <form className="grid grid-cols-1 gap-4 md:grid-cols-2" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-2">
               <label className="text-sm font-semibold text-[#6c6f77]" htmlFor="firstName">
                 First name
               </label>
-              <input id="firstName" name="firstName" className="input-control" placeholder="John" />
+              <input id="firstName" name="firstName" className="input-control" placeholder="John" autoComplete="given-name" />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-sm font-semibold text-[#6c6f77]" htmlFor="lastName">
                 Last name
               </label>
-              <input id="lastName" name="lastName" className="input-control" placeholder="Doe" />
+              <input id="lastName" name="lastName" className="input-control" placeholder="Doe" autoComplete="family-name" />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-sm font-semibold text-[#6c6f77]" htmlFor="email">
                 Email address
               </label>
-              <input id="email" name="email" type="email" className="input-control" placeholder="you@example.com" />
+              <input
+                id="email"
+                name="email"
+                type="email"
+                className="input-control"
+                placeholder="you@example.com"
+                autoComplete="email"
+                required
+              />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-sm font-semibold text-[#6c6f77]" htmlFor="contactNumber">
                 Contact number
               </label>
-              <input id="contactNumber" name="contactNumber" className="input-control" placeholder="+00 000 0000" />
+              <input
+                id="contactNumber"
+                name="contactNumber"
+                className="input-control"
+                placeholder="+00 000 0000"
+                autoComplete="tel"
+              />
             </div>
             <div className="md:col-span-2 flex flex-col gap-2">
               <label className="text-sm font-semibold text-[#6c6f77]" htmlFor="message">
@@ -98,16 +151,22 @@ export default function LetsTalk() {
                 rows={4}
                 className="input-control"
                 placeholder="Let us know what you have in mind"
+                required
               />
+            </div>
+            <div className="md:col-span-2 min-h-5 text-sm" aria-live="polite">
+              {status === "success" ? <p className="font-semibold text-[#2bbf7f]">Thanks, your message has been sent.</p> : null}
+              {status === "error" ? <p className="font-semibold text-[#c92f6d]">{errorMessage}</p> : null}
             </div>
             <div className="md:col-span-2 flex justify-end">
               <motion.button
                 type="submit"
-                className="pill-button pill-dark w-full px-8 md:w-auto"
+                className="pill-button pill-dark w-full px-8 disabled:cursor-not-allowed disabled:opacity-60 md:w-auto"
+                disabled={status === "submitting"}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
               >
-                Submit
+                {status === "submitting" ? "Sending..." : "Submit"}
               </motion.button>
             </div>
           </form>
