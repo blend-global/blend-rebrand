@@ -231,7 +231,7 @@ export default function ProjectInquiryForm({
                           <button
                             key={service.slug}
                             type="button"
-                            className={`flex min-h-10 cursor-pointer items-center justify-between gap-2 rounded-full border px-3 py-2 text-left text-[12px] font-semibold leading-tight transition sm:text-xs ${
+                            className={`flex min-h-14 cursor-pointer items-center justify-between gap-2 rounded-2xl border px-3.5 py-2.5 text-left text-[12px] font-semibold leading-tight transition sm:min-h-[3.75rem] sm:text-xs ${
                               isSelected
                                 ? selectedClass
                                 : "border-white/12 bg-white/[0.07] text-white/78 hover:border-white/30 hover:bg-white/[0.11]"
