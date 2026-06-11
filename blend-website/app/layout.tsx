@@ -4,6 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "@/components/auth/AuthProvider";
 import SiteAuthGate from "@/components/auth/SiteAuthGate";
 import PageTransition from "@/components/PageTransition";
+import ProjectModalProvider from "@/components/ProjectModalProvider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -34,7 +35,9 @@ export default function RootLayout({
       <body className={`${poppins.variable} antialiased bg-background`}>
         <AuthProvider>
           <SiteAuthGate>
-            <PageTransition>{children}</PageTransition>
+            <ProjectModalProvider>
+              <PageTransition>{children}</PageTransition>
+            </ProjectModalProvider>
           </SiteAuthGate>
         </AuthProvider>
       </body>

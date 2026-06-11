@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
+import StartProjectButton from "@/components/StartProjectButton";
 import { featuredService } from "@/lib/data";
 
 export default function FeaturedService() {
@@ -29,13 +30,12 @@ export default function FeaturedService() {
           </motion.div>
         </Reveal>
         <Reveal delay={0.1} className="mt-6 flex justify-center">
-          <motion.button
+          <StartProjectButton
+            services={["video-production"]}
             className="pill-button pill-primary shadow-lg"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
           >
             {featuredService.cta}
-          </motion.button>
+          </StartProjectButton>
         </Reveal>
       </div>
     </section>

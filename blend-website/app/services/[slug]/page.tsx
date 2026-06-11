@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import StartProjectButton from "@/components/StartProjectButton";
 import { getAllServices } from "@/lib/cms-helpers";
 import { readCmsSection } from "@/lib/cms-server";
 
@@ -242,12 +243,12 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
             </div>
 
             <aside className="flex h-full items-end justify-start">
-              <Link
-                href="/contact"
+              <StartProjectButton
+                services={service?.slug ? [service.slug] : undefined}
                 className={`inline-flex items-center justify-center rounded-full bg-gradient-to-r ${tone.accent} px-8 py-3 text-sm font-bold text-[#07100e] shadow-[0_18px_42px_rgba(0,0,0,0.28)] transition-transform hover:-translate-y-0.5`}
               >
                 Start a Project
-              </Link>
+              </StartProjectButton>
             </aside>
           </div>
 
