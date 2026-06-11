@@ -8,6 +8,7 @@ import Link from "next/link";
 // import { Button } from "@/components/ui/button";
 import Header from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import StartProjectButton from "@/components/StartProjectButton";
 import { useEffect, useState } from "react";
 import type { ServicesContent } from "@/lib/cms-types";
 import { getFirebaseDb } from "@/lib/firebase/client";
@@ -317,12 +318,11 @@ const ServicesPage = () => {
             Let&apos;s discuss how we can bring your vision to life with our comprehensive suite of services.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link
-              href="/contact"
+            <StartProjectButton
               className="w-full rounded-full bg-accent px-6 py-3 text-center text-xs font-semibold text-white shadow-[0_12px_30px_rgba(17,203,155,0.35)] transition-transform hover:scale-[1.03] sm:w-auto sm:text-sm"
             >
               Start a Project
-            </Link>
+            </StartProjectButton>
           </div>
         </Reveal>
       </section>
