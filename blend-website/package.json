@@ -9,7 +9,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "firebase:verify": "node --env-file=.env.local scripts/verify-firebase-config.mjs",
+    "firebase:emulators": "firebase emulators:start --only auth,firestore,storage",
+    "firebase:deploy:rules": "firebase deploy --only firestore:rules,firestore:indexes,storage --project blend-website-bcdf3"
   },
   "dependencies": {
     "@sanity/client": "^7.17.0",
@@ -33,6 +36,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.1",
+    "firebase-tools": "^15.22.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

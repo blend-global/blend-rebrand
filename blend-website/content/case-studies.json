@@ -1,165 +1,260 @@
 [
   {
-    "slug": "google",
-    "title": "Google",
-    "project": "Cloud Partner Experience",
+    "slug": "google-cloud-x-blend",
+    "title": "Google Cloud",
+    "project": "Google Cloud x Blend",
     "image": "/placeholders/work-google.svg",
-    "coverVideo": "/case-studies/google-cloud.mp4",
-    "tags": ["Event Management", "Photography", "Videography"],
-    "summary": "A hybrid partner experience connecting Google Cloud audiences through polished production and clear storytelling.",
+    "coverVideo": "/case-studies/videos/google-cloud-x-blend.mp4",
+    "logo": "/new-client-logos/Google Cloud.svg",
+    "tags": ["Event Production", "Videography", "Experiential"],
+    "summary": "A high-impact Google Cloud experience brought to life through thoughtful production, audience engagement, and cinematic event capture.",
     "tabs": {
       "Context": {
-        "body": "Google needed a flagship partner experience that felt premium in-room while still translating clearly to remote audiences across multiple markets.",
-        "images": ["/placeholders/work-google.svg", "/placeholders/work-deloitte.svg"],
-        "stats": [
-          { "value": "300+", "label": "Attendees" },
-          { "value": "1.2K", "label": "Remote Views" },
-          { "value": "4", "label": "Cities Activated" }
-        ]
+        "body": "Google Cloud partnered with Blend to create a polished brand experience designed to connect its audience through live moments and memorable content.",
+        "images": ["/placeholders/work-google.svg"],
+        "stats": []
       },
       "Problem": {
-        "body": "The challenge was balancing a high-touch live environment with a digital layer that felt equally considered, not like an afterthought.",
-        "images": ["/placeholders/work-deloitte.svg", "/placeholders/work-google.svg"]
+        "body": "The experience needed to communicate a technology-led story while remaining engaging, human, and consistent with the Google Cloud brand.",
+        "images": ["/placeholders/work-google.svg"],
+        "stats": []
       },
       "Process": {
-        "body": "Blend handled planning, run-of-show development, content capture, and show-day coordination so every touchpoint stayed on brand and on time.",
-        "images": ["/placeholders/work-google.svg", "/placeholders/work-geberit.svg"],
-        "stats": [
-          { "value": "6", "label": "Production Streams" },
-          { "value": "18", "label": "Captured Sessions" },
-          { "value": "2", "label": "Audience Modes" }
-        ]
+        "body": "Blend coordinated the experience from planning through delivery, aligning production, audience touchpoints, and content capture around one clear creative direction.",
+        "images": ["/placeholders/work-google.svg"],
+        "stats": []
       },
       "Solution": {
-        "body": "We delivered an integrated event format combining stage design, live capture, and post-event content that extended the campaign beyond the room.",
-        "images": ["/placeholders/work-google.svg", "/placeholders/work-deloitte.svg"]
+        "body": "The result was a cohesive Google Cloud experience supported by professional production and a versatile library of captured content.",
+        "images": ["/placeholders/work-google.svg"],
+        "stats": []
       },
       "Takeaway": {
-        "body": "The case proved that strong event strategy and production discipline can turn one moment into a reusable content system for future partner engagement.",
-        "images": ["/placeholders/work-google.svg", "/placeholders/work-geberit.svg"]
+        "body": "Strong production and considered storytelling turned the event into an experience that could continue delivering value beyond the room.",
+        "images": ["/placeholders/work-google.svg"],
+        "stats": []
       }
     }
   },
   {
-    "slug": "deloitte",
-    "title": "Deloitte",
-    "project": "Future Leaders Summit",
+    "slug": "amazon-summer-2025",
+    "title": "Amazon",
+    "project": "Summer 2025",
     "image": "/placeholders/work-deloitte.svg",
-    "coverVideo": "/case-studies/deloitte.mp4",
-    "tags": ["Social Media", "Staffing", "Web Development"],
-    "summary": "A multi-layered summit campaign spanning staffing, digital touchpoints, and on-site delivery for Deloitte’s next-gen audience.",
+    "coverVideo": "/case-studies/videos/amazon-summer-2025.mp4",
+    "logo": "",
+    "tags": ["Event Production", "Experiential", "Videography"],
+    "summary": "A vibrant summer experience for Amazon, combining energetic event production with content designed to preserve the atmosphere of the day.",
     "tabs": {
       "Context": {
-        "body": "Deloitte needed a summit platform that could attract, register, and guide attendees while presenting the event as modern and credible.",
-        "images": ["/placeholders/work-deloitte.svg", "/placeholders/work-google.svg"],
-        "stats": [
-          { "value": "850+", "label": "Registrations" },
-          { "value": "92%", "label": "Show-Up Rate" },
-          { "value": "3", "label": "Audience Tracks" }
-        ]
+        "body": "Amazon needed a summer experience that felt energetic, welcoming, and aligned with its people and culture.",
+        "images": ["/placeholders/work-deloitte.svg"],
+        "stats": []
       },
       "Problem": {
-        "body": "The experience had to feel seamless across pre-event communication, on-site staffing, and post-event follow-up without fragmenting the brand story.",
-        "images": ["/placeholders/work-geberit.svg", "/placeholders/work-deloitte.svg"]
+        "body": "The event required a cohesive environment that could support a varied programme while keeping guests engaged throughout.",
+        "images": ["/placeholders/work-deloitte.svg"],
+        "stats": []
       },
       "Process": {
-        "body": "Blend built the event microsite, planned social content, staffed audience-facing roles, and supported the summit journey end to end.",
-        "images": ["/placeholders/work-deloitte.svg", "/placeholders/work-google.svg"],
-        "stats": [
-          { "value": "12", "label": "Staff On Site" },
-          { "value": "5", "label": "Campaign Weeks" },
-          { "value": "1", "label": "Unified Journey" }
-        ]
+        "body": "Blend shaped the event journey, coordinated production details, and captured the moments that best reflected the energy of the experience.",
+        "images": ["/placeholders/work-deloitte.svg"],
+        "stats": []
       },
       "Solution": {
-        "body": "The final experience connected registration, communications, staffing, and branded content into one coordinated system.",
-        "images": ["/placeholders/work-deloitte.svg", "/placeholders/work-geberit.svg"]
+        "body": "A lively, well-produced gathering gave Amazon teams space to connect and created a strong bank of event content.",
+        "images": ["/placeholders/work-deloitte.svg"],
+        "stats": []
       },
       "Takeaway": {
-        "body": "For Deloitte, the win was not just turnout but a more cohesive event journey that made every touchpoint feel deliberate.",
-        "images": ["/placeholders/work-deloitte.svg", "/placeholders/work-google.svg"]
+        "body": "A clear experience plan and disciplined delivery helped every element feel effortless for guests.",
+        "images": ["/placeholders/work-deloitte.svg"],
+        "stats": []
       }
     }
   },
   {
-    "slug": "geberit",
-    "title": "Geberit",
-    "project": "Product Showcase Series",
-    "image": "/placeholders/work-geberit.svg",
-    "coverVideo": "/case-studies/geberit.mp4",
-    "tags": ["Videography", "Photography", "Animation"],
-    "summary": "A content-led case study built around product storytelling, event capture, and motion assets for Geberit’s showcase rollout.",
+    "slug": "youtube-works-awards",
+    "title": "YouTube",
+    "project": "YouTube Works Awards",
+    "image": "/placeholders/work-google.svg",
+    "coverVideo": "/case-studies/videos/youtube-works-awards.mp4",
+    "logo": "/new-client-logos/YouTube.svg",
+    "tags": ["Awards", "Event Production", "Videography"],
+    "summary": "An awards experience celebrating effective creativity on YouTube through premium production, storytelling, and event capture.",
     "tabs": {
       "Context": {
-        "body": "Geberit wanted a launch format that could show product innovation clearly while generating photo, video, and animated assets for ongoing use.",
-        "images": ["/placeholders/work-geberit.svg", "/placeholders/work-google.svg"],
-        "stats": [
-          { "value": "40+", "label": "Assets Delivered" },
-          { "value": "3", "label": "Content Formats" },
-          { "value": "2", "label": "Launch Phases" }
-        ]
+        "body": "The YouTube Works Awards brought the industry together to recognise campaigns that delivered creativity and measurable impact.",
+        "images": ["/placeholders/work-google.svg"],
+        "stats": []
       },
       "Problem": {
-        "body": "Technical products can be difficult to present in a way that feels visually engaging without losing clarity or credibility.",
-        "images": ["/placeholders/work-google.svg", "/placeholders/work-geberit.svg"]
+        "body": "The event needed to feel celebratory and premium while keeping the awards programme clear, energetic, and audience-focused.",
+        "images": ["/placeholders/work-google.svg"],
+        "stats": []
       },
       "Process": {
-        "body": "We structured the showcase around key product moments, then planned capture and animation outputs around those narratives.",
-        "images": ["/placeholders/work-geberit.svg", "/placeholders/work-deloitte.svg"],
-        "stats": [
-          { "value": "8", "label": "Hero Edits" },
-          { "value": "24", "label": "Photo Selections" },
-          { "value": "6", "label": "Animated Loops" }
-        ]
+        "body": "Blend supported the experience with detailed production planning, show-day coordination, and content capture across the event.",
+        "images": ["/placeholders/work-google.svg"],
+        "stats": []
       },
       "Solution": {
-        "body": "The result was a library of launch-ready assets that worked across event recaps, sales enablement, and brand storytelling.",
-        "images": ["/placeholders/work-geberit.svg", "/placeholders/work-google.svg"]
+        "body": "The final awards experience combined a polished live programme with video content that extended the celebration beyond the venue.",
+        "images": ["/placeholders/work-google.svg"],
+        "stats": []
       },
       "Takeaway": {
-        "body": "Geberit’s case showed the value of treating production as both an event deliverable and a long-tail content engine.",
-        "images": ["/placeholders/work-geberit.svg", "/placeholders/work-deloitte.svg"]
+        "body": "A strong awards format can celebrate the work while strengthening the community around it.",
+        "images": ["/placeholders/work-google.svg"],
+        "stats": []
       }
     }
   },
   {
-    "slug": "shoprite",
+    "slug": "google-cloud-ai-in-action-cape-town",
+    "title": "Google Cloud",
+    "project": "AI In Wonderland (Capetown)",
+    "image": "/placeholders/work-google.svg",
+    "coverVideo": "/case-studies/videos/google-cloud-ai-in-action-cape-town.mp4",
+    "logo": "/new-client-logos/Google Cloud.svg",
+    "tags": ["Event Production", "Technology", "Videography"],
+    "summary": "An imaginative Google Cloud experience connecting Capetown's AI community through conversation, creativity, and production.",
+    "tabs": {
+      "Context": {
+        "body": "Google Cloud's AI In Wonderland (Capetown) was created as a distinctive gathering for people exploring the possibilities and practical impact of artificial intelligence.",
+        "images": ["/placeholders/work-google.svg"],
+        "stats": []
+      },
+      "Problem": {
+        "body": "The experience needed to make an emerging technology topic feel accessible while giving the community a memorable setting in which to connect.",
+        "images": ["/placeholders/work-google.svg"],
+        "stats": []
+      },
+      "Process": {
+        "body": "Blend brought the concept to life through event planning, technical production, guest experience, and on-site content capture.",
+        "images": ["/placeholders/work-google.svg"],
+        "stats": []
+      },
+      "Solution": {
+        "body": "The event paired useful industry conversation with a creative atmosphere and a strong visual record of the experience.",
+        "images": ["/placeholders/work-google.svg"],
+        "stats": []
+      },
+      "Takeaway": {
+        "body": "Complex ideas become more engaging when the environment encourages curiosity, participation, and connection.",
+        "images": ["/placeholders/work-google.svg"],
+        "stats": []
+      }
+    }
+  },
+  {
+    "slug": "google-fast-start-photography",
+    "title": "Google",
+    "project": "Fast Start Photography",
+    "image": "/placeholders/work-google.svg",
+    "coverVideo": "/case-studies/videos/google-fast-start-photography.mp4",
+    "logo": "/new-client-logos/Google.svg",
+    "tags": ["Photography", "Content Production", "Brand Experience"],
+    "summary": "A visual content programme for Google Fast Start, capturing people, energy, and brand moments through purposeful photography.",
+    "tabs": {
+      "Context": {
+        "body": "Google Fast Start required a visual record that reflected the programme's energy and the people participating in it.",
+        "images": ["/placeholders/work-google.svg"],
+        "stats": []
+      },
+      "Problem": {
+        "body": "The content needed to feel natural and immediate while still meeting a consistent brand and quality standard.",
+        "images": ["/placeholders/work-google.svg"],
+        "stats": []
+      },
+      "Process": {
+        "body": "Blend planned coverage around key programme moments and captured a flexible mix of people, detail, and environment imagery.",
+        "images": ["/placeholders/work-google.svg"],
+        "stats": []
+      },
+      "Solution": {
+        "body": "The resulting visual library gave Google a clear, human account of Fast Start for use across future communications.",
+        "images": ["/placeholders/work-google.svg"],
+        "stats": []
+      },
+      "Takeaway": {
+        "body": "Purposeful photography can turn a live programme into a lasting and reusable brand story.",
+        "images": ["/placeholders/work-google.svg"],
+        "stats": []
+      }
+    }
+  },
+  {
+    "slug": "shoprite-small-suppliers-browns",
     "title": "Shoprite",
-    "project": "Retail Campaign Rollout",
+    "project": "Small Suppliers: Browns",
     "image": "/placeholders/work-deloitte.svg",
-    "coverVideo": "/case-studies/shoprite.mp4",
-    "tags": ["Swag and Gifting", "Email Marketing", "Social Media"],
-    "summary": "A retail-facing campaign combining gifting, digital communication, and social amplification to support a broader rollout.",
+    "coverVideo": "/case-studies/videos/shoprite-small-suppliers-browns.mp4",
+    "logo": "/new-client-logos/Shoprite.svg",
+    "tags": ["Storytelling", "Videography", "Social Impact"],
+    "summary": "A human-centred Shoprite supplier story highlighting Browns and the people, purpose, and progress behind the business.",
     "tabs": {
       "Context": {
-        "body": "Shoprite needed a campaign ecosystem that could support launch messaging across stores, internal teams, and social audiences.",
-        "images": ["/placeholders/work-deloitte.svg", "/placeholders/work-google.svg"],
-        "stats": [
-          { "value": "25K", "label": "Email Reach" },
-          { "value": "18", "label": "Store Touchpoints" },
-          { "value": "3", "label": "Campaign Waves" }
-        ]
+        "body": "Shoprite's small supplier story focused on Browns and the entrepreneurial journey behind the growing business.",
+        "images": ["/placeholders/work-deloitte.svg"],
+        "stats": []
       },
       "Problem": {
-        "body": "The challenge was maintaining consistency across physical gifting, digital messaging, and social content while working to a fast retail timeline.",
-        "images": ["/placeholders/work-google.svg", "/placeholders/work-deloitte.svg"]
+        "body": "The story needed to communicate business impact in a way that remained personal, credible, and emotionally engaging.",
+        "images": ["/placeholders/work-deloitte.svg"],
+        "stats": []
       },
       "Process": {
-        "body": "Blend coordinated campaign assets, gifting logistics, and content distribution so every phase launched with the same message and visual standard.",
-        "images": ["/placeholders/work-deloitte.svg", "/placeholders/work-geberit.svg"],
-        "stats": [
-          { "value": "4", "label": "Audience Segments" },
-          { "value": "12", "label": "Content Variants" },
-          { "value": "1", "label": "Unified Campaign" }
-        ]
+        "body": "Blend shaped the narrative around the supplier's lived experience and captured interviews, environments, and working moments.",
+        "images": ["/placeholders/work-deloitte.svg"],
+        "stats": []
       },
       "Solution": {
-        "body": "We delivered a blended rollout strategy that turned operational complexity into a more coherent public-facing campaign.",
-        "images": ["/placeholders/work-deloitte.svg", "/placeholders/work-google.svg"]
+        "body": "The finished film presents the supplier journey through an authentic story that connects Shoprite's support to tangible outcomes.",
+        "images": ["/placeholders/work-deloitte.svg"],
+        "stats": []
       },
       "Takeaway": {
-        "body": "The Shoprite project demonstrated how disciplined coordination can make mixed-format campaigns feel simple and strong to the end audience.",
-        "images": ["/placeholders/work-deloitte.svg", "/placeholders/work-geberit.svg"]
+        "body": "Impact is most compelling when the people experiencing it are given space to tell the story.",
+        "images": ["/placeholders/work-deloitte.svg"],
+        "stats": []
+      }
+    }
+  },
+  {
+    "slug": "shoprite-csi-rainbow-dolls",
+    "title": "Shoprite",
+    "project": "CSI: Rainbow Dolls",
+    "image": "/placeholders/work-deloitte.svg",
+    "coverVideo": "/case-studies/videos/shoprite-csi-rainbow-dolls.mp4",
+    "logo": "/new-client-logos/Shoprite.svg",
+    "tags": ["Social Impact", "Storytelling", "Videography"],
+    "summary": "A purpose-led Shoprite CSI story sharing the work and community impact of the Rainbow Dolls initiative.",
+    "tabs": {
+      "Context": {
+        "body": "Shoprite's Rainbow Dolls story offered an opportunity to spotlight a community initiative and the people whose work gives it meaning.",
+        "images": ["/placeholders/work-deloitte.svg"],
+        "stats": []
+      },
+      "Problem": {
+        "body": "The film needed to explain the initiative clearly while preserving the warmth, dignity, and authenticity of its participants.",
+        "images": ["/placeholders/work-deloitte.svg"],
+        "stats": []
+      },
+      "Process": {
+        "body": "Blend developed a people-first narrative and captured the voices, environments, and details that reveal the initiative's impact.",
+        "images": ["/placeholders/work-deloitte.svg"],
+        "stats": []
+      },
+      "Solution": {
+        "body": "The resulting story gives the initiative a strong platform while connecting Shoprite's CSI work to a tangible community outcome.",
+        "images": ["/placeholders/work-deloitte.svg"],
+        "stats": []
+      },
+      "Takeaway": {
+        "body": "Careful storytelling can make social impact visible without losing sight of the people at its centre.",
+        "images": ["/placeholders/work-deloitte.svg"],
+        "stats": []
       }
     }
   }
