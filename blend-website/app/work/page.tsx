@@ -8,7 +8,7 @@ import { MotionLink } from "@/components/MotionLink";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Pagination from "@/components/Pagination";
-import { getCaseStudyCoverVideo } from "@/lib/case-study-media";
+import { getCaseStudyCoverVideo, getCaseStudyProject } from "@/lib/case-study-media";
 import type { CaseStudy } from "@/lib/cms-types";
 import { getFirebaseDb } from "@/lib/firebase/client";
 
@@ -211,7 +211,7 @@ export default function WorkPage() {
                   <div className="absolute inset-0 rounded-[24px] bg-gradient-to-b from-black/15 via-black/20 to-black/55" />
                   <div className="absolute left-0 right-0 top-0 flex flex-col gap-1 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
                     <CaseStudyLogo item={item} />
-                    <div className="text-xs font-semibold text-white/85 sm:text-sm">{item.project}</div>
+                    <div className="text-xs font-semibold text-white/85 sm:text-sm">{getCaseStudyProject(item)}</div>
                   </div>
                   <div className="absolute bottom-3 left-0 right-0 flex flex-wrap gap-2 px-4">
                     {item.tags.map((tag) => (

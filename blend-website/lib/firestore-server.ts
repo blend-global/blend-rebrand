@@ -1,7 +1,7 @@
 import "server-only";
 
 import { getApp, getApps, initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -17,6 +17,11 @@ const missingKeys = Object.entries(firebaseConfig)
   .map(([key]) => key);
 
 export const isFirestoreConfigured = missingKeys.length === 0;
+let firestoreEmulatorConnected = false;
+
+const useFirebaseEmulators = process.env.NEXT_PUBLIC_USE_FIREBASE_EMULATORS === "true";
+const emulatorHost = process.env.NEXT_PUBLIC_FIREBASE_EMULATOR_HOST || "127.0.0.1";
+const firestoreEmulatorPort = Number(process.env.NEXT_PUBLIC_FIRESTORE_EMULATOR_PORT || "8080");
 
 function getServerFirebaseApp() {
   if (!isFirestoreConfigured) {
@@ -27,5 +32,12 @@ function getServerFirebaseApp() {
 }
 
 export function getServerFirestore() {
-  return getFirestore(getServerFirebaseApp());
+  const db = getFirestore(getServerFirebaseApp());
+
+  if (useFirebaseEmulators && !firestoreEmulatorConnected) {
+    connectFirestoreEmulator(db, emulatorHost, firestoreEmulatorPort);
+    firestoreEmulatorConnected = true;
+  }
+
+  return db;
 }

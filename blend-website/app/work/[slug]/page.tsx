@@ -7,7 +7,11 @@ import { AnimatePresence, motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
 import { MotionLink } from "@/components/MotionLink";
 import { notFound } from "next/navigation";
-import { getCaseStudyCoverVideo } from "@/lib/case-study-media";
+import {
+  getCaseStudyCoverVideo,
+  getCaseStudyVisitImages,
+  hasCaseStudyImagePool,
+} from "@/lib/case-study-media";
 import { fetchCmsSection } from "@/lib/cms-client";
 import type { CaseStudy } from "@/lib/cms-types";
 
@@ -130,7 +134,7 @@ interface Props {
 export default function WorkDetailPage({ params }: Props) {
   const { slug } = use(params);
   const [activeTab, setActiveTab] = useState<TabKey>("Context");
-  const [imageIndex, setImageIndex] = useState(0);
+  const [visitImages] = useState(() => getCaseStudyVisitImages(slug));
   const [workCaseStudies, setWorkCaseStudies] = useState<CaseStudy[] | null>(null);
 
   useEffect(() => {
@@ -148,13 +152,12 @@ export default function WorkDetailPage({ params }: Props) {
   }
 
   const activeSection = caseStudy.tabs[activeTab];
-  const images = activeSection.images;
-  const fallbackImage = images[imageIndex] ?? caseStudy.image;
-  const shouldUseCoverVideo = activeTab === "Takeaway";
+  const tabIndex = tabs.indexOf(activeTab);
+  const fallbackImage = visitImages[tabIndex] ?? activeSection.images[0] ?? caseStudy.image;
+  const shouldUseCoverVideo = activeTab === "Takeaway" || !hasCaseStudyImagePool(caseStudy.slug);
 
   const handleTabChange = (tab: TabKey) => {
     setActiveTab(tab);
-    setImageIndex(0);
   };
 
   const handlePrev = () => {
@@ -170,21 +173,25 @@ export default function WorkDetailPage({ params }: Props) {
   };
 
   return (
-    <main className="h-[100svh] overflow-hidden bg-[#0b0b0d] text-white">
-      <div className="container-max relative flex h-full min-h-0 items-center justify-center overflow-hidden py-4 sm:py-5 lg:py-6">
-        <MotionLink
-          href="/work"
-          aria-label="Close"
-          className="absolute right-3 top-4 text-2xl text-white/70 transition-colors hover:text-white sm:top-5"
-          whileHover={{ scale: 1.08 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <X className="h-6 w-6" aria-hidden="true" />
-        </MotionLink>
+    <main className="relative isolate h-[100svh] overflow-hidden bg-background text-white">
+      <div className="gradient-orb gradient-orb-pink pointer-events-none -left-28 -top-28 h-[240px] w-[240px] animate-float sm:-left-32 sm:-top-32 sm:h-[400px] sm:w-[400px]" />
+      <div className="gradient-orb gradient-orb-cyan pointer-events-none right-0 top-24 h-[220px] w-[220px] animate-float-delayed sm:h-[360px] sm:w-[360px]" />
+      <div className="gradient-orb gradient-orb-pink pointer-events-none bottom-20 left-1/3 h-[180px] w-[180px] opacity-50 sm:h-[280px] sm:w-[280px]" />
+
+      <div className="container-max relative z-10 flex h-full min-h-0 items-center justify-center overflow-hidden py-4 sm:py-5 lg:py-6">
 
         <div className="mx-auto flex max-h-full w-full max-w-[980px] flex-col items-center">
-          <Reveal className="w-full max-w-[780px] space-y-3 text-center">
-            <h1 className="text-[clamp(1.75rem,4svh,2.5rem)] font-semibold leading-tight">{caseStudy.title}</h1>
+          <Reveal className="relative w-full max-w-[780px] space-y-3 text-center">
+            <MotionLink
+              href="/work"
+              aria-label="Close"
+              className="absolute right-0 top-0 z-20 flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/70 backdrop-blur-sm transition-colors hover:border-white/30 hover:bg-white/[0.1] hover:text-white"
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <X className="h-5 w-5" aria-hidden="true" />
+            </MotionLink>
+            <h1 className="px-11 text-[clamp(1.75rem,4svh,2.5rem)] font-semibold leading-tight">{caseStudy.title}</h1>
             <div className="mx-auto flex h-[4rem] max-w-2xl items-center justify-center overflow-hidden sm:h-[3.5rem]">
               <AnimatePresence initial={false} mode="wait">
                 <motion.p
@@ -221,8 +228,6 @@ export default function WorkDetailPage({ params }: Props) {
           </Reveal>
 
           <Reveal delay={0.05} className="relative mt-7 flex w-full items-center justify-center sm:mt-8">
-            <div className="absolute right-16 top-1/2 hidden h-[220px] w-[220px] -translate-y-1/2 rounded-full bg-gradient-to-br from-white/40 via-white/20 to-white/5 blur-[2px] md:block" />
-
             <motion.button
               type="button"
               onClick={handlePrev}

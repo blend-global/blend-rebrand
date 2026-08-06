@@ -4,11 +4,12 @@ import { getApp, getApps, initializeApp } from "firebase/app";
 import {
   GoogleAuthProvider,
   browserLocalPersistence,
+  connectAuthEmulator,
   getAuth,
   setPersistence,
 } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
+import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
+import { connectStorageEmulator, getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -26,6 +27,15 @@ const requiredFirebaseClientKeys = Object.entries(firebaseConfig)
 export const isFirebaseClientConfigured = requiredFirebaseClientKeys.length === 0;
 
 let persistenceSetup: Promise<void> | null = null;
+let authEmulatorConnected = false;
+let firestoreEmulatorConnected = false;
+let storageEmulatorConnected = false;
+
+const useFirebaseEmulators = process.env.NEXT_PUBLIC_USE_FIREBASE_EMULATORS === "true";
+const emulatorHost = process.env.NEXT_PUBLIC_FIREBASE_EMULATOR_HOST || "127.0.0.1";
+const authEmulatorPort = Number(process.env.NEXT_PUBLIC_FIREBASE_AUTH_EMULATOR_PORT || "9099");
+const firestoreEmulatorPort = Number(process.env.NEXT_PUBLIC_FIRESTORE_EMULATOR_PORT || "8080");
+const storageEmulatorPort = Number(process.env.NEXT_PUBLIC_FIREBASE_STORAGE_EMULATOR_PORT || "9199");
 
 export function getFirebaseClientConfigError() {
   if (isFirebaseClientConfigured) return null;
@@ -43,6 +53,11 @@ function getFirebaseApp() {
 export function getFirebaseAuth() {
   const auth = getAuth(getFirebaseApp());
 
+  if (useFirebaseEmulators && !authEmulatorConnected) {
+    connectAuthEmulator(auth, `http://${emulatorHost}:${authEmulatorPort}`, { disableWarnings: true });
+    authEmulatorConnected = true;
+  }
+
   if (!persistenceSetup && typeof window !== "undefined") {
     persistenceSetup = setPersistence(auth, browserLocalPersistence);
   }
@@ -51,11 +66,25 @@ export function getFirebaseAuth() {
 }
 
 export function getFirebaseDb() {
-  return getFirestore(getFirebaseApp());
+  const db = getFirestore(getFirebaseApp());
+
+  if (useFirebaseEmulators && !firestoreEmulatorConnected) {
+    connectFirestoreEmulator(db, emulatorHost, firestoreEmulatorPort);
+    firestoreEmulatorConnected = true;
+  }
+
+  return db;
 }
 
 export function getFirebaseStorage() {
-  return getStorage(getFirebaseApp());
+  const storage = getStorage(getFirebaseApp());
+
+  if (useFirebaseEmulators && !storageEmulatorConnected) {
+    connectStorageEmulator(storage, emulatorHost, storageEmulatorPort);
+    storageEmulatorConnected = true;
+  }
+
+  return storage;
 }
 
 export function getGoogleProvider() {

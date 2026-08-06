@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Reveal from "@/components/Reveal";
 import { MotionLink } from "@/components/MotionLink";
-import { getCaseStudyCoverVideo } from "@/lib/case-study-media";
+import { getCaseStudyCoverVideo, getCaseStudyProject } from "@/lib/case-study-media";
 import { getLatestCaseStudies } from "@/lib/cms-helpers";
 import type { CaseStudy } from "@/lib/cms-types";
 import { getFirebaseDb } from "@/lib/firebase/client";
@@ -215,7 +215,7 @@ export default function LatestWork() {
                             </div>
                           )}
                           <div className="mt-3 hidden max-w-xl text-sm font-semibold uppercase tracking-[0.18em] text-white/58 sm:block">
-                            {activeItem.project}
+                            {getCaseStudyProject(activeItem)}
                           </div>
                         </div>
                       </div>
@@ -262,7 +262,7 @@ export default function LatestWork() {
                   transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
                 >
                   <div className="text-sm font-semibold uppercase tracking-[0.18em] text-white/58">
-                    {activeItem.project}
+                    {getCaseStudyProject(activeItem)}
                   </div>
                   <p className="max-w-[22rem] text-sm leading-6 text-white/74">
                     {mobileSummaryBySlug[activeItem.slug] ?? activeItem.summary}
