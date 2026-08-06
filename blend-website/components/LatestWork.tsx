@@ -126,7 +126,7 @@ export default function LatestWork() {
             One focused story at a time. Use the arrows to browse selected case studies.
           </p>
           <MotionLink
-            href="/work"
+            href="/case-studies"
             className="mt-6 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#43d1c2] to-[#f06fa9] px-5 py-3 text-sm font-semibold text-white shadow-[0_12px_26px_rgba(0,0,0,0.25)]"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}
@@ -160,7 +160,7 @@ export default function LatestWork() {
                 <AnimatePresence initial={false} custom={activeDirection} mode="wait">
                   <MotionLink
                     key={activeItem.slug}
-                    href={`/work/${activeItem.slug}`}
+                    href={`/case-studies/${activeItem.slug}`}
                     className="group relative block overflow-hidden rounded-[2rem] bg-black"
                     custom={activeDirection}
                     initial={{ opacity: 0, x: activeDirection * 42, scale: 0.985, filter: "blur(8px)" }}
