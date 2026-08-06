@@ -5,7 +5,7 @@ import servicesData from "@/content/services.json";
 export const navLinks = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/services" },
-  { label: "Case Studies", href: "/work" },
+  { label: "Case Studies", href: "/case-studies" },
 ];
 
 export const heroContent = {

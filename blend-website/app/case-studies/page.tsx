@@ -203,7 +203,7 @@ export default function WorkPage() {
             {pagedItems.map((item, index) => (
               <Reveal key={item.slug} delay={0.05 * index}>
                 <MotionLink
-                  href={`/work/${item.slug}`}
+                  href={`/case-studies/${item.slug}`}
                   className="relative block overflow-hidden rounded-[24px] bg-white/5 shadow-[0_18px_48px_rgba(0,0,0,0.4)]"
                   whileHover={{ y: -6, scale: 1.01 }}
                   transition={{ type: "spring", stiffness: 220, damping: 18 }}
