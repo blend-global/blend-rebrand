@@ -13,6 +13,7 @@ import type { CaseStudy } from "@/lib/cms-types";
 import { getFirebaseDb } from "@/lib/firebase/client";
 
 const clientLogoByTitle: Record<string, string> = {
+  Amazon: "/new-client-logos/amazon-logo-amazon-icon-transparent-free-png.webp",
   Deloitte: "/new-client-logos/Deloitte.svg",
   Geberit: "/new-client-logos/Geberit.svg",
   Google: "/new-client-logos/Google%20Cloud.svg",
