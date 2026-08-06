@@ -17,6 +17,7 @@ const mobileSummaryBySlug: Record<string, string> = {
   deloitte: "A next-gen summit campaign across staffing, digital, and live delivery.",
   geberit: "Product storytelling, event capture, and motion assets for a showcase rollout.",
   shoprite: "A retail campaign blending gifting, digital communication, and social amplification.",
+  amazon: "A vibrant summer experience for Amazon, combining energetic event production.",
 };
 
 const logoBySlug: Record<string, string> = {
@@ -24,6 +25,8 @@ const logoBySlug: Record<string, string> = {
   geberit: "/new-client-logos/Geberit.svg",
   google: "/new-client-logos/Google%20Cloud.svg",
   shoprite: "/new-client-logos/Shoprite.svg",
+  amazon: "/new-client-logos/amazon-logo-amazon-icon-transparent-free-png.webp",
+  "amazon-summer-2025": "/new-client-logos/amazon-logo-amazon-icon-transparent-free-png.webp",
 };
 
 const getCaseStudyLogo = (caseStudy: Pick<CaseStudy, "slug" | "logo">) =>

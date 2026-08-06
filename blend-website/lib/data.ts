@@ -19,6 +19,7 @@ export const heroContent = {
 };
 
 export const logos = [
+  { src: "/new-client-logos/amazon-logo-amazon-icon-transparent-free-png.webp", alt: "Amazon" },
   { src: "/new-client-logos/Into%20Africa.svg", alt: "Into Africa" },
   { src: "/new-client-logos/Deloitte.svg", alt: "Deloitte" },
   { src: "/new-client-logos/MS%20Dell%20Foundation.svg", alt: "MS Dell Foundation" },
