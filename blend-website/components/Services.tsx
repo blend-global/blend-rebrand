@@ -192,7 +192,7 @@ export default function Services({ servicesSection }: { servicesSection: Service
             </div>
           </Reveal>
 
-          <Reveal delay={0.05}>
+          <Reveal delay={0.05} className="hidden lg:block">
             <div className="sticky top-28 overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.06] p-3 shadow-[0_30px_90px_rgba(0,0,0,0.38)] backdrop-blur">
               <AnimatePresence mode="wait">
                 {activeService ? (

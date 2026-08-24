@@ -1,26 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import Reveal from "@/components/Reveal";
 import { MotionLink } from "@/components/MotionLink";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Pagination from "@/components/Pagination";
-import { getCaseStudyCoverVideo, getCaseStudyProject } from "@/lib/case-study-media";
+import { getCaseStudyCoverVideo } from "@/lib/case-study-media";
 import type { CaseStudy } from "@/lib/cms-types";
 import { getFirebaseDb } from "@/lib/firebase/client";
 
-const clientLogoByTitle: Record<string, string> = {
-  Amazon: "/new-client-logos/amazon-logo-amazon-icon-transparent-free-png.webp",
-  Deloitte: "/new-client-logos/Deloitte.svg",
-  Geberit: "/new-client-logos/Geberit.svg",
-  Google: "/new-client-logos/Google%20Cloud.svg",
-  Shoprite: "/new-client-logos/Shoprite.svg",
-};
-
-const getYouTubeEmbedUrl = (url: string) => {
+const getYouTubeEmbedUrl = (url: string, autoplay: boolean) => {
   try {
     const parsedUrl = new URL(url);
     const videoId =
@@ -32,19 +24,34 @@ const getYouTubeEmbedUrl = (url: string) => {
       return null;
     }
 
-    return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&playsinline=1&rel=0&modestbranding=1`;
+    return `https://www.youtube.com/embed/${videoId}?autoplay=${autoplay ? "1" : "0"}&mute=1&loop=1&playlist=${videoId}&controls=0&playsinline=1&rel=0&modestbranding=1`;
   } catch {
     return null;
   }
 };
 
-function CaseStudyCover({ item }: { item: CaseStudy }) {
+function CaseStudyCover({ item, isActive }: { item: CaseStudy; isActive: boolean }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
   const coverVideo = getCaseStudyCoverVideo(item);
-  const youtubeEmbedUrl = coverVideo ? getYouTubeEmbedUrl(coverVideo) : null;
+  const youtubeEmbedUrl = coverVideo ? getYouTubeEmbedUrl(coverVideo, isActive) : null;
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (isActive) {
+      void video.play().catch(() => undefined);
+      return;
+    }
+
+    video.pause();
+    video.currentTime = 0;
+  }, [isActive]);
 
   if (youtubeEmbedUrl) {
     return (
       <iframe
+        key={isActive ? "playing" : "paused"}
         src={youtubeEmbedUrl}
         title={`${item.title} cover video`}
         className="pointer-events-none h-[220px] w-full rounded-[24px] sm:h-[260px] lg:h-[320px]"
@@ -57,12 +64,13 @@ function CaseStudyCover({ item }: { item: CaseStudy }) {
   if (coverVideo) {
     return (
       <video
+        ref={videoRef}
         src={coverVideo}
         className="h-[220px] w-full rounded-[24px] object-cover sm:h-[260px] lg:h-[320px]"
-        autoPlay
         muted
         loop
         playsInline
+        preload="auto"
       />
     );
   }
@@ -78,24 +86,33 @@ function CaseStudyCover({ item }: { item: CaseStudy }) {
   );
 }
 
-function CaseStudyLogo({ item }: { item: CaseStudy }) {
-  const logoSrc = clientLogoByTitle[item.title] ?? item.logo;
-
-  if (!logoSrc) {
-    return <div className="text-xl font-semibold sm:text-2xl">{item.title}</div>;
-  }
+function CaseStudyCard({ item }: { item: CaseStudy }) {
+  const [isActive, setIsActive] = useState(false);
 
   return (
-    <span className="flex h-[30px] w-28 items-center justify-center overflow-hidden rounded-full bg-white px-2 shadow-[0_10px_24px_rgba(0,0,0,0.24)] ring-1 ring-white/70 sm:h-8 sm:w-32">
-      <Image
-        src={logoSrc}
-        alt={`${item.title} logo`}
-        width={160}
-        height={160}
-        className="h-20 w-20 max-w-none object-contain sm:h-[5.5rem] sm:w-[5.5rem]"
-        unoptimized
-      />
-    </span>
+    <MotionLink
+      href={`/case-studies/${item.slug}`}
+      className="relative block overflow-hidden rounded-[24px] bg-white/5 shadow-[0_18px_48px_rgba(0,0,0,0.4)]"
+      whileHover={{ y: -6, scale: 1.01 }}
+      transition={{ type: "spring", stiffness: 220, damping: 18 }}
+      onMouseEnter={() => setIsActive(true)}
+      onMouseLeave={() => setIsActive(false)}
+      onFocus={() => setIsActive(true)}
+      onBlur={() => setIsActive(false)}
+    >
+      <CaseStudyCover item={item} isActive={isActive} />
+      <div className="pointer-events-none absolute inset-0 rounded-[24px] bg-gradient-to-b from-black/15 via-black/20 to-black/55" />
+      <div className="pointer-events-none absolute bottom-3 left-0 right-0 flex flex-wrap gap-2 px-4">
+        {item.tags.map((tag) => (
+          <span
+            key={tag}
+            className="rounded-full bg-black/70 px-3 py-1.5 text-[11px] font-semibold text-white shadow-[0_8px_16px_rgba(0,0,0,0.25)] sm:py-2 sm:text-xs"
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+    </MotionLink>
   );
 }
 
@@ -202,29 +219,7 @@ export default function WorkPage() {
           <div className="grid gap-5 sm:gap-6 md:grid-cols-2">
             {pagedItems.map((item, index) => (
               <Reveal key={item.slug} delay={0.05 * index}>
-                <MotionLink
-                  href={`/case-studies/${item.slug}`}
-                  className="relative block overflow-hidden rounded-[24px] bg-white/5 shadow-[0_18px_48px_rgba(0,0,0,0.4)]"
-                  whileHover={{ y: -6, scale: 1.01 }}
-                  transition={{ type: "spring", stiffness: 220, damping: 18 }}
-                >
-                  <CaseStudyCover item={item} />
-                  <div className="absolute inset-0 rounded-[24px] bg-gradient-to-b from-black/15 via-black/20 to-black/55" />
-                  <div className="absolute left-0 right-0 top-0 flex flex-col gap-1 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
-                    <CaseStudyLogo item={item} />
-                    <div className="text-xs font-semibold text-white/85 sm:text-sm">{getCaseStudyProject(item)}</div>
-                  </div>
-                  <div className="absolute bottom-3 left-0 right-0 flex flex-wrap gap-2 px-4">
-                    {item.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded-full bg-black/70 px-3 py-1.5 text-[11px] font-semibold text-white shadow-[0_8px_16px_rgba(0,0,0,0.25)] sm:text-xs sm:py-2"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </MotionLink>
+                <CaseStudyCard item={item} />
               </Reveal>
             ))}
           </div>
