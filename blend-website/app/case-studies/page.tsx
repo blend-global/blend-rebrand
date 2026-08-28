@@ -8,7 +8,7 @@ import { MotionLink } from "@/components/MotionLink";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Pagination from "@/components/Pagination";
-import { getCaseStudyCoverVideo } from "@/lib/case-study-media";
+import { getCaseStudyCoverVideo, getCaseStudyTags } from "@/lib/case-study-media";
 import type { CaseStudy } from "@/lib/cms-types";
 import { getFirebaseDb } from "@/lib/firebase/client";
 
@@ -88,11 +88,12 @@ function CaseStudyCover({ item, isActive }: { item: CaseStudy; isActive: boolean
 
 function CaseStudyCard({ item }: { item: CaseStudy }) {
   const [isActive, setIsActive] = useState(false);
+  const tags = getCaseStudyTags(item);
 
   return (
     <MotionLink
       href={`/case-studies/${item.slug}`}
-      className="relative block overflow-hidden rounded-[24px] bg-white/5 shadow-[0_18px_48px_rgba(0,0,0,0.4)]"
+      className="case-study-card relative block overflow-hidden rounded-[24px] bg-white/5 shadow-[0_18px_48px_rgba(0,0,0,0.4)]"
       whileHover={{ y: -6, scale: 1.01 }}
       transition={{ type: "spring", stiffness: 220, damping: 18 }}
       onMouseEnter={() => setIsActive(true)}
@@ -102,15 +103,28 @@ function CaseStudyCard({ item }: { item: CaseStudy }) {
     >
       <CaseStudyCover item={item} isActive={isActive} />
       <div className="pointer-events-none absolute inset-0 rounded-[24px] bg-gradient-to-b from-black/15 via-black/20 to-black/55" />
-      <div className="pointer-events-none absolute bottom-3 left-0 right-0 flex flex-wrap gap-2 px-4">
-        {item.tags.map((tag) => (
-          <span
-            key={tag}
-            className="rounded-full bg-black/70 px-3 py-1.5 text-[11px] font-semibold text-white shadow-[0_8px_16px_rgba(0,0,0,0.25)] sm:py-2 sm:text-xs"
-          >
-            {tag}
-          </span>
-        ))}
+      <div className="pointer-events-none absolute inset-x-0 bottom-3 overflow-hidden px-4 [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]">
+        <div
+          className="case-study-tags-track flex w-max"
+          style={{ animationPlayState: isActive ? "paused" : "running" }}
+        >
+          {[false, true].map((isDuplicate) => (
+            <div
+              key={isDuplicate ? "duplicate" : "original"}
+              className="flex shrink-0 gap-2 pr-2"
+              aria-hidden={isDuplicate || undefined}
+            >
+              {tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="whitespace-nowrap rounded-full bg-black/70 px-3 py-1.5 text-[11px] font-semibold text-white shadow-[0_8px_16px_rgba(0,0,0,0.25)] sm:py-2 sm:text-xs"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
     </MotionLink>
   );
@@ -154,7 +168,7 @@ export default function WorkPage() {
   const projectFilters = useMemo(() => {
     const tags = new Set<string>();
     workCaseStudies.forEach((item) => {
-      item.tags.forEach((tag) => tags.add(tag));
+      getCaseStudyTags(item).forEach((tag) => tags.add(tag));
     });
 
     return ["All", ...Array.from(tags).sort((a, b) => a.localeCompare(b))];
@@ -162,7 +176,7 @@ export default function WorkPage() {
 
   const filteredItems = useMemo(() => {
     if (activeFilter === "All") return workCaseStudies;
-    return workCaseStudies.filter((item) => item.tags.includes(activeFilter));
+    return workCaseStudies.filter((item) => getCaseStudyTags(item).includes(activeFilter));
   }, [activeFilter, workCaseStudies]);
 
   const pagedItems = useMemo(() => {

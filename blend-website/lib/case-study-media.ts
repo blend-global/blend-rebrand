@@ -50,6 +50,42 @@ const caseStudyImagePools: Record<string, string[]> = {
   ],
 };
 
+const caseStudyTagsBySlug: Record<string, string[]> = {
+  "google-cloud-x-blend": [
+    "Event Management",
+    "Videography",
+    "Photography",
+    "Technology",
+    "Food & Beverage",
+    "Staffing",
+    "Furniture & Decor",
+    "Concept & Ideation",
+    "Design & Creativity",
+    "Entertainment",
+    "SWAG & Gifting",
+    "Guest Logistics",
+    "Builds & Activations",
+    "AV & Technical",
+    "Digital",
+  ],
+  "google-cloud-ai-in-action-cape-town": [
+    "Event Management",
+    "Experiential",
+    "Videography",
+    "Photography",
+    "Food & Beverage",
+    "Staffing",
+    "Furniture & Decor",
+    "Concept & Ideation",
+    "Design & Creativity",
+    "Registration",
+    "Entertainment",
+    "AV & Technical",
+    "Builds & Activations",
+    "SWAG & Gifting",
+  ],
+};
+
 export const getCaseStudyVisitImages = (slug: string) => {
   const images = [...(caseStudyImagePools[slug] ?? [])];
 
@@ -62,6 +98,9 @@ export const getCaseStudyVisitImages = (slug: string) => {
 };
 
 export const hasCaseStudyImagePool = (slug: string) => Boolean(caseStudyImagePools[slug]?.length);
+
+export const getCaseStudyTags = (caseStudy: Pick<CaseStudy, "slug" | "tags">) =>
+  caseStudyTagsBySlug[caseStudy.slug] ?? caseStudy.tags;
 
 export const getCaseStudyProject = (caseStudy: Pick<CaseStudy, "slug" | "project">) =>
   caseStudy.slug === "google-cloud-ai-in-action-cape-town"

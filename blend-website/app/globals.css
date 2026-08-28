@@ -65,6 +65,26 @@ a {
   }
 }
 
+.case-study-tags-track {
+  animation: case-study-tags-scroll 32s linear infinite;
+}
+
+@keyframes case-study-tags-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-study-tags-track {
+    animation: none;
+  }
+}
+
 .pill-button {
   border-radius: 9999px;
   padding: 0.75rem 1.5rem;
