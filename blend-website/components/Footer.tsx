@@ -12,7 +12,7 @@ export default function Footer() {
   const currentYear = new Date().getUTCFullYear();
 
   return (
-    <footer className="mt-12 text-white sm:mt-16">
+    <footer className="text-white">
       <div className="bg-[#0c0c0c] py-10 sm:py-12">
         <div className="container-max flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
           <Reveal className="flex max-w-xs flex-col gap-3">
