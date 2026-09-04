@@ -205,6 +205,7 @@ export default function BlogIndexClient({ blogSection }: { blogSection: BlogCont
               <Reveal key={post.slug} delay={0.04 * index}>
                 <MotionLink
                   href={`/blog/${post.slug}`}
+                  prefetch
                   className="flex flex-col gap-3"
                   whileHover={{ y: -6 }}
                   transition={{ type: "spring", stiffness: 220, damping: 18 }}

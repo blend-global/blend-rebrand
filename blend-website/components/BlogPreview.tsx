@@ -26,6 +26,7 @@ export default function BlogPreview({ blogSection }: { blogSection: BlogContent 
           <h2 className="text-xl font-semibold text-[#0e0e10] sm:text-2xl">{blogSection.title}</h2>
           <MotionLink
             href="/blog"
+            prefetch
             className="pill-button pill-primary w-full justify-center text-sm font-semibold sm:w-auto"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
@@ -37,7 +38,7 @@ export default function BlogPreview({ blogSection }: { blogSection: BlogContent 
         <div className="grid gap-5 sm:gap-6 md:grid-cols-2">
           {blogSection.featured.map((post, index) => (
             <Reveal key={post.title} delay={0.05 * index}>
-              <Link href={`/blog/${post.slug}`} className="block">
+              <Link href={`/blog/${post.slug}`} prefetch className="block">
                 <motion.div
                 className="overflow-hidden rounded-[28px] bg-white shadow-light ring-1 ring-black/5"
                 whileHover={{ y: -6 }}
@@ -65,7 +66,7 @@ export default function BlogPreview({ blogSection }: { blogSection: BlogContent 
         <div className="grid gap-3 sm:grid-cols-3 md:grid-cols-5">
           {previewPosts.map((post, index) => (
             <Reveal key={post.title} delay={0.02 * index}>
-              <Link href={post.slug === "view-all" ? "/blog" : `/blog/${post.slug}`} className="block">
+              <Link href={post.slug === "view-all" ? "/blog" : `/blog/${post.slug}`} prefetch className="block">
                 <motion.div
                 className="overflow-hidden rounded-[20px] bg-white shadow-light ring-1 ring-black/5"
                 whileHover={{ y: -4 }}

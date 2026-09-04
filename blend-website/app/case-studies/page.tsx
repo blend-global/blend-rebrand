@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import Reveal from "@/components/Reveal";
 import { MotionLink } from "@/components/MotionLink";
 import Navbar from "@/components/Navbar";
@@ -10,7 +9,8 @@ import Footer from "@/components/Footer";
 import Pagination from "@/components/Pagination";
 import { getCaseStudyCoverVideo, getCaseStudyTags } from "@/lib/case-study-media";
 import type { CaseStudy } from "@/lib/cms-types";
-import { getFirebaseDb } from "@/lib/firebase/client";
+import { fetchCmsSection } from "@/lib/cms-client";
+import { workCaseStudies as fallbackCaseStudies } from "@/lib/data";
 
 const getYouTubeEmbedUrl = (url: string, autoplay: boolean) => {
   try {
@@ -93,6 +93,7 @@ function CaseStudyCard({ item }: { item: CaseStudy }) {
   return (
     <MotionLink
       href={`/case-studies/${item.slug}`}
+      prefetch
       className="case-study-card relative block overflow-hidden rounded-[24px] bg-white/5 shadow-[0_18px_48px_rgba(0,0,0,0.4)]"
       whileHover={{ y: -6, scale: 1.01 }}
       transition={{ type: "spring", stiffness: 220, damping: 18 }}
@@ -130,39 +131,14 @@ function CaseStudyCard({ item }: { item: CaseStudy }) {
   );
 }
 
-async function readCaseStudiesFromFirestore(): Promise<CaseStudy[]> {
-  const db = getFirebaseDb();
-  const workSnapshot = await getDocs(query(collection(db, "caseStudies"), orderBy("order")));
-
-  return workSnapshot.docs.map((entry) => {
-    const data = entry.data();
-    return {
-      slug: data.slug,
-      title: data.title,
-      project: data.project,
-      image: data.image,
-      coverVideo: data.coverVideo,
-      logo: data.logo,
-      tags: data.tags ?? [],
-      summary: data.summary,
-      tabs: data.tabs ?? {},
-    };
-  }) as CaseStudy[];
-}
-
 export default function WorkPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [activeFilter, setActiveFilter] = useState("All");
-  const [workCaseStudies, setWorkCaseStudies] = useState<CaseStudy[]>([]);
+  const [workCaseStudies, setWorkCaseStudies] = useState<CaseStudy[]>(fallbackCaseStudies);
   const itemsPerPage = 8;
 
   useEffect(() => {
-    void readCaseStudiesFromFirestore()
-      .then(setWorkCaseStudies)
-      .catch((error) => {
-        console.error("Failed to load case studies from Firestore.", error);
-        setWorkCaseStudies([]);
-      });
+    void fetchCmsSection("work").then(setWorkCaseStudies).catch(() => undefined);
   }, []);
 
   const projectFilters = useMemo(() => {

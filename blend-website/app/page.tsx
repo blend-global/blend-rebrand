@@ -4,7 +4,6 @@ import LogosRow from "@/components/LogosRow";
 import AboutLocations from "@/components/AboutLocations";
 import Services from "@/components/Services";
 import LatestWork from "@/components/LatestWork";
-import Testimonials from "@/components/Testimonials";
 import Footer from "@/components/Footer";
 import { readCmsSection } from "@/lib/cms-server";
 
@@ -28,11 +27,6 @@ export default async function Home() {
       <div className="flex min-h-[100svh] items-center bg-[#0d0f15]">
         <div className="w-full">
           <LatestWork />
-        </div>
-      </div>
-      <div className="bg-[#0d0f15]">
-        <div className="w-full">
-          <Testimonials />
         </div>
       </div>
       <div className="flex min-h-[100svh] items-center bg-white">

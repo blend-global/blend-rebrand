@@ -1,11 +1,8 @@
-"use client";
-
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Reveal from "@/components/Reveal";
 import StartProjectButton from "@/components/StartProjectButton";
 import { contactSection } from "@/lib/data";
-import { motion } from "framer-motion";
 import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone, Sparkles } from "lucide-react";
 
 const ContactPage = () => {
@@ -73,18 +70,16 @@ const ContactPage = () => {
                 <h2 className="text-sm font-semibold text-white/80">Socials</h2>
                 <div className="mt-4 flex items-center gap-3">
                   {socials.map((item) => (
-                    <motion.a
+                    <a
                       key={item.label}
                       href={contactSection.socials.find((social) => social.label === item.label)?.href ?? "#"}
                       target="_blank"
                       rel="noreferrer"
                       aria-label={item.label}
-                      className="flex h-10 w-10 items-center justify-center rounded-full bg-black/35 text-white ring-1 ring-white/20"
-                      whileHover={{ scale: 1.08, y: -2 }}
-                      whileTap={{ scale: 0.96 }}
+                      className="flex h-10 w-10 items-center justify-center rounded-full bg-black/35 text-white ring-1 ring-white/20 transition-transform duration-200 hover:-translate-y-0.5 hover:scale-105 active:scale-95"
                     >
                       <item.icon className="h-4 w-4" strokeWidth={2.2} aria-hidden="true" />
-                    </motion.a>
+                    </a>
                   ))}
                 </div>
               </div>

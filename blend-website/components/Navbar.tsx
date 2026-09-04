@@ -106,6 +106,7 @@ export default function Navbar() {
           <div className="flex items-center justify-between gap-5">
             <MotionLink
               href="/"
+              prefetch
               className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#111216]/92 shadow-[0_14px_36px_rgba(0,0,0,0.35)] ring-1 ring-white/10 backdrop-blur sm:h-16 sm:w-16 md:h-20 md:w-20"
               aria-label="Blend home"
               onMouseEnter={showDesktopMenu}
@@ -163,6 +164,7 @@ export default function Navbar() {
                     <MotionLink
                       key={link.label}
                       href={link.href}
+                      prefetch
                       className="group relative inline-flex py-2"
                       animate={{ color: idx === 0 ? activeMenuTextColor : menuTextColor }}
                       transition={toneTransition}
@@ -176,6 +178,7 @@ export default function Navbar() {
                 </motion.nav>
                 <MotionLink
                   href="/contact"
+                  prefetch
                   className="inline-flex h-10 items-center justify-center rounded-full bg-gradient-to-r from-[#6bd688] via-[#78d1ff] to-[#22d3ee] px-5 text-sm font-bold text-[#07100e] shadow-[0_12px_28px_rgba(120,209,255,0.28)] ring-1 ring-white/25 lg:h-11 lg:px-6 lg:text-base"
                   whileHover={{
                     y: -3,
@@ -217,6 +220,7 @@ export default function Navbar() {
                 <MotionLink
                   key={link.label}
                   href={link.href}
+                  prefetch
                   className="rounded-2xl px-2 py-3 transition-colors hover:bg-white/5 hover:text-white"
                   onClick={() => setOpen(false)}
                   whileHover={{ x: 4 }}
@@ -227,6 +231,7 @@ export default function Navbar() {
             </nav>
             <MotionLink
               href="/contact"
+              prefetch
               className="inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-[#6bd688] via-[#78d1ff] to-[#22d3ee] px-5 py-4 text-base font-bold text-[#07100e]"
               onClick={() => setOpen(false)}
               whileHover={{ scale: 1.02 }}

@@ -1,16 +1,16 @@
 "use client";
 
 import Image from "next/image";
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Reveal from "@/components/Reveal";
 import { MotionLink } from "@/components/MotionLink";
-import { getCaseStudyCoverVideo, getCaseStudyProject } from "@/lib/case-study-media";
+import { getCaseStudyCoverVideo } from "@/lib/case-study-media";
 import { getLatestCaseStudies } from "@/lib/cms-helpers";
 import type { CaseStudy } from "@/lib/cms-types";
-import { getFirebaseDb } from "@/lib/firebase/client";
+import { fetchCmsSection } from "@/lib/cms-client";
+import { workCaseStudies as fallbackCaseStudies } from "@/lib/data";
 
 const mobileSummaryBySlug: Record<string, string> = {
   google: "A polished Google Cloud partner experience built for hybrid audiences.",
@@ -19,18 +19,6 @@ const mobileSummaryBySlug: Record<string, string> = {
   shoprite: "A retail campaign blending gifting, digital communication, and social amplification.",
   amazon: "A vibrant summer experience for Amazon, combining energetic event production.",
 };
-
-const logoBySlug: Record<string, string> = {
-  deloitte: "/new-client-logos/Deloitte.svg",
-  geberit: "/new-client-logos/Geberit.svg",
-  google: "/new-client-logos/Google%20Cloud.svg",
-  shoprite: "/new-client-logos/Shoprite.svg",
-  amazon: "/new-client-logos/amazon-logo-amazon-icon-transparent-free-png.webp",
-  "amazon-summer-2025": "/new-client-logos/amazon-logo-amazon-icon-transparent-free-png.webp",
-};
-
-const getCaseStudyLogo = (caseStudy: Pick<CaseStudy, "slug" | "logo">) =>
-  logoBySlug[caseStudy.slug] ?? caseStudy.logo ?? null;
 
 const getYouTubeEmbedUrl = (url: string) => {
   try {
@@ -50,45 +38,19 @@ const getYouTubeEmbedUrl = (url: string) => {
   }
 };
 
-async function readCaseStudiesFromFirestore(): Promise<CaseStudy[]> {
-  const db = getFirebaseDb();
-  const workSnapshot = await getDocs(query(collection(db, "caseStudies"), orderBy("order")));
-
-  return workSnapshot.docs.map((entry) => {
-    const data = entry.data();
-    return {
-      slug: data.slug,
-      title: data.title,
-      project: data.project,
-      image: data.image,
-      coverVideo: data.coverVideo,
-      logo: data.logo,
-      tags: data.tags ?? [],
-      summary: data.summary,
-      tabs: data.tabs ?? {},
-    };
-  }) as CaseStudy[];
-}
-
 export default function LatestWork() {
-  const [caseStudies, setCaseStudies] = useState<CaseStudy[]>([]);
+  const [caseStudies, setCaseStudies] = useState<CaseStudy[]>(fallbackCaseStudies);
   const [activeIndex, setActiveIndex] = useState(0);
   const [activeDirection, setActiveDirection] = useState(1);
 
   useEffect(() => {
-    void readCaseStudiesFromFirestore()
-      .then(setCaseStudies)
-      .catch((error) => {
-        console.error("Failed to load case studies from Firestore.", error);
-        setCaseStudies([]);
-      });
+    void fetchCmsSection("work").then(setCaseStudies).catch(() => undefined);
   }, []);
 
   const latestWorkItems = getLatestCaseStudies(caseStudies, 6);
   const activeItem = latestWorkItems[activeIndex] ?? latestWorkItems[0];
   const activeCoverVideoSrc = activeItem ? getCaseStudyCoverVideo(activeItem) : null;
   const activeCoverVideo = activeCoverVideoSrc ? getYouTubeEmbedUrl(activeCoverVideoSrc) : null;
-  const activeLogo = activeItem ? getCaseStudyLogo(activeItem) : null;
   const goToPrevious = () => {
     if (latestWorkItems.length <= 1) return;
     setActiveDirection(-1);
@@ -138,29 +100,12 @@ export default function LatestWork() {
         {activeItem ? (
           <Reveal delay={0.05}>
             <div className="mx-auto mt-12 max-w-6xl">
-              <div className="pointer-events-none absolute h-0 w-0 overflow-hidden opacity-0" aria-hidden="true">
-                {latestWorkItems
-                  .map((item) => ({ item, logo: getCaseStudyLogo(item) }))
-                  .filter(({ logo }) => logo)
-                  .map(({ item, logo }) => (
-                    <Image
-                      key={`${item.slug}-logo-preload`}
-                      src={logo as string}
-                      alt=""
-                      width={160}
-                      height={160}
-                      className="h-20 w-20"
-                      priority
-                      unoptimized
-                    />
-                  ))}
-              </div>
-
               <div className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.055] p-3 shadow-[0_30px_90px_rgba(0,0,0,0.38)]">
                 <AnimatePresence initial={false} custom={activeDirection} mode="wait">
                   <MotionLink
                     key={activeItem.slug}
                     href={`/case-studies/${activeItem.slug}`}
+                    prefetch
                     className="group relative block overflow-hidden rounded-[2rem] bg-black"
                     custom={activeDirection}
                     initial={{ opacity: 0, x: activeDirection * 42, scale: 0.985, filter: "blur(8px)" }}
@@ -198,30 +143,6 @@ export default function LatestWork() {
                       )}
                       <div className="absolute inset-0 bg-black/45" />
                       <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/35 to-black/60" />
-                      <div className="absolute inset-x-0 top-0 p-6 sm:p-8">
-                        <div>
-                          {activeLogo ? (
-                            <span className="flex h-[30px] w-28 items-center justify-center overflow-hidden rounded-full bg-white px-2 shadow-[0_10px_24px_rgba(0,0,0,0.24)] ring-1 ring-white/70 sm:h-8 sm:w-32">
-                              <Image
-                                src={activeLogo}
-                                alt={`${activeItem.title} logo`}
-                                width={160}
-                                height={160}
-                                className="h-20 w-20 max-w-none object-contain sm:h-[5.5rem] sm:w-[5.5rem]"
-                                priority
-                                unoptimized
-                              />
-                            </span>
-                          ) : (
-                            <div className="text-4xl font-semibold leading-none tracking-[-0.04em] text-white sm:text-5xl">
-                              {activeItem.title}
-                            </div>
-                          )}
-                          <div className="mt-3 hidden max-w-xl text-sm font-semibold uppercase tracking-[0.18em] text-white/58 sm:block">
-                            {getCaseStudyProject(activeItem)}
-                          </div>
-                        </div>
-                      </div>
                       <div className="absolute inset-x-0 bottom-0 hidden max-w-2xl p-6 pr-10 sm:block sm:p-8">
                         <p className="text-sm leading-6 text-white/74 sm:text-lg sm:leading-7">
                           {activeItem.summary}
@@ -264,9 +185,6 @@ export default function LatestWork() {
                   exit={{ opacity: 0, y: -8 }}
                   transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  <div className="text-sm font-semibold uppercase tracking-[0.18em] text-white/58">
-                    {getCaseStudyProject(activeItem)}
-                  </div>
                   <p className="max-w-[22rem] text-sm leading-6 text-white/74">
                     {mobileSummaryBySlug[activeItem.slug] ?? activeItem.summary}
                   </p>
