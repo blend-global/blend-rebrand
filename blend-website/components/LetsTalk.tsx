@@ -5,10 +5,12 @@ import { Facebook, Instagram, Linkedin } from "lucide-react";
 import { type FormEvent, useState } from "react";
 import Reveal from "@/components/Reveal";
 import { contactSection } from "@/lib/data";
+import { submitContactEnquiry } from "@/lib/contact-client";
 
 export default function LetsTalk() {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -19,26 +21,18 @@ export default function LetsTalk() {
     const formData = new FormData(form);
 
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          firstName: formData.get("firstName"),
-          lastName: formData.get("lastName"),
-          email: formData.get("email"),
-          contactNumber: formData.get("contactNumber"),
-          message: formData.get("message"),
-          source: "Homepage contact form",
-        }),
+      const message = await submitContactEnquiry({
+        firstName: formData.get("firstName"),
+        lastName: formData.get("lastName"),
+        email: formData.get("email"),
+        contactNumber: formData.get("contactNumber"),
+        message: formData.get("message"),
+        source: "Homepage contact form",
       });
-      const data = (await response.json()) as { error?: string };
-
-      if (!response.ok) {
-        throw new Error(data.error || "We could not send your message right now.");
-      }
 
       form.reset();
       setStatus("success");
+      setSuccessMessage(message);
     } catch (error) {
       setStatus("error");
       setErrorMessage(error instanceof Error ? error.message : "We could not send your message right now.");
@@ -155,7 +149,7 @@ export default function LetsTalk() {
               />
             </div>
             <div className="md:col-span-2 min-h-5 text-sm" aria-live="polite">
-              {status === "success" ? <p className="font-semibold text-[#2bbf7f]">Thanks, your message has been sent.</p> : null}
+              {status === "success" ? <p className="font-semibold text-[#2bbf7f]">{successMessage}</p> : null}
               {status === "error" ? <p className="font-semibold text-[#c92f6d]">{errorMessage}</p> : null}
             </div>
             <div className="md:col-span-2 flex justify-end">
