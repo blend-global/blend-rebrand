@@ -96,7 +96,7 @@ export default function AboutLocations() {
                 width={760}
                 height={920}
                 className="h-[320px] w-full rounded-[38px] object-cover sm:h-[420px] md:h-[520px]"
-                priority
+                sizes="(min-width: 768px) 50vw, 100vw"
               />
             </motion.div>
           </div>

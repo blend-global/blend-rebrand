@@ -30,7 +30,7 @@ const stockImagesBySlug: Record<string, Array<{ src: string; alt: string; label:
   "video-production": [
     { src: unsplashImage("photo-1492691527719-9d1e07e534b4"), alt: "Camera rig on a video production set", label: "Production" },
     { src: unsplashImage("photo-1574717024653-61fd2cf4d44d"), alt: "Editing timeline on a workstation", label: "Post" },
-    { src: unsplashImage("photo-1536240478700-b869070f9279"), alt: "Video camera pointed at a studio scene", label: "Shoot" },
+    { src: unsplashImage("photo-1516035069371-29a1b244cc32"), alt: "Professional camera in hand", label: "Shoot" },
   ],
   photography: [
     { src: unsplashImage("photo-1516035069371-29a1b244cc32"), alt: "Professional camera in hand", label: "Coverage" },

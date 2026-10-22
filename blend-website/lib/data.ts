@@ -142,7 +142,7 @@ export const contactSection = {
   title: "Let's Talk",
   subtitle: "Reach out to us for any inquiries, collaborations, or to start your next big project.",
   email: "info@blend.com",
-  phone: "+00 000 0000",
+  phone: "+27 21 448 8282",
   address: "20 Viola Road Table View, Cape Town",
   socials: [
     { label: "Twitter", href: "#" },

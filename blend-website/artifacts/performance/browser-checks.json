@@ -1,0 +1,337 @@
+{
+  "scope": "Authenticated DOM checks; loaded-image checks do not force all lazy assets to download.",
+  "checks": [
+    {
+      "brokenImages": [],
+      "heading": "Empowering ConnectionsGlobally",
+      "overflow": false,
+      "path": "/",
+      "videoErrors": [],
+      "width": 440
+    },
+    {
+      "brokenImages": [],
+      "heading": "Crafting Dreams,Delivering Results",
+      "overflow": false,
+      "path": "/services",
+      "videoErrors": [],
+      "width": 440
+    },
+    {
+      "brokenImages": [],
+      "heading": "Video Production",
+      "overflow": false,
+      "path": "/services/video-production",
+      "videoErrors": [],
+      "width": 440
+    },
+    {
+      "brokenImages": [],
+      "heading": "Case studies that prove the experience.",
+      "overflow": false,
+      "path": "/case-studies",
+      "videoErrors": [],
+      "width": 440
+    },
+    {
+      "brokenImages": [],
+      "heading": "Amazon",
+      "overflow": false,
+      "path": "/case-studies/amazon-summer-2025",
+      "videoErrors": [],
+      "width": 440
+    },
+    {
+      "brokenImages": [],
+      "heading": "The world of events and digital",
+      "overflow": false,
+      "path": "/blog",
+      "videoErrors": [],
+      "width": 440
+    },
+    {
+      "brokenImages": [],
+      "heading": "How can design even help?",
+      "overflow": false,
+      "path": "/blog/how-can-design-even-help",
+      "videoErrors": [],
+      "width": 440
+    },
+    {
+      "brokenImages": [],
+      "heading": "Let's Talk",
+      "overflow": false,
+      "path": "/contact",
+      "videoErrors": [],
+      "width": 440
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Empowering ConnectionsGlobally",
+      "overflow": false,
+      "path": "/",
+      "width": 1425
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Crafting Dreams,Delivering Results",
+      "overflow": false,
+      "path": "/services",
+      "width": 1425
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Video Production",
+      "overflow": false,
+      "path": "/services/video-production",
+      "width": 1425
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Case studies that prove the experience.",
+      "overflow": false,
+      "path": "/case-studies",
+      "width": 1425
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Amazon",
+      "overflow": false,
+      "path": "/case-studies/amazon-summer-2025",
+      "width": 1440
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "The world of events and digital",
+      "overflow": false,
+      "path": "/blog",
+      "width": 1425
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "How can design even help?",
+      "overflow": false,
+      "path": "/blog/how-can-design-even-help",
+      "width": 1425
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Let's Talk",
+      "overflow": false,
+      "path": "/contact",
+      "width": 1425
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Empowering ConnectionsGlobally",
+      "overflow": false,
+      "path": "/",
+      "width": 305
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Crafting Dreams,Delivering Results",
+      "overflow": false,
+      "path": "/services",
+      "width": 305
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Video Production",
+      "overflow": false,
+      "path": "/services/video-production",
+      "width": 305
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Case studies that prove the experience.",
+      "overflow": false,
+      "path": "/case-studies",
+      "width": 305
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Amazon",
+      "overflow": false,
+      "path": "/case-studies/amazon-summer-2025",
+      "width": 320
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "The world of events and digital",
+      "overflow": false,
+      "path": "/blog",
+      "width": 305
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "How can design even help?",
+      "overflow": false,
+      "path": "/blog/how-can-design-even-help",
+      "width": 305
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Let's Talk",
+      "overflow": false,
+      "path": "/contact",
+      "width": 305
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Animation",
+      "overflow": false,
+      "path": "/services/animation"
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Design & Creative",
+      "overflow": false,
+      "path": "/services/design-creative"
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Event Production & Managements",
+      "overflow": false,
+      "path": "/services/event-production-management"
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Experiential Marketing & Brand Activations",
+      "overflow": false,
+      "path": "/services/experiential-marketing-brand-activations"
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Food & Beverage",
+      "overflow": false,
+      "path": "/services/food-beverage"
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Guest Logistics",
+      "overflow": false,
+      "path": "/services/guest-logistics"
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Hybrid & Virtual Events",
+      "overflow": false,
+      "path": "/services/hybrid-virtual-events"
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Live Streaming",
+      "overflow": false,
+      "path": "/services/live-streaming"
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Marketing / Advertising / Social Media",
+      "overflow": false,
+      "path": "/services/marketing-advertising-social-media"
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Photography",
+      "overflow": false,
+      "path": "/services/photography"
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "RSVP Management",
+      "overflow": false,
+      "path": "/services/rsvp-management"
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Staffing",
+      "overflow": false,
+      "path": "/services/staffing"
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Swag & Gifting",
+      "overflow": false,
+      "path": "/services/swag-gifting"
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Venue / Decor / Entertainment",
+      "overflow": false,
+      "path": "/services/venue-decor-entertainment"
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Web Development",
+      "overflow": false,
+      "path": "/services/web-development"
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Google Cloud",
+      "overflow": false,
+      "path": "/case-studies/google-cloud-ai-in-action-cape-town"
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Google Cloud",
+      "overflow": false,
+      "path": "/case-studies/google-cloud-x-blend"
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Google",
+      "overflow": false,
+      "path": "/case-studies/google-fast-start-photography"
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Shoprite",
+      "overflow": false,
+      "path": "/case-studies/shoprite-csi-rainbow-dolls"
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Shoprite",
+      "overflow": false,
+      "path": "/case-studies/shoprite-small-suppliers-browns"
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "YouTube",
+      "overflow": false,
+      "path": "/case-studies/youtube-works-awards"
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Acer Launch 2022",
+      "overflow": false,
+      "path": "/blog/acer-launch-2022"
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "FNB Christmas 2021",
+      "overflow": false,
+      "path": "/blog/fnb-christmas-2021"
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "The thing about events",
+      "overflow": false,
+      "path": "/blog/the-thing-about-events"
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Women in Tech event",
+      "overflow": false,
+      "path": "/blog/women-in-tech-event"
+    },
+    {
+      "brokenLoadedImages": [],
+      "heading": "Work It Up",
+      "overflow": false,
+      "path": "/blog/work-it-up"
+    }
+  ]
+}

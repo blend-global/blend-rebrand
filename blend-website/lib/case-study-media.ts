@@ -109,3 +109,21 @@ export const getCaseStudyProject = (caseStudy: Pick<CaseStudy, "slug" | "project
 
 export const getCaseStudyCoverVideo = (caseStudy: Pick<CaseStudy, "coverVideo">) =>
   caseStudy.coverVideo ?? null;
+
+const localVideoPosters: Record<string, string> = Object.fromEntries(
+  [
+    "amazon-summer-2025",
+    "google-cloud-ai-in-action-cape-town",
+    "google-cloud-x-blend",
+    "google-fast-start-photography",
+    "shoprite-csi-rainbow-dolls",
+    "shoprite-small-suppliers-browns",
+    "youtube-works-awards",
+  ].map((slug) => [
+    `/case-studies/videos/${slug}.mp4`,
+    `/case-studies/videos/${slug}.webp`,
+  ]),
+);
+
+export const getCaseStudyCoverImage = (caseStudy: Pick<CaseStudy, "image" | "coverVideo">) =>
+  (caseStudy.coverVideo && localVideoPosters[caseStudy.coverVideo]) || caseStudy.image;

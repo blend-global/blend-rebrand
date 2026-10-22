@@ -10,6 +10,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test:performance": "node scripts/test-performance.mjs",
     "firebase:verify": "node --env-file=.env.local scripts/verify-firebase-config.mjs",
     "firebase:emulators": "firebase emulators:start --only auth,firestore,storage",
     "firebase:deploy:rules": "firebase deploy --only firestore:rules,firestore:indexes,storage --project blend-website-bcdf3"
