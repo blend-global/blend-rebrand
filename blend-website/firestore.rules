@@ -37,6 +37,31 @@ service cloud.firestore {
       allow create, update, delete: if isBlendMember();
     }
 
+    match /projectEnquiries/{enquiryId} {
+      allow read: if isBlendMember();
+      allow create: if isBlendMember()
+        && request.resource.data.submittedBy == request.auth.uid
+        && request.resource.data.status == 'new'
+        && request.resource.data.email is string
+        && request.resource.data.email.size() > 0
+        && request.resource.data.email.size() <= 254
+        && request.resource.data.message is string
+        && request.resource.data.message.size() > 0
+        && request.resource.data.message.size() <= 2000
+        && request.resource.data.services is list
+        && request.resource.data.services.size() <= 16
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.updatedAt == request.time
+        && request.resource.data.emailNotification == { 'status': 'pending' };
+      allow update: if isBlendMember()
+        && resource.data.submittedBy == request.auth.uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['emailNotification', 'updatedAt'])
+        && request.resource.data.updatedAt == request.time
+        && request.resource.data.emailNotification.keys().hasOnly(['status'])
+        && request.resource.data.emailNotification.status in ['sent', 'failed'];
+      allow delete: if false;
+    }
+
     match /users/{userId} {
       allow read: if isSignedIn() && request.auth.uid == userId;
       allow create, update: if isSignedIn()

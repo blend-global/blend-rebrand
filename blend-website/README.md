@@ -1,5 +1,33 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Project enquiries
+
+The project modal and contact forms submit through `/api/contact`. The endpoint
+continues the signed-in Blend member's Firebase session and saves a document in
+`projectEnquiries` **before** sending the existing email notification. No additional
+Firebase Admin credentials are needed.
+
+Documents contain the contact and project fields, selected service slugs and labels,
+`submittedBy` (the member's UID), `status: "new"`, server-generated `createdAt` and
+`updatedAt`, and `emailNotification.status` (`pending`, `sent`, or `failed`).
+Enquiries can be viewed in the Firebase console. All signed-in Blend members can
+read enquiries, including those submitted by other members. Client deletion is denied.
+
+If saving fails, the form retains its values and reports an error without sending
+email. If email fails after saving, the API returns an accepted response and the
+form confirms that the enquiry was saved; its notification status is marked
+`failed` for manual follow-up. A `pending` status can also indicate an interrupted
+request or a failed status update. This flow does not automatically retry email.
+
+Deploy the updated Firestore rules before releasing the website changes:
+
+```bash
+npx firebase deploy --only firestore:rules --project blend-website-bcdf3
+```
+
+Run the enquiry validation and failure-path tests with `npm run test:enquiries`.
+These tests mock Firebase and SMTP so they create no production records or emails.
+
 ## Getting Started
 
 First, run the development server:

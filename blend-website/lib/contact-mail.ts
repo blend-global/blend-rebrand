@@ -9,6 +9,7 @@ export type ContactFormPayload = {
   city?: string;
   country?: string;
   service?: string;
+  services?: string[];
   budget?: string;
   message: string;
   hybridDetails?: string;
@@ -49,8 +50,11 @@ const getDisplayName = (payload: ContactFormPayload) => {
 
 const getRows = (payload: ContactFormPayload) =>
   Object.entries(payload)
-    .filter(([, value]) => typeof value === "string" && value.trim().length > 0)
-    .map(([key, value]) => ({ label: formatLabel(key), value: value.trim() }));
+    .flatMap(([key, value]) =>
+      typeof value === "string" && value.trim().length > 0
+        ? [{ label: formatLabel(key), value: value.trim() }]
+        : [],
+    );
 
 export async function sendContactEmail(payload: ContactFormPayload) {
   const smtpPort = Number(getRequiredEnv("SMTP_PORT"));

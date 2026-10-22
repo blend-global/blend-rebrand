@@ -1,9 +1,10 @@
 "use client";
 
 import servicesData from "@/content/services.json";
+import { submitContactEnquiry } from "@/lib/contact-client";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, BriefcaseBusiness, Check, CheckCircle2, Send } from "lucide-react";
-import { type FormEvent, useEffect, useMemo, useState } from "react";
+import { type FormEvent, useMemo, useState } from "react";
 
 type FormState = {
   firstName: string;
@@ -52,7 +53,11 @@ const budgetOptions = [
 const steps = ["Service", "Basics", "Scope", "Send"];
 const emptyServices: string[] = [];
 
-export default function ProjectInquiryForm({
+export default function ProjectInquiryForm(props: ProjectInquiryFormProps) {
+  return <ProjectInquiryFormContent key={JSON.stringify(props.initialServices ?? [])} {...props} />;
+}
+
+function ProjectInquiryFormContent({
   className = "",
   initialServices = emptyServices,
   source = "Project inquiry form",
@@ -62,6 +67,7 @@ export default function ProjectInquiryForm({
   const [formState, setFormState] = useState<FormState>(() => getInitialFormState(initialServices));
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const serviceOptions = useMemo(
     () => [
@@ -78,13 +84,6 @@ export default function ProjectInquiryForm({
     ],
     [],
   );
-
-  useEffect(() => {
-    setFormState(getInitialFormState(initialServices));
-    setCurrentStep(0);
-    setStatus("idle");
-    setErrorMessage("");
-  }, [initialServices]);
 
   const selectedServices = serviceOptions
     .flatMap((group) => group.items)
@@ -145,24 +144,16 @@ export default function ProjectInquiryForm({
     setErrorMessage("");
 
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...formState,
-          service: selectedServices.map((service) => service.label).join(", "),
-          source,
-        }),
+      const message = await submitContactEnquiry({
+        ...formState,
+        service: selectedServices.map((service) => service.label).join(", "),
+        source,
       });
-      const data = (await response.json()) as { error?: string };
-
-      if (!response.ok) {
-        throw new Error(data.error || "We could not send your message right now.");
-      }
 
       setFormState(getInitialFormState(initialServices));
       setCurrentStep(0);
       setStatus("success");
+      setSuccessMessage(message);
       onSuccess?.();
     } catch (error) {
       setStatus("error");
@@ -472,7 +463,7 @@ export default function ProjectInquiryForm({
           {status === "success" ? (
             <p className="flex items-center gap-2 font-semibold text-[#51d498]">
               <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
-              Thanks, your message has been sent.
+              {successMessage}
             </p>
           ) : null}
           {status === "error" ? <p className="font-semibold text-[#ff8ab8]">{errorMessage}</p> : null}
