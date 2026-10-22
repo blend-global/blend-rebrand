@@ -1,0 +1,479 @@
+{
+  "at": "2026-10-22T08:18:53.446Z",
+  "baseUrl": "http://localhost:3100/",
+  "scope": "Local production HTTP and asset checks. Authenticated rendering and real-user Core Web Vitals need separate browser testing.",
+  "pages": 35,
+  "checks": [
+    {
+      "path": "/blog/acer-launch-2022",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 51,
+      "bytes": 18142,
+      "cacheControl": "s-maxage=60, stale-while-revalidate=31535940",
+      "location": null
+    },
+    {
+      "path": "/blog/fnb-christmas-2021",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 5,
+      "bytes": 18146,
+      "cacheControl": "s-maxage=60, stale-while-revalidate=31535940",
+      "location": null
+    },
+    {
+      "path": "/blog/how-can-design-even-help",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 4,
+      "bytes": 18161,
+      "cacheControl": "s-maxage=60, stale-while-revalidate=31535940",
+      "location": null
+    },
+    {
+      "path": "/blog/the-thing-about-events",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 5,
+      "bytes": 18157,
+      "cacheControl": "s-maxage=60, stale-while-revalidate=31535940",
+      "location": null
+    },
+    {
+      "path": "/blog/women-in-tech-event",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 4,
+      "bytes": 18148,
+      "cacheControl": "s-maxage=60, stale-while-revalidate=31535940",
+      "location": null
+    },
+    {
+      "path": "/blog/work-it-up",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 4,
+      "bytes": 18130,
+      "cacheControl": "s-maxage=60, stale-while-revalidate=31535940",
+      "location": null
+    },
+    {
+      "path": "/blog",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 4,
+      "bytes": 17606,
+      "cacheControl": "s-maxage=60, stale-while-revalidate=31535940",
+      "location": null
+    },
+    {
+      "path": "/case-studies/amazon-summer-2025",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 4,
+      "bytes": 14843,
+      "cacheControl": "s-maxage=31536000",
+      "location": null
+    },
+    {
+      "path": "/case-studies/google-cloud-ai-in-action-cape-town",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 3,
+      "bytes": 14894,
+      "cacheControl": "s-maxage=31536000",
+      "location": null
+    },
+    {
+      "path": "/case-studies/google-cloud-x-blend",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 3,
+      "bytes": 14849,
+      "cacheControl": "s-maxage=31536000",
+      "location": null
+    },
+    {
+      "path": "/case-studies/google-fast-start-photography",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 2,
+      "bytes": 14876,
+      "cacheControl": "s-maxage=31536000",
+      "location": null
+    },
+    {
+      "path": "/case-studies/shoprite-csi-rainbow-dolls",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 2,
+      "bytes": 14867,
+      "cacheControl": "s-maxage=31536000",
+      "location": null
+    },
+    {
+      "path": "/case-studies/shoprite-small-suppliers-browns",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 2,
+      "bytes": 14882,
+      "cacheControl": "s-maxage=31536000",
+      "location": null
+    },
+    {
+      "path": "/case-studies/youtube-works-awards",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 3,
+      "bytes": 14849,
+      "cacheControl": "s-maxage=31536000",
+      "location": null
+    },
+    {
+      "path": "/case-studies",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 3,
+      "bytes": 14625,
+      "cacheControl": "s-maxage=31536000",
+      "location": null
+    },
+    {
+      "path": "/cms",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 3,
+      "bytes": 14853,
+      "cacheControl": "s-maxage=31536000",
+      "location": null
+    },
+    {
+      "path": "/contact",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 4,
+      "bytes": 24658,
+      "cacheControl": "s-maxage=31536000",
+      "location": null
+    },
+    {
+      "path": "/",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 4,
+      "bytes": 25252,
+      "cacheControl": "s-maxage=31536000",
+      "location": null
+    },
+    {
+      "path": "/services/animation",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 4,
+      "bytes": 28210,
+      "cacheControl": "s-maxage=31536000",
+      "location": null
+    },
+    {
+      "path": "/services/design-creative",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 3,
+      "bytes": 28336,
+      "cacheControl": "s-maxage=31536000",
+      "location": null
+    },
+    {
+      "path": "/services/event-production-management",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 3,
+      "bytes": 28416,
+      "cacheControl": "s-maxage=31536000",
+      "location": null
+    },
+    {
+      "path": "/services/experiential-marketing-brand-activations",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 2,
+      "bytes": 28623,
+      "cacheControl": "s-maxage=31536000",
+      "location": null
+    },
+    {
+      "path": "/services/food-beverage",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 2,
+      "bytes": 28262,
+      "cacheControl": "s-maxage=31536000",
+      "location": null
+    },
+    {
+      "path": "/services/guest-logistics",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 2,
+      "bytes": 28290,
+      "cacheControl": "s-maxage=31536000",
+      "location": null
+    },
+    {
+      "path": "/services/hybrid-virtual-events",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 2,
+      "bytes": 28442,
+      "cacheControl": "s-maxage=31536000",
+      "location": null
+    },
+    {
+      "path": "/services/live-streaming",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 2,
+      "bytes": 28284,
+      "cacheControl": "s-maxage=31536000",
+      "location": null
+    },
+    {
+      "path": "/services/marketing-advertising-social-media",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 3,
+      "bytes": 28408,
+      "cacheControl": "s-maxage=31536000",
+      "location": null
+    },
+    {
+      "path": "/services/photography",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 3,
+      "bytes": 28278,
+      "cacheControl": "s-maxage=31536000",
+      "location": null
+    },
+    {
+      "path": "/services/rsvp-management",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 2,
+      "bytes": 28300,
+      "cacheControl": "s-maxage=31536000",
+      "location": null
+    },
+    {
+      "path": "/services/staffing",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 2,
+      "bytes": 28243,
+      "cacheControl": "s-maxage=31536000",
+      "location": null
+    },
+    {
+      "path": "/services/swag-gifting",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 2,
+      "bytes": 28287,
+      "cacheControl": "s-maxage=31536000",
+      "location": null
+    },
+    {
+      "path": "/services/venue-decor-entertainment",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 2,
+      "bytes": 28388,
+      "cacheControl": "s-maxage=31536000",
+      "location": null
+    },
+    {
+      "path": "/services/video-production",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 2,
+      "bytes": 28370,
+      "cacheControl": "s-maxage=31536000",
+      "location": null
+    },
+    {
+      "path": "/services/web-development",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 3,
+      "bytes": 28246,
+      "cacheControl": "s-maxage=31536000",
+      "location": null
+    },
+    {
+      "path": "/services",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 3,
+      "bytes": 14618,
+      "cacheControl": "s-maxage=31536000",
+      "location": null
+    },
+    {
+      "path": "/api/cms/work",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 633,
+      "bytes": 10040,
+      "cacheControl": null,
+      "location": null
+    },
+    {
+      "path": "/api/cms/services",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 1732,
+      "bytes": 7943,
+      "cacheControl": null,
+      "location": null
+    },
+    {
+      "path": "/api/cms/blog",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 352,
+      "bytes": 2785,
+      "cacheControl": null,
+      "location": null
+    },
+    {
+      "path": "/api/cms/invalid",
+      "expectedStatus": 404,
+      "status": 404,
+      "passed": true,
+      "ms": 4,
+      "bytes": 32,
+      "cacheControl": null,
+      "location": null
+    },
+    {
+      "path": "/missing-performance-test",
+      "expectedStatus": 404,
+      "status": 404,
+      "passed": true,
+      "ms": 10,
+      "bytes": 14404,
+      "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "location": null
+    },
+    {
+      "path": "/work",
+      "expectedStatus": 308,
+      "status": 308,
+      "passed": true,
+      "ms": 3,
+      "bytes": 13,
+      "cacheControl": null,
+      "location": "/case-studies"
+    },
+    {
+      "path": "/work/google-cloud-x-blend",
+      "expectedStatus": 308,
+      "status": 308,
+      "passed": true,
+      "ms": 1,
+      "bytes": 34,
+      "cacheControl": null,
+      "location": "/case-studies/google-cloud-x-blend"
+    },
+    {
+      "path": "/api/contact",
+      "expectedStatus": 400,
+      "status": 400,
+      "passed": true,
+      "ms": 10,
+      "bytes": 40,
+      "cacheControl": null,
+      "location": null
+    },
+    {
+      "path": "/hero-video/hero-video-720p.mp4",
+      "expectedStatus": 206,
+      "status": 206,
+      "passed": true,
+      "ms": 4,
+      "bytes": 1024,
+      "cacheControl": "public, max-age=0",
+      "location": null
+    },
+    {
+      "path": "/hero-video/hero-poster.webp",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 2,
+      "bytes": 8966,
+      "cacheControl": "public, max-age=0",
+      "location": null
+    },
+    {
+      "path": "/_next/image?url=%2Fhero-video%2Fhero-poster.webp&w=640&q=75",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true,
+      "ms": 15,
+      "bytes": 6870,
+      "cacheControl": "public, max-age=14400, must-revalidate",
+      "location": null
+    }
+  ],
+  "assetsChecked": 111,
+  "missingAssets": [],
+  "load": {
+    "requests": 200,
+    "concurrency": 20,
+    "failedRequests": 0,
+    "durationMs": 146,
+    "p50Ms": 12,
+    "p95Ms": 28,
+    "maxMs": 61
+  }
+}

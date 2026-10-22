@@ -71,15 +71,11 @@ export default function CmsAuthCard({
         <div className="rounded-3xl border border-[#ff4fb3]/18 bg-[#ff4fb3]/8 px-4 py-4 text-sm leading-6 text-[#ffc1e4]">
           {error ?? "Firebase is not configured for this environment yet."}
         </div>
-      ) : !authReady ? (
-        <div className="rounded-3xl border border-white/10 bg-[#0f1218] px-4 py-5 text-sm text-white/70">
-          <div className="flex items-center gap-3">
-            <LoaderCircle className="size-4 animate-spin text-[#ff78c5]" />
-            Checking your authentication state...
-          </div>
-        </div>
       ) : (
-        <div className="space-y-4">
+        <fieldset disabled={!authReady || submitting} aria-busy={!authReady} className="min-w-0 space-y-4">
+          <p className="sr-only" role="status">
+            {!authReady ? "Checking your authentication state..." : "Ready to sign in."}
+          </p>
           <div className="grid grid-cols-2 rounded-full border border-white/10 bg-[#0f1218] p-1">
             <button
               type="button"
@@ -180,7 +176,7 @@ export default function CmsAuthCard({
               {error}
             </p>
           ) : null}
-        </div>
+        </fieldset>
       )}
     </div>
   );

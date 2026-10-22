@@ -34,8 +34,8 @@ export default function Hero() {
   return (
     <section id="home" className="relative min-h-[100svh] overflow-hidden bg-black">
       <video
-        src="/hero-video/hero-video.mp4"
-        poster="/hero-bg.png"
+        src="/hero-video/hero-video-720p.mp4"
+        poster="/hero-video/hero-poster.webp"
         className="absolute inset-0 h-full w-full object-cover"
         autoPlay
         muted

@@ -85,7 +85,7 @@ export default function Footer() {
             </div>
             <div className="flex items-center gap-2 text-sm text-[#222]">
               <Phone className="h-4 w-4" aria-hidden="true" />
-              <a href="tel:0214488282">0214488282</a>
+              <a href={`tel:${contactSection.phone.replaceAll(" ", "")}`}>{contactSection.phone}</a>
             </div>
           </Reveal>
 

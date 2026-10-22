@@ -1,0 +1,104 @@
+{
+  "date": "2026-10-22",
+  "status": "Local checks pass; full production performance is not certified",
+  "validation": {
+    "build": [
+      "Node 22.23.2",
+      "Node 24.22.1"
+    ],
+    "lint": "pass",
+    "typecheck": "pass (Next production build)",
+    "httpChecks": 46,
+    "pageRoutes": 35,
+    "authenticatedPublicPages": 34,
+    "load": {
+      "requests": 200,
+      "concurrency": 20,
+      "failedRequests": 0,
+      "durationMs": 146,
+      "p50Ms": 12,
+      "p95Ms": 28,
+      "maxMs": 61
+    },
+    "assetsChecked": 111,
+    "missingAssets": [],
+    "externalImageUrls": 39,
+    "failedExternalImages": []
+  },
+  "cleanSignedOutLighthouse": {
+    "version": "13.5.0",
+    "before": {
+      "score": 74,
+      "fcp": 1070.3188,
+      "lcp": 4856.6402,
+      "tbt": 128,
+      "cls": 0.1549880578714332
+    },
+    "mobile": [
+      {
+        "score": 91,
+        "fcp": 1067.2913,
+        "lcp": 3559.5825999999997,
+        "tbt": 37,
+        "cls": 0
+      },
+      {
+        "score": 96,
+        "fcp": 1061.1512,
+        "lcp": 2727.7268000000004,
+        "tbt": 34.71219999999994,
+        "cls": 0
+      },
+      {
+        "score": 96,
+        "fcp": 1064.9045,
+        "lcp": 2755.3567500000004,
+        "tbt": 78,
+        "cls": 0
+      }
+    ],
+    "desktop": {
+      "score": 100,
+      "fcp": 294.0248,
+      "lcp": 744.5434,
+      "tbt": 0,
+      "cls": 0
+    }
+  },
+  "existingSessionLighthouse": {
+    "before": {
+      "performance": 54,
+      "lcp": 3925,
+      "tbt": 1509,
+      "cls": 0.012,
+      "warnings": [
+        "Extensions affected results",
+        "Page-load timeout; results incomplete"
+      ]
+    },
+    "after": {
+      "performance": 81,
+      "lcp": 1269,
+      "tbt": 824,
+      "cls": 0.01,
+      "warnings": [
+        "Extensions affected results",
+        "Final audit screenshot showed sign-in UI; treat as transitional, not a reliable fully-authenticated homepage measurement"
+      ]
+    },
+    "method": "Observed through native Chrome DevTools, Lighthouse 13.4.1, mobile, Slow 4G, storage retained. Not comparable to clean CLI sign-out audits."
+  },
+  "media": {
+    "videoBefore": 31599984,
+    "videoAfter": 12565013,
+    "videoReductionPercent": 60.237280499888854,
+    "posterBefore": 1385060,
+    "posterAfter": 8966,
+    "posterReductionPercent": 99.35266342252321
+  },
+  "contact": {
+    "display": "+27 21 448 8282",
+    "href": "tel:+27214488282",
+    "verifiedOnContactPageAndFooter": true
+  }
+}

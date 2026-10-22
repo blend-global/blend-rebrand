@@ -7,7 +7,7 @@ import { MotionLink } from "@/components/MotionLink";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Pagination from "@/components/Pagination";
-import { getCaseStudyCoverVideo, getCaseStudyTags } from "@/lib/case-study-media";
+import { getCaseStudyCoverImage, getCaseStudyCoverVideo, getCaseStudyTags } from "@/lib/case-study-media";
 import type { CaseStudy } from "@/lib/cms-types";
 import { fetchCmsSection } from "@/lib/cms-client";
 import { workCaseStudies as fallbackCaseStudies } from "@/lib/data";
@@ -48,7 +48,7 @@ function CaseStudyCover({ item, isActive }: { item: CaseStudy; isActive: boolean
     video.currentTime = 0;
   }, [isActive]);
 
-  if (youtubeEmbedUrl) {
+  if (youtubeEmbedUrl && isActive) {
     return (
       <iframe
         key={isActive ? "playing" : "paused"}
@@ -61,26 +61,28 @@ function CaseStudyCover({ item, isActive }: { item: CaseStudy; isActive: boolean
     );
   }
 
-  if (coverVideo) {
+  if (coverVideo && isActive) {
     return (
       <video
         ref={videoRef}
         src={coverVideo}
+        poster={getCaseStudyCoverImage(item)}
         className="h-[220px] w-full rounded-[24px] object-cover sm:h-[260px] lg:h-[320px]"
         muted
         loop
         playsInline
-        preload="auto"
+        preload="none"
       />
     );
   }
 
   return (
     <Image
-      src={item.image}
+      src={getCaseStudyCoverImage(item)}
       alt={item.title}
       width={1200}
       height={800}
+      sizes="(min-width: 768px) 50vw, 100vw"
       className="h-[220px] w-full rounded-[24px] object-cover sm:h-[260px] lg:h-[320px]"
     />
   );

@@ -2,11 +2,11 @@
 
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Reveal from "@/components/Reveal";
 import { MotionLink } from "@/components/MotionLink";
-import { getCaseStudyCoverVideo } from "@/lib/case-study-media";
+import { getCaseStudyCoverImage, getCaseStudyCoverVideo } from "@/lib/case-study-media";
 import { getLatestCaseStudies } from "@/lib/cms-helpers";
 import type { CaseStudy } from "@/lib/cms-types";
 import { fetchCmsSection } from "@/lib/cms-client";
@@ -39,9 +39,22 @@ const getYouTubeEmbedUrl = (url: string) => {
 };
 
 export default function LatestWork() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
   const [caseStudies, setCaseStudies] = useState<CaseStudy[]>(fallbackCaseStudies);
   const [activeIndex, setActiveIndex] = useState(0);
   const [activeDirection, setActiveDirection] = useState(1);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsVisible(entry.isIntersecting);
+    }, { rootMargin: "200px" });
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     void fetchCmsSection("work").then(setCaseStudies).catch(() => undefined);
@@ -63,13 +76,12 @@ export default function LatestWork() {
   };
 
   return (
-    <section id="work" className="relative overflow-hidden py-20 text-white sm:py-24">
+    <section ref={sectionRef} id="work" className="relative overflow-hidden py-20 text-white sm:py-24">
       <div className="absolute inset-0 -z-10">
         <Image
           src="/latest-work/gradients.png"
           alt="Decorative gradients"
           fill
-          priority
           className="object-cover opacity-100"
           sizes="100vw"
         />
@@ -105,6 +117,7 @@ export default function LatestWork() {
                   <MotionLink
                     key={activeItem.slug}
                     href={`/case-studies/${activeItem.slug}`}
+                    aria-label={`View ${activeItem.title} case study`}
                     prefetch
                     className="group relative block overflow-hidden rounded-[2rem] bg-black"
                     custom={activeDirection}
@@ -115,7 +128,7 @@ export default function LatestWork() {
                     whileHover={{ scale: 1.005 }}
                   >
                     <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] sm:aspect-[16/7] sm:min-h-[320px]">
-                      {activeCoverVideo ? (
+                      {isVisible && activeCoverVideo ? (
                         <iframe
                           src={activeCoverVideo}
                           title={`${activeItem.title} cover video`}
@@ -123,18 +136,20 @@ export default function LatestWork() {
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                           allowFullScreen
                         />
-                      ) : activeCoverVideoSrc ? (
+                      ) : isVisible && activeCoverVideoSrc ? (
                         <video
                           src={activeCoverVideoSrc}
+                          poster={getCaseStudyCoverImage(activeItem)}
                           className="absolute inset-0 h-full w-full object-cover"
                           autoPlay
                           muted
                           loop
                           playsInline
+                          preload="none"
                         />
                       ) : (
                         <Image
-                          src={activeItem.image}
+                          src={getCaseStudyCoverImage(activeItem)}
                           alt={activeItem.title}
                           fill
                           className="object-cover"
