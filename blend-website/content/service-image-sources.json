@@ -1,60 +1,359 @@
 {
   "sourceSheet": "https://docs.google.com/spreadsheets/d/1TcQvGZsNDfPZ_X_Mx8yb3V0yKDyDARVR3ln37_xh21Y/edit",
-  "notes": "Images selected from the supplied sheet. Video stills use existing Blend case-study films where Drive links were unavailable. Screenshots retain their complete layouts. Original metadata is removed from WebP exports.",
+  "notes": "Selections expanded from the supplied sheet without changing the service gallery UI. Existing project-film stills are retained for videography and used as alternatives where animation/livestreaming links are inaccessible. Images appear on at most two services, only where relevant to both. Each source retains its sheet row or film timestamp.",
   "assets": [
     {
-      "path": "/services/google-cloud-speaker.webp",
-      "source": "https://drive.google.com/file/d/1JzuWtODClvv_G7Psrs4e2RimQYY1YNYf/view"
-    },
-    {
-      "path": "/services/ryan-swag-store.webp",
-      "source": "https://drive.google.com/file/d/128yZbkV82589v2pb35OXksqQEW8ybL2r/view"
-    },
-    {
-      "path": "/services/amazon-chef.webp",
-      "source": "https://drive.google.com/file/d/1_s1xfKpC0WaisNnAwkOepychcGjxGgcz/view"
-    },
-    {
-      "path": "/services/amazon-catering.webp",
-      "source": "https://drive.google.com/file/d/11OPST0nrG8n6pL97maPfMdsR0tdfTiyo/view"
-    },
-    {
-      "path": "/services/wonderland-design.webp",
-      "source": "https://drive.google.com/file/d/159uk4DvbBA7wJ_72AcD7cmWK--fd01FW/view"
-    },
-    {
-      "path": "/services/amazon-activation.webp",
-      "source": "https://drive.google.com/file/d/1LCcpoE8snMNL2sQkUapasfB-G-iVjlT6/view"
-    },
-    {
-      "path": "/services/google-cloud-registration.webp",
-      "source": "https://drive.google.com/file/d/1FSM6QnUqsMWwZ58at8S2QYMVrO-3MFns/view"
-    },
-    {
       "path": "/services/exxaro-rsvp.webp",
-      "source": "https://drive.google.com/file/d/1FQSVrFfdt1wdRZe9SuKLZmHcgyoa3SKF/view"
+      "source": "https://drive.google.com/file/d/1FQSVrFfdt1wdRZe9SuKLZmHcgyoa3SKF/view",
+      "sourceSheetRow": 4,
+      "sourceCategory": "RSVP management being handled smoothly"
     },
     {
       "path": "/services/google-cloud-check-in.webp",
-      "source": "https://drive.google.com/file/d/1f99ejCpgqy0TwsMHL1I-ybxt5yQNeiXo/view"
+      "source": "https://drive.google.com/file/d/1f99ejCpgqy0TwsMHL1I-ybxt5yQNeiXo/view",
+      "sourceSheetRow": 4,
+      "sourceCategory": "RSVP management being handled smoothly"
+    },
+    {
+      "path": "/services/event-registration-platform.webp",
+      "source": "https://drive.google.com/file/d/1ondnqRXozH6WB3tnBlDLxN9WW760coYU/view",
+      "sourceSheetRow": 5,
+      "sourceCategory": "Guest lists filling up"
+    },
+    {
+      "path": "/services/exxaro-registration-dashboard.webp",
+      "source": "https://drive.google.com/file/d/157ueZ7ulsPUiap_ChkkFUi-JxEBe0O5S/view",
+      "sourceSheetRow": 5,
+      "sourceCategory": "Guest lists filling up"
+    },
+    {
+      "path": "/services/amazon-live-cooking.webp",
+      "source": "https://drive.google.com/file/d/18lquc-U8rV3ShUdnVMvwEQDT2ELCvULG/view",
+      "sourceSheetRow": 9,
+      "sourceCategory": "Entertainment - live music, roaming acts"
+    },
+    {
+      "path": "/services/wonderland-led-performer.webp",
+      "source": "https://drive.google.com/file/d/1nAYCbf4ISdE7tDYHmEbZp89Q0p_lpaH9/view",
+      "sourceSheetRow": 9,
+      "sourceCategory": "Entertainment - live music, roaming acts"
+    },
+    {
+      "path": "/services/wonderland-costumed-performers.webp",
+      "source": "https://drive.google.com/file/d/1MTATjCHKFDDfLEHsFxBNbgyU9vsygRC7/view",
+      "sourceSheetRow": 9,
+      "sourceCategory": "Entertainment - live music, roaming acts"
+    },
+    {
+      "path": "/services/wonderland-hologram-stage.webp",
+      "source": "https://drive.google.com/file/d/1FdPIJcMWNaJq7S7I8degBfh4k1wT2riA/view",
+      "sourceSheetRow": 9,
+      "sourceCategory": "Entertainment - live music, roaming acts"
+    },
+    {
+      "path": "/services/google-cloud-choir.webp",
+      "source": "https://drive.google.com/file/d/1p1NPci9Qls08mlg-EbXXMJwfgQYWpi2M/view",
+      "sourceSheetRow": 9,
+      "sourceCategory": "Entertainment - live music, roaming acts"
+    },
+    {
+      "path": "/services/amazon-event-aerial.webp",
+      "source": "https://drive.google.com/file/d/1Mh0PHKdlJyHNLxNVyYI-4ALI_HAFcQKq/view",
+      "sourceSheetRow": 16,
+      "sourceCategory": "videography"
+    },
+    {
+      "path": "/services/google-cloud-speaker.webp",
+      "source": "https://drive.google.com/file/d/1JzuWtODClvv_G7Psrs4e2RimQYY1YNYf/view",
+      "sourceSheetRow": 17,
+      "sourceCategory": "photography"
+    },
+    {
+      "path": "/services/exxaro-event-portrait.webp",
+      "source": "https://drive.google.com/file/d/1k_lBmncMwXQ2jB8Kt39-wxUUqVduyFo6/view",
+      "sourceSheetRow": 17,
+      "sourceCategory": "photography"
+    },
+    {
+      "path": "/services/exxaro-table-decor.webp",
+      "source": "https://drive.google.com/file/d/1JUtqLdmqPe9bwpKeUEjjZMX375_gsr57/view",
+      "sourceSheetRow": 17,
+      "sourceCategory": "photography"
+    },
+    {
+      "path": "/services/youtube-awards-portrait.webp",
+      "source": "https://drive.google.com/file/d/1ll-6g2hyMBMkq2qdTe-JKSaCVfzC_PKm/view",
+      "sourceSheetRow": 17,
+      "sourceCategory": "photography"
+    },
+    {
+      "path": "/services/google-cloud-host.webp",
+      "source": "https://drive.google.com/file/d/1189QtRsqWEdabhTDQ9cQ4w5W-9MI6Fcx/view",
+      "sourceSheetRow": 17,
+      "sourceCategory": "photography"
+    },
+    {
+      "path": "/services/amazon-event-guests.webp",
+      "source": "https://drive.google.com/file/d/11SoEqqJ_ZpW-45fDhCpnabIJ54S_SWet/view",
+      "sourceSheetRow": 17,
+      "sourceCategory": "photography"
+    },
+    {
+      "path": "/services/wonderland-dancer-portrait.webp",
+      "source": "https://drive.google.com/file/d/11AAb4qaoOlIuSnXcpLLcrSidxCNypVm-/view",
+      "sourceSheetRow": 17,
+      "sourceCategory": "photography"
+    },
+    {
+      "path": "/services/wonderland-event-audience.webp",
+      "source": "https://drive.google.com/file/d/1UJUwzET6vgbuaearouTtBjsQVl8WbE-4/view",
+      "sourceSheetRow": 17,
+      "sourceCategory": "photography"
+    },
+    {
+      "path": "/services/google-cloud-registration.webp",
+      "source": "https://drive.google.com/file/d/1FSM6QnUqsMWwZ58at8S2QYMVrO-3MFns/view",
+      "sourceSheetRow": 21,
+      "sourceCategory": "Event RSVP & On-Site Registration"
+    },
+    {
+      "path": "/services/ryan-swag-store.webp",
+      "source": "https://drive.google.com/file/d/128yZbkV82589v2pb35OXksqQEW8ybL2r/view",
+      "sourceSheetRow": 22,
+      "sourceCategory": "Web Development"
+    },
+    {
+      "path": "/services/redefine-property-app.webp",
+      "source": "https://drive.google.com/file/d/1iuTUqhw4ayYb5K5NF4OgILCZV4VbwO5I/view",
+      "sourceSheetRow": 23,
+      "sourceCategory": "App Development"
+    },
+    {
+      "path": "/services/whisplo-learning-builder.webp",
+      "source": "https://drive.google.com/file/d/1p9Cc_gH5HK2gJ3ju5J3AMn2gegeqA_q7/view",
+      "sourceSheetRow": 24,
+      "sourceCategory": "E-Learning Development"
+    },
+    {
+      "path": "/services/whisplo-interactive-learning.webp",
+      "source": "https://drive.google.com/file/d/13gRvxpy-BtV7oGWqGsAP5o92HJsG-0Wo/view",
+      "sourceSheetRow": 24,
+      "sourceCategory": "E-Learning Development"
+    },
+    {
+      "path": "/services/strika-driving-game.webp",
+      "source": "https://drive.google.com/file/d/1_DHuKzDouBQgZT4kZ3XzVXcg647GWeSR/view",
+      "sourceSheetRow": 25,
+      "sourceCategory": "Gamification"
+    },
+    {
+      "path": "/services/ecolab-resort-quest.webp",
+      "source": "https://drive.google.com/file/d/1sPx9M6q2iBArONhaSPW8ourxvUUOf2RE/view",
+      "sourceSheetRow": 25,
+      "sourceCategory": "Gamification"
+    },
+    {
+      "path": "/services/whisplo-support-platform.webp",
+      "source": "https://drive.google.com/file/d/1GIccyKONeZHxb02Ep6QE_TV0VnuC-bl1/view",
+      "sourceSheetRow": 27,
+      "sourceCategory": "Custom Development"
+    },
+    {
+      "path": "/services/amazon-chef.webp",
+      "source": "https://drive.google.com/file/d/1_s1xfKpC0WaisNnAwkOepychcGjxGgcz/view",
+      "sourceSheetRow": 30,
+      "sourceCategory": "Canapés on trays/catering"
+    },
+    {
+      "path": "/services/amazon-catering.webp",
+      "source": "https://drive.google.com/file/d/11OPST0nrG8n6pL97maPfMdsR0tdfTiyo/view",
+      "sourceSheetRow": 30,
+      "sourceCategory": "Canapés on trays/catering"
+    },
+    {
+      "path": "/services/wonderland-dessert-cups.webp",
+      "source": "https://drive.google.com/file/d/1SApzBfl5K2sGKyOkBVlGwRXp8xgN0O9a/view",
+      "sourceSheetRow": 30,
+      "sourceCategory": "Canapés on trays/catering"
+    },
+    {
+      "path": "/services/wonderland-donut-display.webp",
+      "source": "https://drive.google.com/file/d/1LN4HAIndvl0lGPaTEOo2uS7W4m2vZuxm/view",
+      "sourceSheetRow": 30,
+      "sourceCategory": "Canapés on trays/catering"
+    },
+    {
+      "path": "/services/youtube-drinks-service.webp",
+      "source": "https://drive.google.com/file/d/18rD7zJw20uRZmKeVhLcuIFG7U2Z-6YfL/view",
+      "sourceSheetRow": 30,
+      "sourceCategory": "Canapés on trays/catering"
+    },
+    {
+      "path": "/services/youtube-welcome-drinks.webp",
+      "source": "https://drive.google.com/file/d/1BIWm7j8YzV1C-4WZjtyH8jmQ5_dLWRnl/view",
+      "sourceSheetRow": 30,
+      "sourceCategory": "Canapés on trays/catering"
     },
     {
       "path": "/services/wonderland-speaker.webp",
-      "source": "https://drive.google.com/file/d/1ReDQpMfPRvJkeTPwFxCl3GVM7flNBgUs/view"
+      "source": "https://drive.google.com/file/d/1ReDQpMfPRvJkeTPwFxCl3GVM7flNBgUs/view",
+      "sourceSheetRow": 31,
+      "sourceCategory": "Venue Setup"
+    },
+    {
+      "path": "/services/wonderland-conference-venue.webp",
+      "source": "https://drive.google.com/file/d/1fLUu9x-m-X25oOp6Q-sieQgoTB_kngMI/view",
+      "sourceSheetRow": 31,
+      "sourceCategory": "Venue Setup"
+    },
+    {
+      "path": "/services/wonderland-green-stage.webp",
+      "source": "https://drive.google.com/file/d/1rNb9kZVFbp81Bua_OFnLo6WY5DPZtEyt/view",
+      "sourceSheetRow": 31,
+      "sourceCategory": "Venue Setup"
+    },
+    {
+      "path": "/services/google-cloud-exhibition-booth.webp",
+      "source": "https://drive.google.com/file/d/1cCpAKt4jBzgOeFTuYisjvHsrQUZFRnv0/view",
+      "sourceSheetRow": 31,
+      "sourceCategory": "Venue Setup"
+    },
+    {
+      "path": "/services/google-cloud-event-floor.webp",
+      "source": "https://drive.google.com/file/d/1NVLuNa3SVNFxvgeueIvLWZfWW-KKdLAf/view",
+      "sourceSheetRow": 31,
+      "sourceCategory": "Venue Setup"
+    },
+    {
+      "path": "/services/youtube-branded-entrance.webp",
+      "source": "https://drive.google.com/file/d/1FsnlP3kyV6pdnCpFsxhvsC4uuovgYs_j/view",
+      "sourceSheetRow": 31,
+      "sourceCategory": "Venue Setup"
+    },
+    {
+      "path": "/services/youtube-awards-stage.webp",
+      "source": "https://drive.google.com/file/d/18S1gwg4KVwbxbV9wAMEVgg-eDlbnhJAG/view",
+      "sourceSheetRow": 31,
+      "sourceCategory": "Venue Setup"
+    },
+    {
+      "path": "/services/wonderland-gift-cards.webp",
+      "source": "https://drive.google.com/file/d/1eHCxSS-Zwiq39Grv_VxN0DZEeJGDdBpf/view",
+      "sourceSheetRow": 32,
+      "sourceCategory": "Swag"
     },
     {
       "path": "/services/google-cloud-gifting.webp",
-      "source": "https://drive.google.com/file/d/1XUmBezjC_FD4-9ASdDzg58V--Zq5c5jl/view"
+      "source": "https://drive.google.com/file/d/1XUmBezjC_FD4-9ASdDzg58V--Zq5c5jl/view",
+      "sourceSheetRow": 32,
+      "sourceCategory": "Swag"
     },
     {
-      "path": "/services/youtube-motion.webp",
-      "source": "/case-studies/videos/youtube-works-awards.mp4",
-      "seconds": 2
+      "path": "/services/wonderland-guest-photobooth.webp",
+      "source": "https://drive.google.com/file/d/17ld0ny29wmlrbv4vyl7IwDPE5v7OURa7/view",
+      "sourceSheetRow": 33,
+      "sourceCategory": "Photobooth"
     },
     {
-      "path": "/services/youtube-hospitality.webp",
-      "source": "/case-studies/videos/youtube-works-awards.mp4",
-      "seconds": 30
+      "path": "/services/youtube-interactive-photobooth.webp",
+      "source": "https://drive.google.com/file/d/1IJVQJwJV5bhT8jUhRmA53mZkUnILirbU/view",
+      "sourceSheetRow": 33,
+      "sourceCategory": "Photobooth"
+    },
+    {
+      "path": "/services/amazon-activation.webp",
+      "source": "https://drive.google.com/file/d/1LCcpoE8snMNL2sQkUapasfB-G-iVjlT6/view",
+      "sourceSheetRow": 34,
+      "sourceCategory": "Build"
+    },
+    {
+      "path": "/services/wonderland-printed-backdrop.webp",
+      "source": "https://drive.google.com/file/d/1UjEDPrBRHTKfOd7M4twQx6KIlXpxfj0d/view",
+      "sourceSheetRow": 34,
+      "sourceCategory": "Build"
+    },
+    {
+      "path": "/services/wonderland-dice-installation.webp",
+      "source": "https://drive.google.com/file/d/1dlSx4O8IWzuKBvnsH5uo4irAhr7-8djh/view",
+      "sourceSheetRow": 34,
+      "sourceCategory": "Build"
+    },
+    {
+      "path": "/services/wonderland-lounge.webp",
+      "source": "https://drive.google.com/file/d/1o9M0iRxtrn6jQXCO4H1SvxBCaeNWchLk/view",
+      "sourceSheetRow": 34,
+      "sourceCategory": "Build"
+    },
+    {
+      "path": "/services/wonderland-live-experience.webp",
+      "source": "https://drive.google.com/file/d/1PI9ad7bqniDcLS6E9X6-UIMmi9julf7F/view",
+      "sourceSheetRow": 34,
+      "sourceCategory": "Build"
+    },
+    {
+      "path": "/services/google-cloud-branded-installation.webp",
+      "source": "https://drive.google.com/file/d/1Qsq-hiMKEnzSqak2xHbIRCe6u0sG4iXv/view",
+      "sourceSheetRow": 34,
+      "sourceCategory": "Build"
+    },
+    {
+      "path": "/services/google-cloud-logo-build.webp",
+      "source": "https://drive.google.com/file/d/1schuNKfUTnESvK1KxGYGr3IqwCWwDQU_/view",
+      "sourceSheetRow": 34,
+      "sourceCategory": "Build"
+    },
+    {
+      "path": "/services/youtube-play-button-build.webp",
+      "source": "https://drive.google.com/file/d/17umFaO_2BsURAzJ-VhLCu6E_BU1gOU4q/view",
+      "sourceSheetRow": 34,
+      "sourceCategory": "Build"
+    },
+    {
+      "path": "/services/wonderland-design.webp",
+      "source": "https://drive.google.com/file/d/159uk4DvbBA7wJ_72AcD7cmWK--fd01FW/view",
+      "sourceSheetRow": 35,
+      "sourceCategory": "Design"
+    },
+    {
+      "path": "/services/google-cloud-packaging.webp",
+      "source": "https://drive.google.com/file/d/1Vfq24g1w32CsReDBbuPxqcWt7E2hvaMl/view",
+      "sourceSheetRow": 35,
+      "sourceCategory": "Design"
+    },
+    {
+      "path": "/services/google-cloud-display-design.webp",
+      "source": "https://drive.google.com/file/d/1dtCseiIgmRoYUUoIKfPTWuZvhQxgdLra/view",
+      "sourceSheetRow": 35,
+      "sourceCategory": "Design"
+    },
+    {
+      "path": "/services/google-cloud-hanging-banners.webp",
+      "source": "https://drive.google.com/file/d/1zpSviFPfEtH0SlkVbf4IvBDL3G1Q9yax/view",
+      "sourceSheetRow": 35,
+      "sourceCategory": "Design"
+    },
+    {
+      "path": "/services/wonderland-foyer-branding.webp",
+      "source": "https://drive.google.com/file/d/1ZUsFPZTaRk7EjRKkWQeQkpUBQL3Ll9n9/view",
+      "sourceSheetRow": 35,
+      "sourceCategory": "Design"
+    },
+    {
+      "path": "/services/youtube-live-music.webp",
+      "source": "https://drive.google.com/file/d/1U7Bl-SFbkssp5YJ5Fi4psWj-TuZ-1HBt/view",
+      "sourceSheetRow": 38,
+      "sourceCategory": "Live entertainment performing"
+    },
+    {
+      "path": "/services/amazon-guest-celebration.webp",
+      "source": "https://drive.google.com/file/d/1utkOLySZF8ZfwTUymPYpH_j7V1d8PGyD/view",
+      "sourceSheetRow": 40,
+      "sourceCategory": "Guests raise their glasses and cheers together as the celebration peaks."
+    },
+    {
+      "path": "/case-studies/videos/amazon-summer-2025.webp",
+      "source": "/case-studies/videos/amazon-summer-2025.mp4",
+      "note": "Existing case-study poster; corresponding film is linked in the source sheet."
     },
     {
       "path": "/services/google-interview.webp",
@@ -62,30 +361,29 @@
       "seconds": 6
     },
     {
+      "path": "/services/youtube-motion.webp",
+      "source": "/case-studies/videos/youtube-works-awards.mp4",
+      "seconds": 2
+    },
+    {
+      "path": "/services/google-cloud-motion.webp",
+      "source": "/case-studies/videos/google-cloud-x-blend.mp4",
+      "seconds": 33.5
+    },
+    {
       "path": "/services/wonderland-stage.webp",
       "source": "/case-studies/videos/google-cloud-ai-in-action-cape-town.mp4",
       "seconds": 42
     },
     {
-      "path": "/services/wonderland-signage.webp",
-      "source": "/case-studies/videos/google-cloud-ai-in-action-cape-town.mp4",
-      "seconds": 30
+      "path": "/services/youtube-stage-production.webp",
+      "source": "/case-studies/videos/youtube-works-awards.mp4",
+      "seconds": 52
     },
     {
-      "path": "/services/wonderland-venue.webp",
-      "source": "/case-studies/videos/google-cloud-ai-in-action-cape-town.mp4",
-      "seconds": 78,
-      "rotationDegrees": 180
-    },
-    {
-      "path": "/services/wonderland-photobooth.webp",
-      "source": "/case-studies/videos/google-cloud-ai-in-action-cape-town.mp4",
-      "seconds": 90
-    },
-    {
-      "path": "/case-studies/videos/amazon-summer-2025.webp",
-      "source": "/case-studies/videos/amazon-summer-2025.mp4",
-      "note": "Existing case-study poster; corresponding film is linked in the source sheet."
+      "path": "/services/google-cloud-conference.webp",
+      "source": "/case-studies/videos/google-cloud-x-blend.mp4",
+      "seconds": 42.5
     }
   ]
 }
