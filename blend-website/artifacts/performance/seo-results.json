@@ -1,0 +1,394 @@
+{
+  "scope": "Production HTML in head, anonymous facebookexternalhit user agent; metadata and local preview image HTTP checks",
+  "pagesChecked": 35,
+  "uniqueShareImages": 8,
+  "errors": [],
+  "pages": [
+    {
+      "path": "/blog/acer-launch-2022",
+      "title": "Acer Launch 2022 | Blend Global",
+      "canonical": [
+        "https://blend.global/blog/acer-launch-2022"
+      ],
+      "image": "https://blend.global/og/blend-share.png",
+      "type": [
+        "article"
+      ]
+    },
+    {
+      "path": "/blog/fnb-christmas-2021",
+      "title": "FNB Christmas 2021 | Blend Global",
+      "canonical": [
+        "https://blend.global/blog/fnb-christmas-2021"
+      ],
+      "image": "https://blend.global/og/blend-share.png",
+      "type": [
+        "article"
+      ]
+    },
+    {
+      "path": "/blog/how-can-design-even-help",
+      "title": "Sunday , 1 Jan 2026 | Blend Global",
+      "canonical": [
+        "https://blend.global/blog/how-can-design-even-help"
+      ],
+      "image": "https://blend.global/og/blend-share.png",
+      "type": [
+        "article"
+      ]
+    },
+    {
+      "path": "/blog/the-thing-about-events",
+      "title": "Sat , 12 Jun 2026 | Blend Global",
+      "canonical": [
+        "https://blend.global/blog/the-thing-about-events"
+      ],
+      "image": "https://blend.global/og/blend-share.png",
+      "type": [
+        "article"
+      ]
+    },
+    {
+      "path": "/blog/women-in-tech-event",
+      "title": "Women in Tech event | Blend Global",
+      "canonical": [
+        "https://blend.global/blog/women-in-tech-event"
+      ],
+      "image": "https://blend.global/og/blend-share.png",
+      "type": [
+        "article"
+      ]
+    },
+    {
+      "path": "/blog/work-it-up",
+      "title": "Work It Up | Blend Global",
+      "canonical": [
+        "https://blend.global/blog/work-it-up"
+      ],
+      "image": "https://blend.global/og/blend-share.png",
+      "type": [
+        "article"
+      ]
+    },
+    {
+      "path": "/blog",
+      "title": "Insights | Blend Global",
+      "canonical": [
+        "https://blend.global/blog"
+      ],
+      "image": "https://blend.global/og/blend-share.png",
+      "type": [
+        "website"
+      ]
+    },
+    {
+      "path": "/case-studies/amazon-summer-2025",
+      "title": "Amazon — Summer 2025 | Blend Global",
+      "canonical": [
+        "https://blend.global/case-studies/amazon-summer-2025"
+      ],
+      "image": "https://blend.global/case-studies/videos/amazon-summer-2025.webp",
+      "type": [
+        "website"
+      ]
+    },
+    {
+      "path": "/case-studies/google-cloud-ai-in-action-cape-town",
+      "title": "Google Cloud — AI in Action (Cape Town) | Blend Global",
+      "canonical": [
+        "https://blend.global/case-studies/google-cloud-ai-in-action-cape-town"
+      ],
+      "image": "https://blend.global/case-studies/videos/google-cloud-ai-in-action-cape-town.webp",
+      "type": [
+        "website"
+      ]
+    },
+    {
+      "path": "/case-studies/google-cloud-x-blend",
+      "title": "Google Cloud — Google Cloud x Blend | Blend Global",
+      "canonical": [
+        "https://blend.global/case-studies/google-cloud-x-blend"
+      ],
+      "image": "https://blend.global/case-studies/videos/google-cloud-x-blend.webp",
+      "type": [
+        "website"
+      ]
+    },
+    {
+      "path": "/case-studies/google-fast-start-photography",
+      "title": "Google — Fast Start Photography | Blend Global",
+      "canonical": [
+        "https://blend.global/case-studies/google-fast-start-photography"
+      ],
+      "image": "https://blend.global/case-studies/videos/google-fast-start-photography.webp",
+      "type": [
+        "website"
+      ]
+    },
+    {
+      "path": "/case-studies/shoprite-csi-rainbow-dolls",
+      "title": "Shoprite — CSI: Rainbow Dolls | Blend Global",
+      "canonical": [
+        "https://blend.global/case-studies/shoprite-csi-rainbow-dolls"
+      ],
+      "image": "https://blend.global/case-studies/videos/shoprite-csi-rainbow-dolls.webp",
+      "type": [
+        "website"
+      ]
+    },
+    {
+      "path": "/case-studies/shoprite-small-suppliers-browns",
+      "title": "Shoprite — Small Suppliers: Browns | Blend Global",
+      "canonical": [
+        "https://blend.global/case-studies/shoprite-small-suppliers-browns"
+      ],
+      "image": "https://blend.global/case-studies/videos/shoprite-small-suppliers-browns.webp",
+      "type": [
+        "website"
+      ]
+    },
+    {
+      "path": "/case-studies/youtube-works-awards",
+      "title": "YouTube — YouTube Works Awards | Blend Global",
+      "canonical": [
+        "https://blend.global/case-studies/youtube-works-awards"
+      ],
+      "image": "https://blend.global/case-studies/videos/youtube-works-awards.webp",
+      "type": [
+        "website"
+      ]
+    },
+    {
+      "path": "/case-studies",
+      "title": "Case Studies | Blend Global",
+      "canonical": [
+        "https://blend.global/case-studies"
+      ],
+      "image": "https://blend.global/og/blend-share.png",
+      "type": [
+        "website"
+      ]
+    },
+    {
+      "path": "/cms",
+      "title": "CMS | Blend Global",
+      "canonical": [
+        "https://blend.global/cms"
+      ],
+      "image": "https://blend.global/og/blend-share.png",
+      "type": [
+        "website"
+      ]
+    },
+    {
+      "path": "/contact",
+      "title": "Contact | Blend Global",
+      "canonical": [
+        "https://blend.global/contact"
+      ],
+      "image": "https://blend.global/og/blend-share.png",
+      "type": [
+        "website"
+      ]
+    },
+    {
+      "path": "/",
+      "title": "Blend Global",
+      "canonical": [
+        "https://blend.global"
+      ],
+      "image": "https://blend.global/og/blend-share.png",
+      "type": [
+        "website"
+      ]
+    },
+    {
+      "path": "/services/animation",
+      "title": "Animation | Blend Global",
+      "canonical": [
+        "https://blend.global/services/animation"
+      ],
+      "image": "https://blend.global/og/blend-share.png",
+      "type": [
+        "website"
+      ]
+    },
+    {
+      "path": "/services/design-creative",
+      "title": "Design & Creative | Blend Global",
+      "canonical": [
+        "https://blend.global/services/design-creative"
+      ],
+      "image": "https://blend.global/og/blend-share.png",
+      "type": [
+        "website"
+      ]
+    },
+    {
+      "path": "/services/event-production-management",
+      "title": "Event Production & Managements | Blend Global",
+      "canonical": [
+        "https://blend.global/services/event-production-management"
+      ],
+      "image": "https://blend.global/og/blend-share.png",
+      "type": [
+        "website"
+      ]
+    },
+    {
+      "path": "/services/experiential-marketing-brand-activations",
+      "title": "Experiential Marketing & Brand Activations | Blend Global",
+      "canonical": [
+        "https://blend.global/services/experiential-marketing-brand-activations"
+      ],
+      "image": "https://blend.global/og/blend-share.png",
+      "type": [
+        "website"
+      ]
+    },
+    {
+      "path": "/services/food-beverage",
+      "title": "Food & Beverage | Blend Global",
+      "canonical": [
+        "https://blend.global/services/food-beverage"
+      ],
+      "image": "https://blend.global/og/blend-share.png",
+      "type": [
+        "website"
+      ]
+    },
+    {
+      "path": "/services/guest-logistics",
+      "title": "Guest Logistics | Blend Global",
+      "canonical": [
+        "https://blend.global/services/guest-logistics"
+      ],
+      "image": "https://blend.global/og/blend-share.png",
+      "type": [
+        "website"
+      ]
+    },
+    {
+      "path": "/services/hybrid-virtual-events",
+      "title": "Hybrid & Virtual Events | Blend Global",
+      "canonical": [
+        "https://blend.global/services/hybrid-virtual-events"
+      ],
+      "image": "https://blend.global/og/blend-share.png",
+      "type": [
+        "website"
+      ]
+    },
+    {
+      "path": "/services/live-streaming",
+      "title": "Live Streaming | Blend Global",
+      "canonical": [
+        "https://blend.global/services/live-streaming"
+      ],
+      "image": "https://blend.global/og/blend-share.png",
+      "type": [
+        "website"
+      ]
+    },
+    {
+      "path": "/services/marketing-advertising-social-media",
+      "title": "Marketing/Advertising/Social Media | Blend Global",
+      "canonical": [
+        "https://blend.global/services/marketing-advertising-social-media"
+      ],
+      "image": "https://blend.global/og/blend-share.png",
+      "type": [
+        "website"
+      ]
+    },
+    {
+      "path": "/services/photography",
+      "title": "Photography | Blend Global",
+      "canonical": [
+        "https://blend.global/services/photography"
+      ],
+      "image": "https://blend.global/og/blend-share.png",
+      "type": [
+        "website"
+      ]
+    },
+    {
+      "path": "/services/rsvp-management",
+      "title": "RSVP Management | Blend Global",
+      "canonical": [
+        "https://blend.global/services/rsvp-management"
+      ],
+      "image": "https://blend.global/og/blend-share.png",
+      "type": [
+        "website"
+      ]
+    },
+    {
+      "path": "/services/staffing",
+      "title": "Staffing | Blend Global",
+      "canonical": [
+        "https://blend.global/services/staffing"
+      ],
+      "image": "https://blend.global/og/blend-share.png",
+      "type": [
+        "website"
+      ]
+    },
+    {
+      "path": "/services/swag-gifting",
+      "title": "Swag & Gifting | Blend Global",
+      "canonical": [
+        "https://blend.global/services/swag-gifting"
+      ],
+      "image": "https://blend.global/og/blend-share.png",
+      "type": [
+        "website"
+      ]
+    },
+    {
+      "path": "/services/venue-decor-entertainment",
+      "title": "Venue/Decor/Entertainment | Blend Global",
+      "canonical": [
+        "https://blend.global/services/venue-decor-entertainment"
+      ],
+      "image": "https://blend.global/og/blend-share.png",
+      "type": [
+        "website"
+      ]
+    },
+    {
+      "path": "/services/video-production",
+      "title": "Video Production | Blend Global",
+      "canonical": [
+        "https://blend.global/services/video-production"
+      ],
+      "image": "https://blend.global/og/blend-share.png",
+      "type": [
+        "website"
+      ]
+    },
+    {
+      "path": "/services/web-development",
+      "title": "Web Development | Blend Global",
+      "canonical": [
+        "https://blend.global/services/web-development"
+      ],
+      "image": "https://blend.global/og/blend-share.png",
+      "type": [
+        "website"
+      ]
+    },
+    {
+      "path": "/services",
+      "title": "Services | Blend Global",
+      "canonical": [
+        "https://blend.global/services"
+      ],
+      "image": "https://blend.global/og/blend-share.png",
+      "type": [
+        "website"
+      ]
+    }
+  ],
+  "canonicalNormalization": "Root URLs with or without a trailing slash are equivalent."
+}

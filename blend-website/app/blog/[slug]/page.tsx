@@ -2,6 +2,10 @@ import { notFound } from "next/navigation";
 import BlogDetailsClient from "@/components/blog/BlogDetailsClient";
 import { readCmsSection } from "@/lib/cms-server";
 import { blogSection as fallbackBlogSection } from "@/lib/data";
+import { cache } from "react";
+import { createPageMetadata } from "@/lib/seo";
+
+const getBlogSection = cache(() => readCmsSection("blog"));
 
 interface Props {
   params: Promise<{
@@ -17,9 +21,23 @@ export function generateStaticParams() {
     .map(({ slug }) => ({ slug }));
 }
 
+export async function generateMetadata({ params }: Props) {
+  const { slug } = await params;
+  const section = await getBlogSection();
+  const post = [...section.featured, ...section.posts].find((entry) => entry.slug === slug && slug !== "view-all");
+  if (!post) notFound();
+  return createPageMetadata({
+    title: post.title,
+    description: post.description || post.excerpt || post.body,
+    path: `/blog/${encodeURIComponent(slug)}`,
+    image: post.image,
+    article: true,
+  });
+}
+
 export default async function BlogDetailsPage({ params }: Props) {
   const { slug } = await params;
-  const blogSection = await readCmsSection("blog");
+  const blogSection = await getBlogSection();
   const post =
     blogSection.featured.find((item) => item.slug === slug) ||
     blogSection.posts.find((item) => item.slug === slug);

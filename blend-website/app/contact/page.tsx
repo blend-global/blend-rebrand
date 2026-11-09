@@ -4,6 +4,13 @@ import Reveal from "@/components/Reveal";
 import StartProjectButton from "@/components/StartProjectButton";
 import { contactSection } from "@/lib/data";
 import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone, Sparkles } from "lucide-react";
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "Contact",
+  description: "Start your next project with Blend. Get in touch about events, digital marketing, creative production, and immersive brand experiences.",
+  path: "/contact",
+});
 
 const ContactPage = () => {
   const socials = [
