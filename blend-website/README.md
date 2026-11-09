@@ -30,6 +30,18 @@ These tests mock Firebase and SMTP so they create no production records or email
 
 ## Getting Started
 
+### Social previews and canonical URLs
+
+Open Graph and Twitter cards are rendered on the server for the home, contact,
+services, case-study, and blog pages. Detail pages use their CMS titles and
+descriptions, with raster content images where available and a branded 1200×630
+PNG fallback at `/og/blend-share.png`. The CMS is marked `noindex, nofollow`.
+
+Set `NEXT_PUBLIC_SITE_URL` to the public production origin when deploying. It
+defaults to `https://blend.global` and controls canonical and social-preview URLs.
+Metadata is available without signing in; the existing website access gate still
+limits search engines' ability to index the page content.
+
 First, run the development server:
 
 ```bash

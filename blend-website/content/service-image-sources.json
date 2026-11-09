@@ -1,0 +1,91 @@
+{
+  "sourceSheet": "https://docs.google.com/spreadsheets/d/1TcQvGZsNDfPZ_X_Mx8yb3V0yKDyDARVR3ln37_xh21Y/edit",
+  "notes": "Images selected from the supplied sheet. Video stills use existing Blend case-study films where Drive links were unavailable. Screenshots retain their complete layouts. Original metadata is removed from WebP exports.",
+  "assets": [
+    {
+      "path": "/services/google-cloud-speaker.webp",
+      "source": "https://drive.google.com/file/d/1JzuWtODClvv_G7Psrs4e2RimQYY1YNYf/view"
+    },
+    {
+      "path": "/services/ryan-swag-store.webp",
+      "source": "https://drive.google.com/file/d/128yZbkV82589v2pb35OXksqQEW8ybL2r/view"
+    },
+    {
+      "path": "/services/amazon-chef.webp",
+      "source": "https://drive.google.com/file/d/1_s1xfKpC0WaisNnAwkOepychcGjxGgcz/view"
+    },
+    {
+      "path": "/services/amazon-catering.webp",
+      "source": "https://drive.google.com/file/d/11OPST0nrG8n6pL97maPfMdsR0tdfTiyo/view"
+    },
+    {
+      "path": "/services/wonderland-design.webp",
+      "source": "https://drive.google.com/file/d/159uk4DvbBA7wJ_72AcD7cmWK--fd01FW/view"
+    },
+    {
+      "path": "/services/amazon-activation.webp",
+      "source": "https://drive.google.com/file/d/1LCcpoE8snMNL2sQkUapasfB-G-iVjlT6/view"
+    },
+    {
+      "path": "/services/google-cloud-registration.webp",
+      "source": "https://drive.google.com/file/d/1FSM6QnUqsMWwZ58at8S2QYMVrO-3MFns/view"
+    },
+    {
+      "path": "/services/exxaro-rsvp.webp",
+      "source": "https://drive.google.com/file/d/1FQSVrFfdt1wdRZe9SuKLZmHcgyoa3SKF/view"
+    },
+    {
+      "path": "/services/google-cloud-check-in.webp",
+      "source": "https://drive.google.com/file/d/1f99ejCpgqy0TwsMHL1I-ybxt5yQNeiXo/view"
+    },
+    {
+      "path": "/services/wonderland-speaker.webp",
+      "source": "https://drive.google.com/file/d/1ReDQpMfPRvJkeTPwFxCl3GVM7flNBgUs/view"
+    },
+    {
+      "path": "/services/google-cloud-gifting.webp",
+      "source": "https://drive.google.com/file/d/1XUmBezjC_FD4-9ASdDzg58V--Zq5c5jl/view"
+    },
+    {
+      "path": "/services/youtube-motion.webp",
+      "source": "/case-studies/videos/youtube-works-awards.mp4",
+      "seconds": 2
+    },
+    {
+      "path": "/services/youtube-hospitality.webp",
+      "source": "/case-studies/videos/youtube-works-awards.mp4",
+      "seconds": 30
+    },
+    {
+      "path": "/services/google-interview.webp",
+      "source": "/case-studies/videos/google-cloud-ai-in-action-cape-town.mp4",
+      "seconds": 6
+    },
+    {
+      "path": "/services/wonderland-stage.webp",
+      "source": "/case-studies/videos/google-cloud-ai-in-action-cape-town.mp4",
+      "seconds": 42
+    },
+    {
+      "path": "/services/wonderland-signage.webp",
+      "source": "/case-studies/videos/google-cloud-ai-in-action-cape-town.mp4",
+      "seconds": 30
+    },
+    {
+      "path": "/services/wonderland-venue.webp",
+      "source": "/case-studies/videos/google-cloud-ai-in-action-cape-town.mp4",
+      "seconds": 78,
+      "rotationDegrees": 180
+    },
+    {
+      "path": "/services/wonderland-photobooth.webp",
+      "source": "/case-studies/videos/google-cloud-ai-in-action-cape-town.mp4",
+      "seconds": 90
+    },
+    {
+      "path": "/case-studies/videos/amazon-summer-2025.webp",
+      "source": "/case-studies/videos/amazon-summer-2025.mp4",
+      "note": "Existing case-study poster; corresponding film is linked in the source sheet."
+    }
+  ]
+}

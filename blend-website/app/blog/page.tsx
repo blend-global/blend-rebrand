@@ -1,5 +1,12 @@
 import BlogIndexClient from "@/components/blog/BlogIndexClient";
 import { readCmsSection } from "@/lib/cms-server";
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "Insights",
+  description: "Stories, ideas, and insights from Blend on events, creative production, digital marketing, and meaningful brand experiences.",
+  path: "/blog",
+});
 
 export const revalidate = 60;
 

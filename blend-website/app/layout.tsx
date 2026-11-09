@@ -5,6 +5,7 @@ import { AuthProvider } from "@/components/auth/AuthProvider";
 import SiteAuthGate from "@/components/auth/SiteAuthGate";
 import PageTransition from "@/components/PageTransition";
 import ProjectModalProvider from "@/components/ProjectModalProvider";
+import { createPageMetadata, siteName, siteUrl } from "@/lib/seo";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -14,9 +15,9 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Blend Global",
-  description:
-    "Blend empowers connections globally through events, digital marketing, and immersive experiences.",
+  metadataBase: siteUrl,
+  applicationName: siteName,
+  ...createPageMetadata({ title: siteName, path: "/" }),
 };
 
 export const viewport: Viewport = {
