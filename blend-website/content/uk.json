@@ -1,0 +1,113 @@
+{
+  "source": {
+    "homepage": "https://blend.global/uk/",
+    "contact": "https://blend.global/uk/contact-us/",
+    "retrieved": "2026-11-10"
+  },
+  "hero": {
+    "lead": "Connecting digital worlds,",
+    "impact": "elevating brands",
+    "subtitle": "Unlock your brand's potential with Blend",
+    "cta": "Let's have a coffee"
+  },
+  "servicesIntro": {
+    "title": "Our Services",
+    "description": "Our expert team delivers unforgettable campaigns across digital and physical touchpoints."
+  },
+  "services": [
+    {
+      "label": "Digital Strategy & Consultation",
+      "slug": "digital-strategy-consultation",
+      "summary": "Our team of seasoned strategists collaborates with clients to develop comprehensive digital strategies that leverage cultural diversity and global trends. Through data-driven insights, we create pathways to success that resonate with audiences worldwide."
+    },
+    {
+      "label": "Web Design & Development",
+      "slug": "web-development",
+      "summary": "At Blend, we craft visually captivating and highly functional websites that seamlessly adapt to different cultures and devices. Our designs reflect a harmonious fusion of international aesthetics and user experience principles."
+    },
+    {
+      "label": "Digital Marketing & Communications",
+      "slug": "digital-marketing-communications",
+      "summary": "Blend amplifies brands’ voices in the digital landscape through integrated marketing and strategic communications. We leverage social media, content marketing, email campaigns, and more to engage audiences worldwide and build lasting connections."
+    },
+    {
+      "label": "Social Media Marketing & Management",
+      "slug": "social-media-marketing-management",
+      "summary": "Our experts harness the power of various social media platforms to create meaningful interactions and elevate brand visibility across borders. We develop tailored strategies to connect businesses with their global audience effectively."
+    },
+    {
+      "label": "Video Production",
+      "slug": "video-production",
+      "summary": "Our skilled video production team brings captivating stories to life. From concept development to filming and editing, we create compelling videos that resonate with diverse audiences. Whether it’s corporate videos, promotional campaigns, or storytelling content, we deliver high-quality visuals that leave a lasting impact."
+    },
+    {
+      "label": "Live Streaming",
+      "slug": "live-streaming",
+      "summary": "Blend offers live streaming services that enable businesses to engage with their global customers in real-time, creating immersive virtual experiences. We facilitate seamless live broadcasts for events, product launches, webinars, and more, connecting brands with audiences across continents."
+    },
+    {
+      "label": "Social Media Content Creation",
+      "slug": "social-media-content-creation",
+      "summary": "We craft compelling brand stories that resonate with diverse audiences, embracing cultural sensitivity and authenticity. Our creative content and branding strategies leave a lasting impact on the hearts and minds of consumers."
+    },
+    {
+      "label": "Social Impact & CSR Initiatives",
+      "slug": "social-impact-csr-initiatives",
+      "summary": "Blend takes pride in promoting social impact and corporate responsibility. We collaborate with clients on CSR initiatives that create positive change while enhancing brand reputation globally."
+    }
+  ],
+  "about": {
+    "title": "About Us",
+    "paragraphs": [
+      "Our vision at Blend Global is to be a trailblazing digital agency that pioneers innovative solutions, celebrating the richness of diverse perspectives in a rapidly evolving digital world. We envision empowering businesses to transcend borders, connecting with global audiences authentically and making a lasting impact in the hearts and minds of customers.",
+      "With a commitment to excellence and a passion for social responsibility, we aspire to be the catalyst for positive change, fostering a global community where cultural diversity is not just embraced but celebrated as a driving force for growth and success."
+    ]
+  },
+  "clients": [
+    {
+      "alt": "Zip Zap",
+      "src": "/uk/clients/Zip-Zap-Logo.svg"
+    },
+    {
+      "alt": "Google",
+      "src": "/uk/clients/Google-Logo.svg"
+    },
+    {
+      "alt": "Deloitte",
+      "src": "/uk/clients/Deloitte-Logo.svg"
+    },
+    {
+      "alt": "YouTube",
+      "src": "/uk/clients/YouTube-Logo.svg"
+    },
+    {
+      "alt": "Google cloud",
+      "src": "/uk/clients/Google-Cloud-Logo.svg"
+    },
+    {
+      "alt": "Shoprite",
+      "src": "/uk/clients/Shoprite-Logo.svg"
+    },
+    {
+      "alt": "Geberit",
+      "src": "/uk/clients/Geberit-Logo.svg"
+    },
+    {
+      "alt": "Empact Group",
+      "src": "/uk/clients/Empact-Group-Logo.svg"
+    },
+    {
+      "alt": "2U",
+      "src": "/uk/clients/2U-Logo.svg"
+    }
+  ],
+  "cta": {
+    "title": "Ready to stand out from the crowd? Our team is here to help.",
+    "description": "Get in touch today and let’s make something great. At Blend, we value creativity, innovation and collaboration. We believe in delivering exceptional service that exceeds our clients expectations. Our team of experts are passionate about creating memorable experiences and producing content that resonates with your audiences.",
+    "label": "Book a Call"
+  },
+  "contact": {
+    "title": "Contact Blend",
+    "description": "We are ready and waiting to support, assist, guide, share our insights, and, more importantly, collaborate with you on your event. So let's meet and have a coffee? Virtually, or at the local coffee hangout."
+  }
+}

@@ -1,5 +1,8 @@
+import { notFound } from "next/navigation";
+import { ukServices } from "@/lib/regional-content";
+import { regions } from "@/lib/regions";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/regions/RegionLink";
 import { ArrowLeft } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -10,7 +13,8 @@ import { getServiceImages } from "@/lib/service-images";
 import { cache } from "react";
 import { createPageMetadata } from "@/lib/seo";
 
-const getServicesSection = cache(() => readCmsSection("services"));
+const getSharedServices = cache(() => readCmsSection("services"));
+const getServicesSection = (region: string) => region === "uk" ? Promise.resolve(ukServices) : getSharedServices();
 
 const slugify = (value: string) =>
   value
@@ -69,14 +73,14 @@ const resolveService = (slug: string, allServices: ReturnType<typeof getAllServi
   return null;
 };
 
-export async function generateStaticParams() {
-  const servicesSection = await getServicesSection();
+export async function generateStaticParams({ params }: { params: { region: string } }) {
+  const servicesSection = await getServicesSection(params.region);
   return getAllServices(servicesSection).map((service) => ({ slug: service.slug }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const servicesSection = await getServicesSection();
+export async function generateMetadata({ params }: { params: Promise<{ slug: string; region: string }> }) {
+  const { slug, region } = await params;
+  const servicesSection = await getServicesSection(region);
   const allServices = getAllServices(servicesSection);
   const serviceDetails = servicesSection.serviceDetails;
   const normalized = decodeURIComponent(slug).toLowerCase();
@@ -85,30 +89,32 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const label = service?.label ?? (details ? titleCase(normalized) : null);
   const category = service?.category ?? "Services";
 
-  if (!label) {
-    return createPageMetadata({ title: "Service Details", description: "Explore Blend services designed for digital and experiential growth.", path: `/services/${encodeURIComponent(slug)}` });
-  }
+  if (!label) notFound();
+  const otherServices = await getServicesSection(region === "uk" ? "za" : "uk");
+  const hasAlternate = getAllServices(otherServices).some((item) => item.slug === service?.slug);
 
-  return createPageMetadata({
+  return createPageMetadata({ region,
+    regionalAlternates: hasAlternate,
     title: label,
     description: details?.summary || `Learn more about Blend's ${label.toLowerCase()} service in our ${category} offering.`,
     path: `/services/${encodeURIComponent(slug)}`,
   });
 }
 
-export default async function ServiceDetailPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const servicesSection = await getServicesSection();
+export default async function ServiceDetailPage({ params }: { params: Promise<{ slug: string; region: string }> }) {
+  const { slug, region } = await params;
+  const servicesSection = await getServicesSection(region);
   const allServices = getAllServices(servicesSection);
   const serviceDetails = servicesSection.serviceDetails;
   const normalized = decodeURIComponent(slug).toLowerCase();
   const service = resolveService(slug, allServices, serviceDetails);
   const details = serviceDetails[normalized] ?? (service ? serviceDetails[service.slug] : null);
+  if (region === "uk" && !service) notFound();
   const serviceLabel = service?.label ?? (details ? titleCase(normalized) : "Service Details");
   const serviceCategory = service?.category ?? "Services";
   const tone = getServiceTone(serviceCategory);
-  const deliverables = details?.deliverables?.length ? details.deliverables : ["Structured deliverables tailored to your goals."];
-  const serviceImages = service ? getServiceImages(service.slug) : [];
+  const deliverables = details?.deliverables?.length ? details.deliverables : region === "uk" ? [] : ["Structured deliverables tailored to your goals."];
+  const serviceImages = region !== "uk" && service ? getServiceImages(service.slug) : [];
   const carouselItems = serviceImages.length > 1 ? [...serviceImages, ...serviceImages] : serviceImages;
 
   return (
@@ -201,7 +207,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
               </div>
             )}
 
-            <div className="mt-10 w-full rounded-[1.6rem] border border-white/10 bg-white/[0.045] p-5 sm:p-6">
+            {deliverables.length > 0 && <div className="mt-10 w-full rounded-[1.6rem] border border-white/10 bg-white/[0.045] p-5 sm:p-6">
               <div className="flex items-center justify-between gap-4">
                 <h2 className="text-xl font-semibold tracking-[-0.025em]">What We Deliver</h2>
                 <span className={`h-3 w-16 rounded-full bg-gradient-to-r ${tone.accent}`} />
@@ -214,7 +220,8 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
                   </li>
                 ))}
               </ul>
-            </div>
+            </div>}
+            {region === "uk" && <a href={regions.uk.bookingUrl} target="_blank" rel="noreferrer" className="mt-10 inline-flex min-h-12 items-center rounded-full border border-white/20 px-7 text-sm font-semibold transition-colors hover:bg-white/10">Book a Call ↗</a>}
             </>
           )}
 

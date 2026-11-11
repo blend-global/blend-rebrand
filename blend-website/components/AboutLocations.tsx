@@ -1,5 +1,6 @@
 "use client";
 
+import { useRegion } from "@/components/regions/useRegion";
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -31,6 +32,7 @@ const slides: Slide[] = [
 ];
 
 export default function AboutLocations() {
+  const region = useRegion();
   const [index, setIndex] = useState(0);
 
   const current = slides[index];
@@ -110,7 +112,7 @@ export default function AboutLocations() {
               {current.subtitle}
             </span>
           </h2>
-          <p className="max-w-xl text-sm leading-relaxed text-white/70 sm:text-base">{current.description}</p>
+          <p className="max-w-xl text-sm leading-relaxed text-white/70 sm:text-base">{index === 0 ? (region.code === "uk" ? "Meet Blend United Kingdom. Local understanding and global creativity come together to help your brand connect with its audience." : "Rooted in Cape Town and connected globally, our South African team brings local understanding to every brand experience.") : current.description}</p>
 
           <div className="mt-0 flex items-center gap-3 sm:gap-4">
             <motion.button

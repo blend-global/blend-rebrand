@@ -48,7 +48,7 @@ type ServiceKind = "digital" | "experiential";
 
 const formatServiceLabel = (label: string) => label.replaceAll("/", " / ");
 
-export default function Services({ servicesSection }: { servicesSection: ServicesSection }) {
+export default function Services({ servicesSection, regional = false }: { servicesSection: ServicesSection; regional?: boolean }) {
   const servicesContent = servicesSection.servicesContent;
   const serviceDetails = servicesSection.serviceDetails;
   const services = [
@@ -85,7 +85,7 @@ export default function Services({ servicesSection }: { servicesSection: Service
   const serviceFilters: Array<{ kind: ServiceKind; label: string }> = [
     { kind: "digital", label: servicesContent.digitalLabel },
     { kind: "experiential", label: servicesContent.experientialLabel },
-  ];
+  ].filter((filter) => services.some((service) => service.kind === filter.kind)) as Array<{ kind: ServiceKind; label: string }>;
 
   const selectServiceKind = (kind: ServiceKind) => {
     setActiveKind(kind);
@@ -109,16 +109,16 @@ export default function Services({ servicesSection }: { servicesSection: Service
         <div className="mx-auto max-w-5xl text-center">
           <Reveal className="mx-auto max-w-5xl">
             <h2 className="text-balance text-4xl font-bold leading-[0.98] tracking-[-0.05em] text-white drop-shadow-[0_18px_60px_rgba(0,0,0,0.42)] sm:text-5xl lg:text-6xl">
-              Services to move
-              <br />
+              {regional ? servicesContent.title : "Services to move"}
+              {!regional && <br />}
               <span className="bg-gradient-to-r from-[#6bd688] via-[#78d1ff] to-[#f36fb4] bg-clip-text text-transparent">
-                Renders to Reality
+                {!regional && "Renders to Reality"}
               </span>
             </h2>
             <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-white/64 sm:text-lg">
-              Pick a capability to preview how Blend supports the work, then open the full service when you need the details.
+              {regional ? servicesContent.description : "Pick a capability to preview how Blend supports the work, then open the full service when you need the details."}
             </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-3">
+            {serviceFilters.length > 1 && <div className="mt-8 flex flex-wrap justify-center gap-3">
               {serviceFilters.map((filter) => {
                 const isActive = activeKind === filter.kind;
                 const activeFilterClass =
@@ -143,7 +143,7 @@ export default function Services({ servicesSection }: { servicesSection: Service
                   </motion.button>
                 );
               })}
-            </div>
+            </div>}
           </Reveal>
         </div>
 

@@ -108,3 +108,18 @@ describe("project enquiry persistence and notification", () => {
     expect(mocks.addDoc.mock.calls[0][1]).toMatchObject({ firstName: "Example", services: ["photography", "video-production"], submittedBy: "member-1", status: "new" });
   });
 });
+
+
+describe("regional enquiry attribution", () => {
+  it("stores the selected UK region with server-derived GBP currency", async () => {
+    const response = await POST(request({ ...payload, region: "uk", currency: "ZAR" }));
+    expect(response.status).toBe(200);
+    expect(mocks.addDoc).toHaveBeenCalledWith("projectEnquiries", expect.objectContaining({ region: "uk", currency: "GBP" }));
+    expect(mocks.sendEmail).toHaveBeenCalledWith(expect.objectContaining({ region: "uk", currency: "GBP" }));
+  });
+  it("defaults legacy and invalid-region submissions to South Africa", async () => {
+    const response = await POST(request({ ...payload, region: "invalid", currency: "GBP" }));
+    expect(response.status).toBe(200);
+    expect(mocks.addDoc).toHaveBeenCalledWith("projectEnquiries", expect.objectContaining({ region: "za", currency: "ZAR" }));
+  });
+});

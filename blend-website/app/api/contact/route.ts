@@ -1,3 +1,4 @@
+import { isRegion, regions } from "@/lib/regions";
 import { NextResponse } from "next/server";
 import type { ContactFormPayload } from "@/lib/contact-mail";
 import { EnquiryAuthenticationError, submitProjectEnquiry } from "@/lib/project-enquiries-server";
@@ -9,6 +10,8 @@ const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const sanitize = (value: unknown) => (typeof value === "string" ? value.trim().slice(0, 2000) : "");
 
 const getPayload = (data: Record<string, unknown>): ContactFormPayload => ({
+  region: isRegion(data.region) ? data.region : "za",
+  currency: regions[isRegion(data.region) ? data.region : "za"].currency,
   firstName: sanitize(data.firstName),
   lastName: sanitize(data.lastName),
   company: sanitize(data.company),

@@ -1,5 +1,7 @@
 "use client";
 
+import { useRegion } from "@/components/regions/useRegion";
+import RegionSwitcher from "@/components/regions/RegionSwitcher";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
@@ -8,6 +10,8 @@ import { MotionLink } from "@/components/MotionLink";
 import { navLinks } from "@/lib/data";
 
 export default function Navbar() {
+  const region = useRegion();
+  const navigationLinks = region.code === "uk" ? [{ label: "Home", href: "/" }, { label: "Services", href: "/services" }, { label: "About Us", href: "/#about" }] : navLinks;
   const headerRef = useRef<HTMLElement>(null);
   const hideMenuTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [open, setOpen] = useState(false);
@@ -119,6 +123,8 @@ export default function Navbar() {
               <Image src="/logo.png" alt="Blend logo" width={89} height={93} className="h-9 w-auto sm:h-11 md:h-14" priority />
             </MotionLink>
 
+            <div className="mr-auto"><RegionSwitcher /></div>
+
             <div
               className="relative hidden md:block"
               onMouseEnter={showDesktopMenu}
@@ -160,7 +166,7 @@ export default function Navbar() {
                   animate={{ color: menuTextColor }}
                   transition={toneTransition}
                 >
-                  {navLinks.map((link, idx) => (
+                  {navigationLinks.map((link, idx) => (
                     <MotionLink
                       key={link.label}
                       href={link.href}
@@ -216,7 +222,7 @@ export default function Navbar() {
             transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
           >
             <nav className="flex flex-1 flex-col justify-center gap-6 text-3xl font-semibold tracking-[-0.04em] text-white/86">
-              {navLinks.map((link) => (
+              {navigationLinks.map((link) => (
                 <MotionLink
                   key={link.label}
                   href={link.href}
