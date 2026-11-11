@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { ChevronDown, SlidersHorizontal } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import Reveal from "@/components/Reveal";
 import { MotionLink } from "@/components/MotionLink";
@@ -183,29 +184,25 @@ export default function WorkPage() {
 
           </div>
 
-          <div className="mb-8 flex flex-wrap items-center gap-2 sm:mb-10 sm:gap-3">
-            {projectFilters.map((filter) => {
-              const isActive = filter === activeFilter;
-
-              return (
-                <button
-                  key={filter}
-                  type="button"
-                  onClick={() => {
-                    setActiveFilter(filter);
-                    setCurrentPage(1);
-                  }}
-                  className={`cursor-pointer rounded-full border px-4 py-2 text-xs font-semibold transition sm:px-5 sm:text-sm ${
-                    isActive
-                      ? "border-transparent bg-white text-black shadow-[0_14px_32px_rgba(255,255,255,0.16)]"
-                      : "border-white/14 bg-white/[0.06] text-white/70 hover:border-white/30 hover:bg-white/[0.1] hover:text-white"
-                  }`}
-                  aria-pressed={isActive}
-                >
-                  {filter === "All" ? "All Projects" : filter}
-                </button>
-              );
-            })}
+          <div className="mb-8 flex flex-wrap items-center gap-4 sm:mb-10">
+            <label className="relative block w-full sm:w-72">
+              <SlidersHorizontal className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-white/50" aria-hidden="true" />
+              <span className="sr-only">Filter projects by service</span>
+              <select
+                value={activeFilter}
+                onChange={(event) => {
+                  setActiveFilter(event.target.value);
+                  setCurrentPage(1);
+                }}
+                className="min-h-12 w-full cursor-pointer appearance-none rounded-full border border-white/15 bg-[#101114] py-3 pl-11 pr-10 text-sm font-medium text-white outline-offset-4 transition-colors hover:border-white/30 focus-visible:outline-2 focus-visible:outline-[#78d1ff]"
+              >
+                {projectFilters.map((filter) => (
+                  <option key={filter} value={filter}>{filter === "All" ? "All Projects" : filter}</option>
+                ))}
+              </select>
+              <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-white/50" aria-hidden="true" />
+            </label>
+            <p role="status" className="text-xs text-white/45">{filteredItems.length} {filteredItems.length === 1 ? "project" : "projects"}</p>
           </div>
 
           <div className="grid gap-5 sm:gap-6 md:grid-cols-2">
