@@ -51,6 +51,7 @@ export default function Hero() {
 
       <div className="pointer-events-none absolute inset-0 bg-black/50" />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/80 via-black/35 to-black/70" />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-[clamp(6rem,20svh,14rem)] bg-gradient-to-t from-black to-transparent" />
 
       <div className="pointer-events-none container-max relative z-10 flex min-h-[100svh] items-center justify-center text-center text-white">
         <Reveal>

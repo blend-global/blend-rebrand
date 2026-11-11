@@ -1,0 +1,17 @@
+{
+  "retrieved": "2026-11-11",
+  "images": [
+    {
+      "asset": "/about/locations-hires.webp",
+      "source": "https://www.pexels.com/photo/1170412/",
+      "photographer": "Cadeau Maestro",
+      "note": "Higher-resolution source of the original office image"
+    },
+    {
+      "asset": "/about/team-hires.webp",
+      "source": "https://www.pexels.com/photo/7688336/",
+      "photographer": "Kindel Media",
+      "note": "Higher-resolution source of the original team image"
+    }
+  ]
+}
