@@ -82,8 +82,12 @@ Kingdom). ZA content continues to use the CMS. UK messaging, its eight digital
 services, About copy, client list and calls to action are sourced from the existing
 UK website into `content/uk.json`; the source URLs and retrieval date are recorded
 in that file. UK client logo assets are stored locally in `public/uk/clients`. The root URL presents a region chooser and redirects
-returning visitors using the `blend-region` preference cookie (one year). Explicit
-regional URLs always take precedence over a stored preference. The navigation and
+returning visitors using the `blend-region-choice` preference cookie (one year). The preference is written only by an explicit chooser or switcher selection,
+never by visiting a regional page. Old inferred `blend-region` cookies are ignored.
+Explicit regional URLs take precedence over a stored preference. Signed-out
+visitors opening a regional homepage without a choice go to the chooser before
+sign-in; deep links remain accessible through the existing sign-in flow. New
+website accounts without an explicit choice return to the chooser after signup. The navigation and
 footer switchers preserve the current page, query string and fragment. A service
 that is unavailable in the other branch falls back to that branch’s service listing.
 

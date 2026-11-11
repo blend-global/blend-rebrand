@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
+import { rememberRegionChoice } from "@/lib/region-preference";
 import { switchRegionPath } from "@/lib/regional-navigation";
 import { Globe2 } from "lucide-react";
 import { isRegion, regionCodes, regions } from "@/lib/regions";
@@ -17,7 +18,10 @@ export default function RegionSwitcher() {
       <span className="sr-only">Choose your region</span>
       <select aria-label="Choose your region" value={region.code} className="bg-[#111216] py-2 outline-offset-4" onChange={(event) => {
         const next = event.target.value;
-        if (isRegion(next)) router.push(switchRegionPath(pathname, next) + window.location.search + window.location.hash);
+        if (isRegion(next)) {
+          rememberRegionChoice(next);
+          router.push(switchRegionPath(pathname, next) + window.location.search + window.location.hash);
+        }
       }}>
         {regionCodes.map((code) => <option key={code} value={code}>{regions[code].shortName}</option>)}
       </select>

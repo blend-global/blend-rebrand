@@ -1,6 +1,9 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useSyncExternalStore } from "react";
+import { readRegionChoice, subscribeRegionChoice } from "@/lib/region-preference";
+import AuthViewportFit from "@/components/auth/AuthViewportFit";
 import RegionSwitcher from "@/components/regions/RegionSwitcher";
 import CmsAuthCard from "@/components/cms/CmsAuthCard";
 import { isFirebaseClientConfigured } from "@/lib/firebase/client";
@@ -18,16 +21,25 @@ export default function SiteAuthGate({ children }: { children: React.ReactNode }
   } = useSiteAuth();
 
   const pathname = usePathname();
+  const router = useRouter();
+  const choice = useSyncExternalStore(subscribeRegionChoice, readRegionChoice, () => null);
+  const needsChoice = /^\/(za|uk)\/?$/.test(pathname) && !authUser && !choice;
+  useEffect(() => {
+    if (authReady && needsChoice) router.replace("/");
+  }, [authReady, needsChoice, router]);
+
+  if (needsChoice) return null;
   if (pathname === "/") return <>{children}</>;
 
   if (!authUser) {
     return (
-      <main className="min-h-screen bg-[#090a0d] text-white">
-        {/^\/(za|uk)(\/|$)/.test(pathname) && <div className="flex justify-end px-4 pt-6 sm:px-8"><RegionSwitcher /></div>}
-        <section className="relative overflow-hidden pb-16 pt-12 sm:pt-16 md:pt-20">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,79,179,0.14),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(94,234,212,0.12),_transparent_30%)]" />
-          <div className="relative mx-auto flex min-h-[70vh] w-full max-w-6xl items-center px-4 sm:px-6 lg:px-8 2xl:px-10">
+      <main className="relative flex h-dvh min-h-0 flex-col overflow-hidden bg-[#090a0d] text-white">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,79,179,0.14),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(94,234,212,0.12),_transparent_30%)]" />
+        <div className="relative z-10 flex h-[4.5rem] shrink-0 items-center justify-end px-4 sm:px-8">{ /^\/(za|uk)(\/|$)/.test(pathname) && <RegionSwitcher /> }</div>
+        <section className="relative min-h-0 flex-1 px-4 pb-4 sm:px-6 sm:pb-6">
+          <AuthViewportFit>
             <CmsAuthCard
+              compact
               authReady={authReady}
               isConfigured={isFirebaseClientConfigured}
               error={authError}
@@ -41,7 +53,7 @@ export default function SiteAuthGate({ children }: { children: React.ReactNode }
               onEmailCreateAccount={createAccountWithEmail}
               onGoogleSignIn={signInWithGoogle}
             />
-          </div>
+          </AuthViewportFit>
         </section>
       </main>
     );
