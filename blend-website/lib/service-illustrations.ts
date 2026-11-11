@@ -1,4 +1,9 @@
 const serviceIllustrationBySlug = {
+  "digital-strategy-consultation": "/services-illustrations/marketing-advertising-social-media.svg",
+  "digital-marketing-communications": "/services-illustrations/marketing-advertising-social-media.svg",
+  "social-media-marketing-management": "/services-illustrations/marketing-advertising-social-media.svg",
+  "social-media-content-creation": "/services-illustrations/design-creative.svg",
+  "social-impact-csr-initiatives": "/services-illustrations/experiential-marketing-brand-design.svg",
   "video-production": "/services-illustrations/video-production.svg",
   photography: "/services-illustrations/photography.svg",
   animation: "/services-illustrations/animation.svg",

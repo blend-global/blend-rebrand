@@ -4,10 +4,13 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Facebook, Instagram, Linkedin, Mail, Phone } from "lucide-react";
 import Reveal from "@/components/Reveal";
-import { contactSection } from "@/lib/data";
+import { useRegion } from "@/components/regions/useRegion";
+import RegionSwitcher from "@/components/regions/RegionSwitcher";
+import Link from "@/components/regions/RegionLink";
 
 export default function Footer() {
-  const siteLinks = ["Home", "Services", "Work"];
+  const contactSection = useRegion();
+  const siteLinks = [{ label: "Home", href: "/" }, { label: "Services", href: "/services" }, contactSection.code === "uk" ? { label: "About Us", href: "/#about" } : { label: "Work", href: "/case-studies" }];
   const termsLinks = ["Terms Of Services", "Privacy Policy", "Cookie Policy", "Cookie Preferences"];
   const currentYear = new Date().getUTCFullYear();
 
@@ -20,15 +23,17 @@ export default function Footer() {
             <p className="text-sm leading-6 text-white/85">
               Make Moments Matter
             </p>
+            <p className="text-sm text-white/60">Blend {contactSection.name}</p>
+            <RegionSwitcher />
           </Reveal>
 
           <Reveal delay={0.03} className="flex flex-col gap-3">
             <h5 className="text-lg font-semibold">Site</h5>
             <div className="flex flex-col gap-2 text-sm text-white/85">
               {siteLinks.map((link) => (
-                <motion.a key={link} href="#" className="hover:text-white" whileHover={{ x: 4 }}>
-                  {link}
-                </motion.a>
+                <Link key={link.href} href={link.href} className="hover:text-white">
+                  {link.label}
+                </Link>
               ))}
             </div>
           </Reveal>
@@ -47,7 +52,7 @@ export default function Footer() {
           <Reveal delay={0.09} className="flex max-w-sm flex-col gap-4">
             <h5 className="text-lg font-semibold">Subscribe To Newsletter</h5>
             <p className="text-sm text-white/85">
-              Keep up with the latest trends and news from the world of events and digital experiences.
+              {contactSection.code === "uk" ? "Keep up with the latest from Blend in digital strategy, creativity and brand communications." : "Keep up with the latest trends and news from the world of events and digital experiences."}
             </p>
             <form className="flex flex-col gap-2 rounded-2xl bg-white px-4 py-3 text-sm text-black shadow-[0_10px_24px_rgba(0,0,0,0.25)] sm:flex-row sm:items-center sm:rounded-full sm:py-2">
               <input
@@ -74,27 +79,26 @@ export default function Footer() {
             <h6 className="text-lg font-semibold leading-snug sm:text-xl">
               Copyright © <span suppressHydrationWarning>{currentYear}</span> Blend Global All Rights Reserved
             </h6>
-            <span className="text-sm text-[#4d4d50]">B-BBEE Level 1</span>
+            {contactSection.accreditation && <span className="text-sm text-[#4d4d50]">{contactSection.accreditation}</span>}
           </Reveal>
 
           <Reveal delay={0.03} className="flex flex-col gap-3">
             <h6 className="text-lg font-semibold">Contact</h6>
-            <div className="flex items-center gap-2 text-sm text-[#222]">
+            {contactSection.email && <div className="flex items-center gap-2 text-sm text-[#222]">
               <Mail className="h-4 w-4" aria-hidden="true" />
-              <a href="mailto:info@blend.global">info@blend.global</a>
-            </div>
-            <div className="flex items-center gap-2 text-sm text-[#222]">
+              <a href={`mailto:${contactSection.email}`}>{contactSection.email}</a>
+            </div>}
+            {contactSection.phone && <div className="flex items-center gap-2 text-sm text-[#222]">
               <Phone className="h-4 w-4" aria-hidden="true" />
               <a href={`tel:${contactSection.phone.replaceAll(" ", "")}`}>{contactSection.phone}</a>
-            </div>
+            </div>}
+            {contactSection.bookingUrl && <a href={contactSection.bookingUrl} target="_blank" rel="noreferrer" className="text-sm underline underline-offset-4">Book a call with Blend UK ↗</a>}
           </Reveal>
 
           <Reveal delay={0.06} className="flex flex-col gap-3">
-            <h6 className="text-lg font-semibold">Address</h6>
+            <h6 className="text-lg font-semibold">{contactSection.address ? "Address" : "Our region"}</h6>
             <p className="text-sm leading-6 text-[#222]">
-              33 Salt River Road,
-              <br />
-              Salt River, Cape Town, South Africa, 7925
+              {contactSection.address || contactSection.location}
             </p>
           </Reveal>
 

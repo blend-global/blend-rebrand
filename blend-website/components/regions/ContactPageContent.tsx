@@ -1,18 +1,15 @@
+"use client";
+
+import { ukContent } from "@/lib/regional-content";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Reveal from "@/components/Reveal";
 import StartProjectButton from "@/components/StartProjectButton";
-import { contactSection } from "@/lib/data";
+import { useRegion } from "@/components/regions/useRegion";
 import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone, Sparkles } from "lucide-react";
-import { createPageMetadata } from "@/lib/seo";
 
-export const metadata = createPageMetadata({
-  title: "Contact",
-  description: "Start your next project with Blend. Get in touch about events, digital marketing, creative production, and immersive brand experiences.",
-  path: "/contact",
-});
-
-const ContactPage = () => {
+export default function ContactPageContent() {
+  const contactSection = useRegion();
   const socials = [
     { label: "Facebook", icon: Facebook },
     { label: "Instagram", icon: Instagram },
@@ -40,12 +37,13 @@ const ContactPage = () => {
                   <span className="text-[#f36fb4]">Talk</span>
                 </h1>
                 <p className="mt-5 max-w-md text-base leading-7 text-white/72">
-                  Reach out directly, or start a project brief and we&apos;ll route it to the right team.
+                  {contactSection.code === "uk" ? ukContent.contact.description : "Reach out directly, or start a project brief and we’ll route it to the right team."}
                 </p>
               </div>
 
               <div className="grid gap-4 text-sm text-white/75">
-                <a
+                {contactSection.bookingUrl && <a href={contactSection.bookingUrl} target="_blank" rel="noreferrer" className="inline-flex min-h-12 items-center gap-3 font-semibold text-[#78d1ff]">Book a call with Blend UK ↗</a>}
+                {contactSection.email && <a
                   className="flex items-center gap-3 transition hover:text-white"
                   href={`mailto:${contactSection.email}`}
                   aria-label={`Email ${contactSection.email}`}
@@ -54,8 +52,8 @@ const ContactPage = () => {
                     <Mail className="h-4 w-4 text-[#52d6a1]" aria-hidden="true" />
                   </span>
                   {contactSection.email}
-                </a>
-                <a
+                </a>}
+                {contactSection.phone && <a
                   className="flex items-center gap-3 transition hover:text-white"
                   href={`tel:${contactSection.phone.replaceAll(" ", "")}`}
                   aria-label={`Call ${contactSection.phone}`}
@@ -64,12 +62,12 @@ const ContactPage = () => {
                     <Phone className="h-4 w-4 text-[#f36fb4]" aria-hidden="true" />
                   </span>
                   {contactSection.phone}
-                </a>
+                </a>}
                 <div className="flex items-center gap-3">
                   <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 ring-1 ring-white/15">
                     <MapPin className="h-4 w-4 text-[#3aa6b4]" aria-hidden="true" />
                   </span>
-                  Cape Town, South Africa
+                  {contactSection.location}
                 </div>
               </div>
 
@@ -114,4 +112,3 @@ const ContactPage = () => {
   );
 };
 
-export default ContactPage;

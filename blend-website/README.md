@@ -74,3 +74,40 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+### Regional website
+
+The public site shares components across `/za` (South Africa) and `/uk` (United
+Kingdom). ZA content continues to use the CMS. UK messaging, its eight digital
+services, About copy, client list and calls to action are sourced from the existing
+UK website into `content/uk.json`; the source URLs and retrieval date are recorded
+in that file. UK client logo assets are stored locally in `public/uk/clients`. The root URL presents a region chooser and redirects
+returning visitors using the `blend-region` preference cookie (one year). Explicit
+regional URLs always take precedence over a stored preference. The navigation and
+footer switchers preserve the current page, query string and fragment. A service
+that is unavailable in the other branch falls back to that branch’s service listing.
+
+Branch contact details, social links, locale and currency live in `lib/regions.ts`.
+UK contact details and social/booking links were carried over from the existing
+UK website. A UK street address and approved regional policy copy still need to
+be supplied; the UK version does not display the South African street address or
+B-BBEE accreditation. Both versions currently use the new shared brand palette.
+
+Enquiries store the chosen region and its currency. Configure
+`CONTACT_EMAIL_TO_ZA` and `CONTACT_EMAIL_TO_UK` to override branch recipients.
+An existing `CONTACT_EMAIL_TO` override applies when a branch-specific override
+is absent; otherwise notifications go to the published branch email.
+UK budgets accept a free-text GBP estimate; ZA retains its existing ZAR ranges.
+
+Regional canonicals, reciprocal `en-ZA`/`en-GB` alternates and `/sitemap.xml`
+identify the variants. Old unprefixed public paths redirect permanently to `/za`;
+`/uk/contact-us` redirects to `/uk/contact`. The existing website sign-in gate
+is retained, with the region chooser accessible before sign-in. Public launch
+must address that gate before search engines can index the regional page content.
+
+UK service links on the homepage and service listing open a native dialog with the
+original service description, illustration and booking link. Escape, the close
+button and backdrop clicks dismiss it; native dialog focus handling keeps keyboard
+navigation inside the popup and restores focus when it closes. Modified link clicks
+and direct URLs retain the service detail pages for sharing and search. ZA service
+links continue to navigate normally.

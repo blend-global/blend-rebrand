@@ -1,3 +1,4 @@
+import { isRegion, regionalPath, regions } from "@/lib/regions";
 import type { Metadata } from "next";
 
 export const siteName = "Blend Global";
@@ -29,16 +30,19 @@ function shareImageUrl(image?: string) {
   }
 }
 
-export function createPageMetadata({ title, description = siteDescription, path, image, article = false }: {
+export function createPageMetadata({ title, description = siteDescription, path, image, article = false, region, regionalAlternates = true }: {
   title: string;
   description?: string;
   path: string;
   image?: string;
   article?: boolean;
+  region?: string;
+  regionalAlternates?: boolean;
 }): Metadata {
   const pageTitle = title === siteName ? title : `${title} | ${siteName}`;
   const summary = seoDescription(description);
-  const url = new URL(path, siteUrl).href;
+  const code = isRegion(region) ? region : undefined;
+  const url = new URL(code ? regionalPath(path, code) : path, siteUrl).href;
   const imageUrl = shareImageUrl(image);
   const shareImage = { url: imageUrl, alt: pageTitle,
     ...(imageUrl === new URL(defaultShareImage, siteUrl).href ? { width: 1200, height: 630, type: "image/png" } : {}),
@@ -47,8 +51,12 @@ export function createPageMetadata({ title, description = siteDescription, path,
   return {
     title: pageTitle,
     description: summary,
-    alternates: { canonical: url },
-    openGraph: { type: article ? "article" : "website", locale: "en_ZA", siteName, title: pageTitle, description: summary, url, images: [shareImage] },
+    alternates: { canonical: url, languages: code ? {
+      ...(regionalAlternates || code === "za" ? { "en-ZA": new URL(regionalPath(path, "za"), siteUrl).href } : {}),
+      ...(regionalAlternates || code === "uk" ? { "en-GB": new URL(regionalPath(path, "uk"), siteUrl).href } : {}),
+      ...(path === "/" ? { "x-default": siteUrl.href } : {}),
+    } : path === "/" ? { "en-ZA": new URL("/za", siteUrl).href, "en-GB": new URL("/uk", siteUrl).href, "x-default": siteUrl.href } : undefined },
+    openGraph: { type: article ? "article" : "website", locale: code ? regions[code].locale.replace("-", "_") : "en_ZA", siteName, title: pageTitle, description: summary, url, images: [shareImage] },
     twitter: { card: "summary_large_image", title: pageTitle, description: summary, images: [{ url: imageUrl, alt: pageTitle }] },
   };
 }

@@ -1,5 +1,8 @@
 "use client";
 
+import { ukContent } from "@/lib/regional-content";
+import Link from "@/components/regions/RegionLink";
+import { useRegion } from "@/components/regions/useRegion";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
@@ -20,16 +23,18 @@ const heroHeadlines = [
 ];
 
 export default function Hero() {
+  const region = useRegion();
   const [headlineIndex, setHeadlineIndex] = useState(0);
-  const activeHeadline = heroHeadlines[headlineIndex];
+  const activeHeadline = region.code === "uk" ? ukContent.hero : heroHeadlines[headlineIndex];
 
   useEffect(() => {
+    if (region.code === "uk") return;
     const interval = window.setInterval(() => {
       setHeadlineIndex((current) => (current + 1) % heroHeadlines.length);
     }, 5500);
 
     return () => window.clearInterval(interval);
-  }, []);
+  }, [region.code]);
 
   return (
     <section id="home" className="relative min-h-[100svh] overflow-hidden bg-black">
@@ -49,6 +54,7 @@ export default function Hero() {
 
       <div className="pointer-events-none container-max relative z-10 flex min-h-[100svh] items-center justify-center text-center text-white">
         <Reveal>
+          <p className="mb-6 text-xs font-medium uppercase tracking-[0.22em] text-white/75">Blend / {region.name}</p>
           <AnimatePresence mode="wait">
             <motion.h1
               key={headlineIndex}
@@ -64,6 +70,10 @@ export default function Hero() {
               </span>
             </motion.h1>
           </AnimatePresence>
+          {region.code === "uk" && <div className="pointer-events-auto mx-auto mt-7 max-w-xl">
+            <p className="text-base leading-7 text-white/75 sm:text-lg">{ukContent.hero.subtitle}</p>
+            <Link href="/contact" className="mt-7 inline-flex min-h-12 items-center justify-center rounded-full bg-gradient-to-r from-[#6bd688] via-[#78d1ff] to-[#f36fb4] px-7 text-sm font-semibold text-[#07100e] transition-transform hover:-translate-y-1">{ukContent.hero.cta}</Link>
+          </div>}
         </Reveal>
       </div>
     </section>

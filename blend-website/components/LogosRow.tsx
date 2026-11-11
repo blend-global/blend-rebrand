@@ -4,8 +4,8 @@ import Image from "next/image";
 import Reveal from "@/components/Reveal";
 import { logos } from "@/lib/data";
 
-export default function LogosRow() {
-  const logoItems = [...logos, ...logos];
+export default function LogosRow({ clients = logos }: { clients?: Array<{ src: string; alt: string }> }) {
+  const logoItems = [...clients, ...clients];
 
   return (
     <section className="relative flex min-h-[70svh] items-center overflow-hidden bg-black py-14 text-white sm:py-16">

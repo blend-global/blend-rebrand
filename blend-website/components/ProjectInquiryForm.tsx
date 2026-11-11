@@ -1,10 +1,12 @@
 "use client";
 
+import { regionalServices } from "@/lib/regional-content";
+import { useRegion } from "@/components/regions/useRegion";
 import servicesData from "@/content/services.json";
 import { submitContactEnquiry } from "@/lib/contact-client";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, BriefcaseBusiness, Check, CheckCircle2, Send } from "lucide-react";
-import { type FormEvent, useMemo, useState } from "react";
+import { type FormEvent, useState } from "react";
 
 type FormState = {
   firstName: string;
@@ -54,7 +56,8 @@ const steps = ["Service", "Basics", "Scope", "Send"];
 const emptyServices: string[] = [];
 
 export default function ProjectInquiryForm(props: ProjectInquiryFormProps) {
-  return <ProjectInquiryFormContent key={JSON.stringify(props.initialServices ?? [])} {...props} />;
+  const region = useRegion();
+  return <ProjectInquiryFormContent key={region.code + JSON.stringify(props.initialServices ?? [])} {...props} />;
 }
 
 function ProjectInquiryFormContent({
@@ -63,27 +66,26 @@ function ProjectInquiryFormContent({
   source = "Project inquiry form",
   onSuccess,
 }: ProjectInquiryFormProps) {
+  const region = useRegion();
   const [currentStep, setCurrentStep] = useState(0);
-  const [formState, setFormState] = useState<FormState>(() => getInitialFormState(initialServices));
+  const [formState, setFormState] = useState<FormState>(() => ({ ...getInitialFormState(initialServices), country: region.name }));
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
-  const serviceOptions = useMemo(
-    () => [
+  const catalogue = regionalServices(region.code, servicesData).servicesContent;
+  const serviceOptions = [
       {
         kind: "digital",
-        category: servicesData.servicesContent.digitalLabel,
-        items: servicesData.servicesContent.digital,
+        category: catalogue.digitalLabel,
+        items: catalogue.digital,
       },
       {
         kind: "experiential",
-        category: servicesData.servicesContent.experientialLabel,
-        items: servicesData.servicesContent.experiential,
+        category: catalogue.experientialLabel,
+        items: catalogue.experiential,
       },
-    ],
-    [],
-  );
+    ].filter((group) => group.items.length > 0);
 
   const selectedServices = serviceOptions
     .flatMap((group) => group.items)
@@ -148,9 +150,11 @@ function ProjectInquiryFormContent({
         ...formState,
         service: selectedServices.map((service) => service.label).join(", "),
         source,
+        region: region.code,
+        currency: region.currency,
       });
 
-      setFormState(getInitialFormState(initialServices));
+      setFormState({ ...getInitialFormState(initialServices), country: region.name });
       setCurrentStep(0);
       setStatus("success");
       setSuccessMessage(message);
@@ -344,7 +348,9 @@ function ProjectInquiryFormContent({
                 <div className="grid gap-3">
                   <p className="text-sm font-semibold text-white/78">Budget range</p>
                   <div className="grid gap-3 sm:grid-cols-2">
-                    {budgetOptions.map((budget) => {
+                    {region.code === "uk" ? <label className="text-sm text-white/75 sm:col-span-2">Estimated budget (GBP)
+                      <input className="mt-2 w-full rounded-2xl border border-white/20 bg-white/5 px-4 py-4 text-white" value={formState.budget} onChange={(event) => updateField("budget", event.target.value)} placeholder="e.g. GBP 10,000, or still shaping it" />
+                    </label> : budgetOptions.map((budget) => {
                       const isSelected = formState.budget === budget.value;
 
                       return (
@@ -449,7 +455,7 @@ function ProjectInquiryFormContent({
                 <div className="flex items-center justify-between gap-4">
                   <span>Budget</span>
                   <strong className="text-right text-white">
-                    {budgetOptions.find((budget) => budget.value === formState.budget)?.label}
+                    {region.code === "uk" ? formState.budget : budgetOptions.find((budget) => budget.value === formState.budget)?.label}
                   </strong>
                 </div>
               </div>

@@ -4,10 +4,13 @@ import { motion } from "framer-motion";
 import { Facebook, Instagram, Linkedin } from "lucide-react";
 import { type FormEvent, useState } from "react";
 import Reveal from "@/components/Reveal";
-import { contactSection } from "@/lib/data";
+import { contactSection as sharedContact } from "@/lib/data";
+import { useRegion } from "@/components/regions/useRegion";
 import { submitContactEnquiry } from "@/lib/contact-client";
 
 export default function LetsTalk() {
+  const region = useRegion();
+  const contactSection = { ...sharedContact, ...region };
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -57,17 +60,17 @@ export default function LetsTalk() {
 
           <div className="flex flex-col gap-2">
             <span className="text-sm font-semibold text-[#6c6f77]">Email</span>
-            <span className="text-base font-semibold sm:text-lg">{contactSection.email}</span>
+            <span className="text-base font-semibold sm:text-lg">{contactSection.email || "Connect with Blend UK"}</span>
           </div>
 
           <div className="flex flex-col gap-2">
             <span className="text-sm font-semibold text-[#6c6f77]">Contact Number</span>
-            <span className="text-base font-semibold sm:text-lg">{contactSection.phone}</span>
+            <span className="text-base font-semibold sm:text-lg">{contactSection.phone || "Book a call with our UK team"}</span>
           </div>
 
           <div className="flex flex-col gap-3">
             <span className="text-sm font-semibold text-[#6c6f77]">Address</span>
-            <span className="text-base font-semibold sm:text-lg">{contactSection.address}</span>
+            <span className="text-base font-semibold sm:text-lg">{contactSection.address || contactSection.location}</span>
           </div>
 
           <div className="flex flex-col gap-2">

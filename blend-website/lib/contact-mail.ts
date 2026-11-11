@@ -1,6 +1,9 @@
+import { isRegion, regions, type RegionCode } from "@/lib/regions";
 import nodemailer from "nodemailer";
 
 export type ContactFormPayload = {
+  region?: RegionCode;
+  currency?: "ZAR" | "GBP";
   firstName?: string;
   lastName?: string;
   company?: string;
@@ -59,7 +62,9 @@ const getRows = (payload: ContactFormPayload) =>
 export async function sendContactEmail(payload: ContactFormPayload) {
   const smtpPort = Number(getRequiredEnv("SMTP_PORT"));
   const fromEmail = process.env.CONTACT_EMAIL_FROM || process.env.SMTP_USER || "website@blend.global";
-  const toEmail = process.env.CONTACT_EMAIL_TO || "info@blend.global";
+  const region = isRegion(payload.region) ? payload.region : "za";
+  const toEmail = (region === "uk" ? process.env.CONTACT_EMAIL_TO_UK : process.env.CONTACT_EMAIL_TO_ZA)
+    || process.env.CONTACT_EMAIL_TO || regions[region].email;
   const displayName = getDisplayName(payload);
   const rows = getRows(payload);
 
@@ -89,7 +94,7 @@ export async function sendContactEmail(payload: ContactFormPayload) {
     from: `"Blend Website" <${fromEmail}>`,
     to: toEmail,
     replyTo: payload.email,
-    subject: `New contact enquiry from ${displayName}`,
+    subject: `[${region.toUpperCase()}] New contact enquiry from ${displayName}`,
     text,
     html: `
       <div style="font-family:Arial,sans-serif;line-height:1.5;color:#111827;">

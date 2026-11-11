@@ -1,3 +1,4 @@
+import RegionPreference from "@/components/regions/RegionPreference";
 import type { Metadata, Viewport } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
@@ -35,6 +36,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${poppins.variable} antialiased bg-background`}>
         <AuthProvider>
+          <RegionPreference />
           <SiteAuthGate>
             <ProjectModalProvider>
               <PageTransition>{children}</PageTransition>

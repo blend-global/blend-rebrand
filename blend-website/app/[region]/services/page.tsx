@@ -1,9 +1,12 @@
 "use client";
 
+import { regionalServices, ukContent } from "@/lib/regional-content";
+import { useRegion } from "@/components/regions/useRegion";
+import UkCallToAction from "@/components/regions/UkCallToAction";
 import Image from "next/image";
 import { Sparkles, Zap, Globe, Video, Camera, Palette, Laptop, Radio, Users, Star, Utensils, UserCheck, Megaphone } from "lucide-react";
 import Reveal from "@/components/Reveal";
-import Link from "next/link";
+import Link from "@/components/regions/RegionLink";
 // import { Button } from "@/components/ui/button";
 import Header from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -134,16 +137,19 @@ const ServiceListingCard = ({ service }: { service: ServiceCard }) => {
 };
 
 const ServicesPage = () => {
+  const region = useRegion();
+  const isUk = region.code === "uk";
   const [servicesSection, setServicesSection] = useState<ServicesContent>(() => ({
     servicesContent: fallbackServicesContent,
     serviceDetails: fallbackServiceDetails,
   }));
 
   useEffect(() => {
+    if (region.code === "uk") return;
     void fetchCmsSection("services").then(setServicesSection).catch(() => undefined);
-  }, []);
+  }, [region.code]);
 
-  const { servicesContent, serviceDetails } = servicesSection;
+  const { servicesContent, serviceDetails } = regionalServices(region.code, servicesSection);
   const digitalServices = buildServiceCards(
     servicesContent.digital,
     serviceDetails,
@@ -173,18 +179,17 @@ const ServicesPage = () => {
           <Reveal className="max-w-3xl">
 
             <h1 className="mb-6 text-3xl font-bold leading-tight text-primary-foreground sm:text-4xl md:text-6xl lg:text-7xl">
-              Crafting Dreams,<br />
-              <span className="text-gradient">Delivering Results</span>
+              {isUk ? ukContent.hero.subtitle : <>Crafting Dreams,<br /><span className="text-gradient">Delivering Results</span></>}
             </h1>
             <p className="mb-8 max-w-xl text-base text-primary-foreground/70 sm:text-lg">
-              From digital innovation to unforgettable experiences, we offer comprehensive solutions that elevate your brand and captivate your audience.
+              {isUk ? ukContent.servicesIntro.description : "From digital innovation to unforgettable experiences, we offer comprehensive solutions that elevate your brand and captivate your audience."}
             </p>
           </Reveal>
         </div>
       </section>
 
       {/* Experiential Services Section */}
-      <section className="bg-background py-14 sm:py-20 md:py-32">
+      {experientialServices.length > 0 && <section className="bg-background py-14 sm:py-20 md:py-32">
         <div className="container-custom section-padding">
           <Reveal>
             <div className="flex items-center gap-3 mb-4">
@@ -209,18 +214,18 @@ const ServicesPage = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section>}
 
       {/* Digital Services Section */}
       <section className="bg-background py-14 sm:py-20 md:py-32">
         <div className="container-custom section-padding">
           <Reveal>
             <div className="flex items-center gap-3 mb-4">
-              <h2 className="text-2xl font-bold text-primary-foreground sm:text-3xl md:text-4xl">Digital</h2>
+              <h2 className="text-2xl font-bold text-primary-foreground sm:text-3xl md:text-4xl">{isUk ? ukContent.servicesIntro.title : "Digital"}</h2>
               <span className="text-accent text-2xl">✦</span>
             </div>
             <p className="mb-16 max-w-2xl text-base text-primary-foreground/70 sm:mb-20 sm:text-lg">
-              Innovative digital solutions that transform your ideas into powerful visual stories and experiences.
+              {isUk ? ukContent.servicesIntro.description : "Innovative digital solutions that transform your ideas into powerful visual stories and experiences."}
             </p>
           </Reveal>
           
@@ -240,7 +245,7 @@ const ServicesPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="relative overflow-hidden bg-background py-14 sm:py-20 md:py-32">
+      {isUk ? <UkCallToAction /> : <section className="relative overflow-hidden bg-background py-14 sm:py-20 md:py-32">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border border-primary-foreground" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full border border-primary-foreground" />
@@ -262,7 +267,7 @@ const ServicesPage = () => {
             </StartProjectButton>
           </div>
         </Reveal>
-      </section>
+      </section>}
 
       <Footer />
     </div>

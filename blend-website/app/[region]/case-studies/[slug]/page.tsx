@@ -8,6 +8,7 @@ import { createPageMetadata } from "@/lib/seo";
 type Props = {
   params: Promise<{
     slug: string;
+    region: string;
   }>;
 };
 
@@ -16,11 +17,11 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props) {
-  const { slug } = await params;
+  const { slug, region } = await params;
   const caseStudies = await readCmsSection("work");
   const item = caseStudies.find((entry) => entry.slug === slug);
   if (!item) notFound();
-  return createPageMetadata({
+  return createPageMetadata({ region,
     title: `${item.title} — ${item.project}`,
     description: item.summary,
     path: `/case-studies/${encodeURIComponent(slug)}`,

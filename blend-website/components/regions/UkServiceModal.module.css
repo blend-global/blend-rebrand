@@ -1,0 +1,85 @@
+.dialog {
+  width: min(calc(100% - 2rem), 40rem);
+  max-width: none;
+  max-height: calc(100dvh - 2rem);
+  overflow: hidden;
+}
+
+.shell {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100dvh - 2rem);
+}
+
+.header {
+  display: flex;
+  flex: none;
+  justify-content: flex-end;
+  padding: 0.625rem 0.75rem 0.375rem;
+}
+
+.content {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0 clamp(1rem, 4vw, 2rem);
+  scrollbar-width: thin;
+  scrollbar-color: #ffffff40 transparent;
+}
+
+.illustration {
+  position: relative;
+  height: clamp(5rem, 22dvh, 13rem);
+  margin-bottom: clamp(0.75rem, 2dvh, 1.25rem);
+}
+
+.title {
+  overflow-wrap: anywhere;
+  font-size: clamp(1.375rem, 3vw, 2rem);
+  line-height: 1.15;
+}
+
+.description {
+  margin-top: 0.875rem;
+  font-size: clamp(0.9375rem, 1.5vw, 1rem);
+  line-height: 1.65;
+}
+
+.footer {
+  flex: none;
+  padding: 1rem clamp(1rem, 4vw, 2rem) 1.25rem;
+}
+
+@media (max-width: 480px) {
+  .dialog {
+    width: calc(100% - 1rem);
+    max-height: calc(100dvh - 1rem);
+    border-radius: 1.25rem;
+  }
+
+  .shell {
+    max-height: calc(100dvh - 1rem);
+  }
+
+  .illustration {
+    height: clamp(5rem, 18dvh, 10rem);
+  }
+}
+
+@media (min-width: 640px) and (max-height: 650px) {
+  .dialog {
+    width: min(calc(100% - 2rem), 54rem);
+  }
+
+  .content {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .illustration {
+    height: clamp(7rem, 42dvh, 16rem);
+    margin-bottom: 0;
+  }
+}

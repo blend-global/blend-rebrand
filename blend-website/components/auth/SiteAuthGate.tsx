@@ -1,5 +1,7 @@
 "use client";
 
+import { usePathname } from "next/navigation";
+import RegionSwitcher from "@/components/regions/RegionSwitcher";
 import CmsAuthCard from "@/components/cms/CmsAuthCard";
 import { isFirebaseClientConfigured } from "@/lib/firebase/client";
 import { useSiteAuth } from "@/components/auth/AuthProvider";
@@ -15,9 +17,13 @@ export default function SiteAuthGate({ children }: { children: React.ReactNode }
     signInWithGoogle,
   } = useSiteAuth();
 
+  const pathname = usePathname();
+  if (pathname === "/") return <>{children}</>;
+
   if (!authUser) {
     return (
       <main className="min-h-screen bg-[#090a0d] text-white">
+        {/^\/(za|uk)(\/|$)/.test(pathname) && <div className="flex justify-end px-4 pt-6 sm:px-8"><RegionSwitcher /></div>}
         <section className="relative overflow-hidden pb-16 pt-12 sm:pt-16 md:pt-20">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,79,179,0.14),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(94,234,212,0.12),_transparent_30%)]" />
           <div className="relative mx-auto flex min-h-[70vh] w-full max-w-6xl items-center px-4 sm:px-6 lg:px-8 2xl:px-10">
