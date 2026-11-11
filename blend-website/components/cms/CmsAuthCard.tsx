@@ -1,5 +1,6 @@
 "use client";
 
+import styles from "./CmsAuthCard.module.css";
 import Image from "next/image";
 import { useState } from "react";
 import { Chrome, LoaderCircle, LockKeyhole, Mail, UserRound } from "lucide-react";
@@ -7,6 +8,7 @@ import { Chrome, LoaderCircle, LockKeyhole, Mail, UserRound } from "lucide-react
 type AuthMode = "signin" | "signup";
 
 type CmsAuthCardProps = {
+  compact?: boolean;
   authReady: boolean;
   isConfigured: boolean;
   error: string | null;
@@ -22,6 +24,7 @@ type CmsAuthCardProps = {
 };
 
 export default function CmsAuthCard({
+  compact = false,
   authReady,
   isConfigured,
   error,
@@ -51,17 +54,17 @@ export default function CmsAuthCard({
   };
 
   return (
-    <div className="mx-auto w-full max-w-md rounded-[32px] border border-white/10 bg-[#12161f]/95 p-6 shadow-[0_32px_120px_rgba(0,0,0,0.38)] backdrop-blur sm:p-7">
-      <div className="mb-6 space-y-3">
-        <div className="inline-flex size-20 items-center justify-center rounded-[28px] bg-[#ff4fb3]/12">
+    <div data-auth-card className={`${compact ? styles.compact : ""} mx-auto w-full max-w-md rounded-[32px] border border-white/10 bg-[#12161f]/95 p-6 shadow-[0_32px_120px_rgba(0,0,0,0.38)] backdrop-blur sm:p-7`}>
+      <div data-auth-header className="mb-6 space-y-3">
+        <div data-auth-logo className="inline-flex size-20 items-center justify-center rounded-[28px] bg-[#ff4fb3]/12">
           <Image src="/logo.png" alt="Blend Global" width={44} height={46} className="h-11 w-auto" priority />
         </div>
-        <div className="space-y-2">
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#ff4fb3]">{eyebrow}</p>
+        <div data-auth-intro className="space-y-2">
+          <p data-auth-eyebrow className="text-xs font-semibold uppercase tracking-[0.28em] text-[#ff4fb3]">{eyebrow}</p>
           <h1 className="text-3xl font-semibold tracking-tight text-white">
             {mode === "signup" ? signUpTitle : signInTitle}
           </h1>
-          <p className="text-sm leading-6 text-white/60">
+          <p data-auth-description className="text-sm leading-6 text-white/60">
             {mode === "signup" ? signUpDescription : signInDescription}
           </p>
         </div>

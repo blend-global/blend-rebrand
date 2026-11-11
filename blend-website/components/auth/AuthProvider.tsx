@@ -1,5 +1,7 @@
 "use client";
 
+import { usePathname, useRouter } from "next/navigation";
+import { readRegionChoice } from "@/lib/region-preference";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import type { User } from "firebase/auth";
 import {
@@ -87,6 +89,8 @@ const createUserDocument = async (user: User, name?: string | null) => {
 };
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
+  const pathname = usePathname();
   const [authReady, setAuthReady] = useState(false);
   const [authSubmitting, setAuthSubmitting] = useState(false);
   const [authUser, setAuthUser] = useState<User | null>(null);
@@ -201,6 +205,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           const credentials = await createUserWithEmailAndPassword(getFirebaseAuth(), normalizedEmail, password);
           await updateProfile(credentials.user, { displayName: trimmedName });
           await createUserDocument(credentials.user, trimmedName);
+          if (!readRegionChoice() && !/^\/cms(\/|$)/.test(pathname)) router.replace("/");
         } catch (error) {
           setAuthError(getFirebaseErrorMessage(error));
         } finally {
@@ -227,6 +232,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
           if (additionalUserInfo?.isNewUser) {
             await createUserDocument(credentials.user);
+            if (!readRegionChoice() && !/^\/cms(\/|$)/.test(pathname)) router.replace("/");
           }
         } catch (error) {
           setAuthError(getFirebaseErrorMessage(error));
@@ -249,7 +255,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
       },
     }),
-    [authError, authReady, authSubmitting, authUser, currentUserName],
+    [authError, authReady, authSubmitting, authUser, currentUserName, pathname, router],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
