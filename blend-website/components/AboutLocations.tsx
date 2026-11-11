@@ -20,14 +20,14 @@ const slides: Slide[] = [
     subtitle: "Locations",
     description:
       "Spanning across the EMEA/META regions, our offices are strategically placed to maximize local and global connectivity and impact.",
-    image: "/1_locations.png",
+    image: "/about/locations-hires.webp",
   },
   {
     title: "About Us",
     subtitle: "The Team",
     description:
       "Dedicated, diverse professionals committed to excellence. Together, we innovate, inspire, and lead the industry in every endeavor we undertake.",
-    image: "/2_the-team.png",
+    image: "/about/team-hires.webp",
   },
 ];
 
@@ -70,11 +70,11 @@ export default function AboutLocations() {
             />
           </div>
 
-          <div className="relative w-full max-w-xl">
+          <div className="relative w-full max-w-md">
             {stackImages.map(({ slide, className }, idx) => (
               <motion.div
                 key={`${slide.subtitle}-${idx}`}
-                className={`absolute z-0 hidden overflow-hidden rounded-[38px] shadow-[0_25px_60px_rgba(0,0,0,0.28)] md:block ${className}`}
+                className={`absolute z-0 hidden overflow-hidden rounded-[28px] shadow-[0_25px_60px_rgba(0,0,0,0.28)] md:block ${className}`}
                 whileHover={{ rotate: idx === 0 ? -1 : 1 }}
               >
                 <Image
@@ -82,13 +82,13 @@ export default function AboutLocations() {
                   alt={slide.subtitle}
                   width={640}
                   height={780}
-                  className="h-[420px] w-[320px] rounded-[38px] object-cover"
+                  className="h-[336px] w-[256px] rounded-[28px] object-cover"
                 />
               </motion.div>
             ))}
 
             <motion.div
-              className="relative z-10 overflow-hidden rounded-[38px] shadow-[0_28px_70px_rgba(0,0,0,0.36)] ring-1 ring-black/10"
+              className="relative z-10 overflow-hidden rounded-[28px] shadow-[0_28px_70px_rgba(0,0,0,0.36)] ring-1 ring-black/10"
               whileHover={{ scale: 1.01 }}
               transition={{ type: "spring", stiffness: 200, damping: 18 }}
             >
@@ -97,8 +97,8 @@ export default function AboutLocations() {
                 alt={current.subtitle}
                 width={760}
                 height={920}
-                className="h-[320px] w-full rounded-[38px] object-cover sm:h-[420px] md:h-[520px]"
-                sizes="(min-width: 768px) 50vw, 100vw"
+                className="h-[260px] w-full rounded-[28px] object-cover sm:h-[340px] md:h-[400px]"
+                sizes="(min-width: 1024px) 448px, (min-width: 768px) 45vw, 100vw"
               />
             </motion.div>
           </div>

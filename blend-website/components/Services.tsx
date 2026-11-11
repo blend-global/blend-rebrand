@@ -105,6 +105,8 @@ export default function Services({ servicesSection, regional = false }: { servic
         transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
       />
 
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#050608] to-transparent sm:h-40" />
+
       <div className="container-max relative">
         <div className="mx-auto max-w-5xl text-center">
           <Reveal className="mx-auto max-w-5xl">

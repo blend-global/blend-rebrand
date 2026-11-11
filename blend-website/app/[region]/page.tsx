@@ -32,7 +32,7 @@ export default async function Home({ params }: { params: Promise<{ region: strin
           <LogosRow clients={isUk ? ukContent.clients : undefined} />
         </div>
       </div>
-      <div className="flex min-h-[100svh] items-center bg-[#0d0f15]">
+      <div className="flex min-h-[100svh] items-center bg-[#050608]">
         <div className="w-full">
           <Services key={region} servicesSection={servicesSection} regional={isUk} />
         </div>
