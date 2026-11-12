@@ -1,8 +1,8 @@
 export const regionCodes = ["za", "uk"] as const;
 export type RegionCode = (typeof regionCodes)[number];
-// A separate cookie ignores preferences previously inferred from page visits.
-export const regionCookie = "blend-region-choice";
-export const regionCookieMaxAge = 60 * 60 * 24 * 365;
+// The current visit is separate from consented region memory across visits.
+export const regionCookie = "blend-region-session";
+export const regionPreferenceCookie = "blend-region-preference";
 
 export function isRegion(value: unknown): value is RegionCode {
   return value === "za" || value === "uk";

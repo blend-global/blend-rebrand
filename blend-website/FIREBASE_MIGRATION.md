@@ -42,7 +42,7 @@ configuration existed before this migration work.
 - `firestore.rules`: adds least-scope rules compatible with current app behavior
 - `firestore.indexes.json`: records the current empty composite-index set
 - `storage.rules`: limits public reads and CMS image uploads to the known path
-- `.env.example`: adds emulator variables and removes populated credentials
+- Environment configuration: emulator variables and credentials belong only in the ignored `.env.local`; no environment template files are maintained.
 - `lib/firebase/client.ts`: connects Auth, Firestore, and Storage to emulators when enabled
 - `lib/firestore-server.ts`: connects server Firestore reads to the emulator when enabled
 - `app/api/cms/[section]/route.ts`: removes the unauthenticated, unused write endpoint

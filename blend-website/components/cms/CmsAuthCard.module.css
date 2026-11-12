@@ -83,6 +83,7 @@
 
 .compact input {
   min-width: 0;
+  font-size: 1rem;
 }
 
 .compact form > button,
@@ -91,10 +92,11 @@
   padding-block: 0.625rem;
 }
 
-@media (max-width: 480px) {
-  .compact input {
-    font-size: 1rem;
-  }
+@media (max-height: 650px) {
+  .compact { padding: 1rem; }
+  .compact [data-auth-header] { margin-bottom: 0.75rem; }
+  .compact [data-auth-description] { display: none; }
+  .compact fieldset, .compact form { gap: 0.5rem; }
 }
 
 @media (min-width: 640px) and (max-height: 560px) {

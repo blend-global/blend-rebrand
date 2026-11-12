@@ -63,8 +63,10 @@ export async function sendContactEmail(payload: ContactFormPayload) {
   const smtpPort = Number(getRequiredEnv("SMTP_PORT"));
   const fromEmail = process.env.CONTACT_EMAIL_FROM || process.env.SMTP_USER || "website@blend.global";
   const region = isRegion(payload.region) ? payload.region : "za";
-  const toEmail = (region === "uk" ? process.env.CONTACT_EMAIL_TO_UK : process.env.CONTACT_EMAIL_TO_ZA)
-    || process.env.CONTACT_EMAIL_TO || regions[region].email;
+  // The legacy shared override belongs to ZA. It must not silently divert UK leads.
+  const toEmail = region === "uk"
+    ? process.env.CONTACT_EMAIL_TO_UK || regions.uk.email
+    : process.env.CONTACT_EMAIL_TO_ZA || process.env.CONTACT_EMAIL_TO || regions.za.email;
   const displayName = getDisplayName(payload);
   const rows = getRows(payload);
 

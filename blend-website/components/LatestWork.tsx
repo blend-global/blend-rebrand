@@ -1,5 +1,7 @@
 "use client";
 
+import ConsentVideo from "@/components/ConsentVideo";
+
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
@@ -129,7 +131,7 @@ export default function LatestWork() {
                   >
                     <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] sm:aspect-[16/7] sm:min-h-[320px]">
                       {isVisible && activeCoverVideo ? (
-                        <iframe
+                        <ConsentVideo
                           src={activeCoverVideo}
                           title={`${activeItem.title} cover video`}
                           className="pointer-events-none absolute left-1/2 top-1/2 h-full w-[133.333%] -translate-x-1/2 -translate-y-1/2 sm:h-[56.25vw] sm:min-h-full sm:w-[177.777777vh] sm:min-w-full"

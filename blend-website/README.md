@@ -82,8 +82,8 @@ Kingdom). ZA content continues to use the CMS. UK messaging, its eight digital
 services, About copy, client list and calls to action are sourced from the existing
 UK website into `content/uk.json`; the source URLs and retrieval date are recorded
 in that file. UK client logo assets are stored locally in `public/uk/clients`. The root URL presents a region chooser and redirects
-returning visitors using the `blend-region-choice` preference cookie (one year). The preference is written only by an explicit chooser or switcher selection,
-never by visiting a regional page. Old inferred `blend-region` cookies are ignored.
+returning visitors using the explicit `blend-region-session` cookie during the current browser session. With separate consent, `blend-region-preference` remembers the region across visits until the current six-month consent expires. The preference is written only by an explicit chooser, switcher selection or a consent decision to remember the current region,
+never by visiting a regional page. Old `blend-region` and `blend-region-choice` cookies are ignored and cleared.
 Explicit regional URLs take precedence over a stored preference. Signed-out
 visitors opening a regional homepage without a choice go to the chooser before
 sign-in; deep links remain accessible through the existing sign-in flow. New
@@ -93,14 +93,14 @@ that is unavailable in the other branch falls back to that branch’s service li
 
 Branch contact details, social links, locale and currency live in `lib/regions.ts`.
 UK contact details and social/booking links were carried over from the existing
-UK website. A UK street address and approved regional policy copy still need to
-be supplied; the UK version does not display the South African street address or
-B-BBEE accreditation. Both versions currently use the new shared brand palette.
+UK website and rechecked against its contact page on 11 November 2026. The UK
+version omits unpublished company/address details and does not display the South
+African street address or B-BBEE accreditation. Both versions use the shared brand palette.
 
 Enquiries store the chosen region and its currency. Configure
 `CONTACT_EMAIL_TO_ZA` and `CONTACT_EMAIL_TO_UK` to override branch recipients.
-An existing `CONTACT_EMAIL_TO` override applies when a branch-specific override
-is absent; otherwise notifications go to the published branch email.
+ZA retains its existing `CONTACT_EMAIL_TO` fallback. UK uses its published inbox
+unless `CONTACT_EMAIL_TO_UK` is set; the shared override never diverts UK enquiries.
 UK budgets accept a free-text GBP estimate; ZA retains its existing ZAR ranges.
 
 Regional canonicals, reciprocal `en-ZA`/`en-GB` alternates and `/sitemap.xml`
@@ -115,3 +115,31 @@ button and backdrop clicks dismiss it; native dialog focus handling keeps keyboa
 navigation inside the popup and restores focus when it closes. Modified link clicks
 and direct URLs retain the service detail pages for sharing and search. ZA service
 links continue to navigate normally.
+
+### Policies and newsletter subscriptions
+
+Each region has public `/privacy-policy`, `/cookie-policy` and `/terms-of-use`
+pages, available before sign-in. The published ZA company privacy policy is
+preserved in `content/policies/za-published-privacy.json`; the website notice
+separately describes the new forms and storage. UK notices use the published UK
+contact details and omit unavailable legal entity/address details.
+
+A non-blocking first-visit banner appears after region selection with equally styled Essential only, Allow optional and Manage preferences choices. Preferences control long-term region memory and optional embedded video players. Versioned consent is recorded in `blend-cookie-preferences-v2` for 180 days and renewed after expiry or purpose changes. Local videos and
+images remain available without this consent; no analytics/advertising tags are
+installed. The preferences can be changed from the footer or cookie policy page.
+
+Footer newsletter forms save directly to Firestore `newsletterSubscriptions`.
+Each opt-in records a normalized email, region, exact consent wording/version,
+regional privacy-policy path, source, status and server timestamp. There is no
+mailing-campaign integration or automatic welcome email. The Firebase console
+provides access to the records; public clients cannot read, update or delete them.
+
+Run `npm run test:newsletter-rules` with Java 21+ installed to exercise valid and
+invalid submissions and access controls in the disposable `demo-blend-review`
+Auth/Firestore emulators. `npm run test:enquiries` runs the application unit tests.
+
+### Environment and secrets
+
+Keep secrets in the Git-ignored `.env.local` file. Never create environment
+example/template files. Configure application code through environment variables
+and document variable names without secret values.

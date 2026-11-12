@@ -4,6 +4,7 @@ import { getAllServices } from "@/lib/cms-helpers";
 import { regionCodes, regionalPath } from "@/lib/regions";
 import { regionalServices } from "@/lib/regional-content";
 import { siteUrl } from "@/lib/seo";
+import { policySlugs } from "@/lib/policies";
 
 export const revalidate = 3600;
 
@@ -11,7 +12,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [services, work, blog] = await Promise.all([
     readCmsSection("services"), readCmsSection("work"), readCmsSection("blog"),
   ]);
-  const commonPaths = ["/", "/services", "/contact"];
+  const commonPaths = ["/", "/services", "/contact", ...policySlugs.map((slug) => `/${slug}`)];
   const globalPaths = [
     "/case-studies", "/blog",
     ...work.map(({ slug }) => `/case-studies/${encodeURIComponent(slug)}`),

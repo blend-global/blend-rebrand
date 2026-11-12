@@ -11,6 +11,9 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      ...["privacy-policy", "cookie-policy", "terms-of-use"].map((policy) => ({
+        source: `/${policy}`, destination: `/za/${policy}`, permanent: true,
+      })),
       ...["services", "case-studies", "blog", "contact"].map((section) => ({
         source: `/${section}`, destination: `/za/${section}`, permanent: true,
       })),

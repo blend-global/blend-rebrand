@@ -1,5 +1,7 @@
 "use client";
 
+import ConsentVideo from "@/components/ConsentVideo";
+
 import Image from "next/image";
 import { ChevronDown, SlidersHorizontal } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -51,7 +53,7 @@ function CaseStudyCover({ item, isActive }: { item: CaseStudy; isActive: boolean
 
   if (youtubeEmbedUrl && isActive) {
     return (
-      <iframe
+      <ConsentVideo
         key={isActive ? "playing" : "paused"}
         src={youtubeEmbedUrl}
         title={`${item.title} cover video`}

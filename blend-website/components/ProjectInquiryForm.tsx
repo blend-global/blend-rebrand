@@ -4,9 +4,10 @@ import { regionalServices } from "@/lib/regional-content";
 import { useRegion } from "@/components/regions/useRegion";
 import servicesData from "@/content/services.json";
 import { submitContactEnquiry } from "@/lib/contact-client";
+import styles from "./ProjectInquiryForm.module.css";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, BriefcaseBusiness, Check, CheckCircle2, Send } from "lucide-react";
-import { type FormEvent, useState } from "react";
+import { ArrowLeft, ArrowRight, BriefcaseBusiness, Check, CheckCircle2, LoaderCircle, Send } from "lucide-react";
+import { type FormEvent, useEffect, useRef, useState } from "react";
 
 type FormState = {
   firstName: string;
@@ -25,10 +26,11 @@ type FormState = {
 type TextFormField = Exclude<keyof FormState, "services">;
 
 type ProjectInquiryFormProps = {
+  contained?: boolean;
   className?: string;
   initialServices?: string[];
   source?: string;
-  onSuccess?: () => void;
+  onSuccess?: (message: string) => void;
 };
 
 const getInitialFormState = (services: string[] = []): FormState => ({
@@ -61,6 +63,7 @@ export default function ProjectInquiryForm(props: ProjectInquiryFormProps) {
 }
 
 function ProjectInquiryFormContent({
+  contained = false,
   className = "",
   initialServices = emptyServices,
   source = "Project inquiry form",
@@ -72,6 +75,12 @@ function ProjectInquiryFormContent({
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const submissionInFlight = useRef(false);
+
+  useEffect(() => {
+    if (contained) scrollRef.current?.scrollTo({ top: 0, behavior: "instant" });
+  }, [contained, currentStep]);
 
   const catalogue = regionalServices(region.code, servicesData).servicesContent;
   const serviceOptions = [
@@ -135,6 +144,7 @@ function ProjectInquiryFormContent({
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (submissionInFlight.current) return;
 
     if (!formState.message) {
       setErrorMessage("Add a short note before submitting.");
@@ -142,6 +152,7 @@ function ProjectInquiryFormContent({
       return;
     }
 
+    submissionInFlight.current = true;
     setStatus("submitting");
     setErrorMessage("");
 
@@ -158,41 +169,50 @@ function ProjectInquiryFormContent({
       setCurrentStep(0);
       setStatus("success");
       setSuccessMessage(message);
-      onSuccess?.();
+      onSuccess?.(message);
     } catch (error) {
       setStatus("error");
       setErrorMessage(error instanceof Error ? error.message : "We could not send your message right now.");
+    } finally {
+      submissionInFlight.current = false;
     }
   };
 
   return (
     <form
-      className={`overflow-hidden rounded-[28px] border border-white/14 bg-white/[0.08] shadow-[0_28px_90px_rgba(0,0,0,0.36)] backdrop-blur-xl ${className}`}
+      className={`${contained ? "flex min-h-0 flex-1 flex-col" : ""} overflow-hidden rounded-[28px] border border-white/14 bg-white/[0.08] shadow-[0_28px_90px_rgba(0,0,0,0.36)] backdrop-blur-xl ${className}`}
       onSubmit={handleSubmit}
+      aria-busy={status === "submitting"}
     >
-      <div className="border-b border-white/12 px-5 py-4 sm:px-7">
+      <div className="shrink-0 border-b border-white/12 px-5 py-4 group-data-[compact=true]:py-2 sm:px-7">
         <div className="flex items-center justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase text-white/50">
               Step {currentStep + 1} of {steps.length}
             </p>
-            <p className="mt-1 text-sm font-semibold text-white">{steps[currentStep]}</p>
+            <p className="mt-1 text-sm font-semibold text-white">{status === "submitting" ? "Sending your enquiry…" : steps[currentStep]}</p>
           </div>
           <div className="flex max-w-[52%] items-center gap-2 text-right text-xs font-semibold text-white/60">
             <BriefcaseBusiness className="h-4 w-4 shrink-0 text-[#52d6a1]" aria-hidden="true" />
             <span>{selectedServicesLabel}</span>
           </div>
         </div>
-        <div className="mt-4 h-2 overflow-hidden rounded-full bg-white/10">
+        <div role="progressbar" aria-label={status === "submitting" ? "Sending your enquiry" : "Project enquiry steps"}
+          aria-valuemin={0} aria-valuemax={100} aria-valuenow={status === "submitting" ? undefined : progress}
+          aria-valuetext={status === "submitting" ? "Sending your enquiry" : `Step ${currentStep + 1} of ${steps.length}`}
+          className="mt-4 h-2 overflow-hidden rounded-full bg-white/10 group-data-[compact=true]:mt-2 group-data-[compact=true]:h-1">
           <motion.div
-            className="h-full rounded-full bg-gradient-to-r from-[#52d6a1] via-[#3aa6b4] to-[#f36fb4]"
+            className={`${styles.progressFill} ${status === "submitting" ? styles.submitting : ""} h-full rounded-full`}
             animate={{ width: `${progress}%` }}
             transition={{ duration: 0.35, ease: "easeOut" }}
           />
         </div>
       </div>
 
-      <div className="min-h-[500px] px-5 py-6 sm:px-7 lg:min-h-[360px]">
+      <div ref={scrollRef} data-project-form-content tabIndex={contained ? 0 : undefined}
+        role={contained ? "region" : undefined} aria-label={contained ? "Project form fields" : undefined}
+        className={`${contained ? "min-h-0 flex-1 overflow-y-auto overscroll-contain" : "min-h-[500px] lg:min-h-[360px]"} px-5 py-6 group-data-[compact=true]:py-3 sm:px-7`}>
+        <fieldset disabled={status === "submitting"} className="min-w-0">
         <AnimatePresence mode="wait">
           {currentStep === 0 ? (
             <motion.div
@@ -320,7 +340,7 @@ function ProjectInquiryFormContent({
                       value={formState.contactNumber}
                       onChange={(event) => updateField("contactNumber", event.target.value)}
                       className="h-13 rounded-2xl border border-white/12 bg-black/20 px-4 text-base text-white outline-none transition placeholder:text-white/35 focus:border-[#52d6a1] focus:bg-black/30"
-                      placeholder="+27"
+                      placeholder={region.code === "uk" ? "+44" : "+27"}
                     />
                   </Field>
                 </div>
@@ -462,10 +482,12 @@ function ProjectInquiryFormContent({
             </motion.div>
           ) : null}
         </AnimatePresence>
+        </fieldset>
       </div>
 
-      <div className="border-t border-white/12 px-5 py-4 sm:px-7">
-        <div className="min-h-6 text-sm" aria-live="polite">
+      <div className="shrink-0 border-t border-white/12 px-5 py-4 group-data-[compact=true]:py-2 sm:px-7">
+        <div className={`${contained ? "" : "min-h-6"} text-sm`} aria-live="polite">
+          {status === "submitting" && <p className="text-white/70">Sending your enquiry…</p>}
           {status === "success" ? (
             <p className="flex items-center gap-2 font-semibold text-[#51d498]">
               <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
@@ -475,10 +497,10 @@ function ProjectInquiryFormContent({
           {status === "error" ? <p className="font-semibold text-[#ff8ab8]">{errorMessage}</p> : null}
         </div>
 
-        <div className="mt-4 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className={contained ? "mt-3 grid grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] gap-3 group-data-[compact=true]:mt-1 sm:flex sm:items-center sm:justify-between" : "mt-4 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between"}>
           <motion.button
             type="button"
-            className="inline-flex h-12 cursor-pointer items-center justify-center gap-2 rounded-full border border-white/14 px-5 text-sm font-semibold text-white/78 transition disabled:cursor-not-allowed disabled:opacity-35"
+            className="inline-flex h-12 cursor-pointer items-center justify-center gap-2 rounded-full border border-white/14 px-3 text-sm font-semibold text-white/78 transition disabled:cursor-not-allowed disabled:opacity-35 sm:px-5"
             onClick={goBack}
             disabled={currentStep === 0 || status === "submitting"}
             whileHover={{ scale: currentStep === 0 ? 1 : 1.02 }}
@@ -491,7 +513,7 @@ function ProjectInquiryFormContent({
           {currentStep < steps.length - 1 ? (
             <motion.button
               type="button"
-              className="inline-flex h-12 cursor-pointer items-center justify-center gap-2 rounded-full bg-white px-6 text-sm font-semibold text-[#101114] shadow-[0_16px_34px_rgba(0,0,0,0.28)] transition disabled:cursor-not-allowed disabled:opacity-45"
+              className="inline-flex h-12 cursor-pointer items-center justify-center gap-2 rounded-full bg-white px-3 text-sm font-semibold text-[#101114] shadow-[0_16px_34px_rgba(0,0,0,0.28)] transition disabled:cursor-not-allowed disabled:opacity-45 sm:px-6"
               onClick={goNext}
               disabled={!canContinue()}
               whileHover={{ scale: canContinue() ? 1.02 : 1 }}
@@ -503,13 +525,13 @@ function ProjectInquiryFormContent({
           ) : (
             <motion.button
               type="submit"
-              className="inline-flex h-12 cursor-pointer items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#52d6a1] to-[#f36fb4] px-6 text-sm font-semibold text-[#101114] shadow-[0_16px_34px_rgba(82,214,161,0.22)] transition disabled:cursor-not-allowed disabled:opacity-55"
+              className="inline-flex h-12 cursor-pointer items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#52d6a1] to-[#f36fb4] px-3 text-sm font-semibold text-[#101114] shadow-[0_16px_34px_rgba(82,214,161,0.22)] transition disabled:cursor-not-allowed disabled:opacity-55 sm:px-6"
               disabled={status === "submitting" || !canContinue()}
               whileHover={{ scale: status === "submitting" || !canContinue() ? 1 : 1.02 }}
               whileTap={{ scale: status === "submitting" || !canContinue() ? 1 : 0.97 }}
             >
               {status === "submitting" ? "Sending..." : "Send enquiry"}
-              <Send className="h-4 w-4" aria-hidden="true" />
+              {status === "submitting" ? <LoaderCircle className="h-4 w-4 motion-safe:animate-spin" aria-hidden="true" /> : <Send className="h-4 w-4" aria-hidden="true" />}
             </motion.button>
           )}
         </div>
