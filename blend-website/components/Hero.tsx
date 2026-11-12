@@ -66,14 +66,14 @@ export default function Hero() {
               className="text-[2.35rem] font-bold leading-tight text-white drop-shadow-[0_8px_32px_rgba(0,0,0,0.45)] sm:text-[3.25rem] lg:text-[4.5rem]"
             >
               {activeHeadline.lead}<br />
-              <span className="bg-gradient-to-r from-green-300 via-[#78d1ff] to-pink-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[var(--brand-green)] via-[var(--brand-middle)] to-[var(--brand-tail-pink)] bg-clip-text text-transparent">
                 {activeHeadline.impact}
               </span>
             </motion.h1>
           </AnimatePresence>
           {region.code === "uk" && <div className="pointer-events-auto mx-auto mt-7 max-w-xl">
             <p className="text-base leading-7 text-white/75 sm:text-lg">{ukContent.hero.subtitle}</p>
-            <Link href="/contact" className="mt-7 inline-flex min-h-12 items-center justify-center rounded-full bg-gradient-to-r from-[#6bd688] via-[#78d1ff] to-[#f36fb4] px-7 text-sm font-semibold text-[#07100e] transition-transform hover:-translate-y-1">{ukContent.hero.cta}</Link>
+            <Link href="/contact" data-uk-action className="mt-7 inline-flex min-h-12 items-center justify-center rounded-full bg-gradient-to-r from-[var(--brand-start)] via-[var(--brand-middle)] to-[var(--brand-end)] px-7 text-sm font-semibold text-[var(--brand-button-ink)] transition-transform hover:-translate-y-1">{ukContent.hero.cta}</Link>
           </div>}
         </Reveal>
       </div>

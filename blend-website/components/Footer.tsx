@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import BrandLogo from "@/components/regions/BrandLogo";
 import { motion } from "framer-motion";
 import { Facebook, Instagram, Linkedin, Mail, Phone } from "lucide-react";
 import Reveal from "@/components/Reveal";
@@ -25,7 +25,7 @@ export default function Footer() {
       <div className="bg-[#0c0c0c] py-10 sm:py-12">
         <div className="container-max flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
           <Reveal className="flex max-w-xs flex-col gap-3">
-            <Image src="/logo.png" alt="Blend logo" width={22} height={22} className="h-6 w-6" />
+            <BrandLogo placement="footer" />
             <p className="text-sm leading-6 text-white/85">
               Make Moments Matter
             </p>

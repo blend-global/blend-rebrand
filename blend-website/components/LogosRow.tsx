@@ -10,8 +10,8 @@ export default function LogosRow({ clients = logos }: { clients?: Array<{ src: s
   return (
     <section className="relative flex min-h-[70svh] items-center overflow-hidden bg-gradient-to-b from-black to-[#050608] py-14 text-white sm:py-16">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_70%,transparent)]">
-        <div className="absolute left-1/2 top-[42%] h-[680px] w-[680px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-green-300 via-[#78d1ff] to-pink-400 opacity-30 blur-[120px]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(120,209,255,0.16),rgba(0,0,0,0.76)_58%,rgba(0,0,0,0.96)_100%)]" />
+        <div className="absolute left-1/2 top-[42%] h-[680px] w-[680px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-[var(--brand-green)] via-[var(--brand-middle)] to-[var(--brand-tail-pink)] opacity-30 blur-[120px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(var(--brand-middle-rgb),0.16),rgba(0,0,0,0.76)_58%,rgba(0,0,0,0.96)_100%)]" />
       </div>
 
       <div className="relative z-10 w-full">
@@ -19,7 +19,7 @@ export default function LogosRow({ clients = logos }: { clients?: Array<{ src: s
           <h2 className="mx-auto mb-10 max-w-5xl text-balance text-4xl font-bold leading-[0.98] tracking-[-0.05em] text-white drop-shadow-[0_18px_60px_rgba(0,0,0,0.42)] sm:mb-12 sm:text-5xl lg:text-6xl">
             Some of our
             <br />
-            <span className="bg-gradient-to-r from-[#6bd688] via-[#78d1ff] to-[#f36fb4] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[var(--brand-start)] via-[var(--brand-middle)] to-[var(--brand-end)] bg-clip-text text-transparent">
               clients
             </span>
           </h2>

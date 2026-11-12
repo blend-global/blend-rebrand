@@ -193,7 +193,7 @@ function ProjectInquiryFormContent({
             <p className="mt-1 text-sm font-semibold text-white">{status === "submitting" ? "Sending your enquiry…" : steps[currentStep]}</p>
           </div>
           <div className="flex max-w-[52%] items-center gap-2 text-right text-xs font-semibold text-white/60">
-            <BriefcaseBusiness className="h-4 w-4 shrink-0 text-[#52d6a1]" aria-hidden="true" />
+            <BriefcaseBusiness className="h-4 w-4 shrink-0 text-[var(--brand-primary)]" aria-hidden="true" />
             <span>{selectedServicesLabel}</span>
           </div>
         </div>
@@ -239,8 +239,8 @@ function ProjectInquiryFormContent({
                         const isSelected = formState.services.includes(service.slug);
                         const selectedClass =
                           group.kind === "digital"
-                            ? "border-transparent bg-gradient-to-r from-[#6bd688] to-[#22d3ee] text-[#07100e] shadow-[0_16px_32px_rgba(34,211,238,0.22)]"
-                            : "border-transparent bg-gradient-to-r from-[#f36fb4] to-[#78d1ff] text-[#07100e] shadow-[0_16px_32px_rgba(243,111,180,0.22)]";
+                            ? "border-transparent bg-gradient-to-r from-[var(--brand-start)] to-[var(--brand-cyan)] text-[var(--brand-button-ink)] shadow-[0_16px_32px_rgba(var(--brand-cyan-rgb),0.22)]"
+                            : "border-transparent bg-gradient-to-r from-[var(--brand-end)] to-[var(--brand-middle)] text-[var(--brand-button-ink)] shadow-[0_16px_32px_rgba(var(--brand-end-rgb),0.22)]";
 
                         return (
                           <button
@@ -289,7 +289,7 @@ function ProjectInquiryFormContent({
                       autoComplete="given-name"
                       value={formState.firstName}
                       onChange={(event) => updateField("firstName", event.target.value)}
-                      className="h-13 rounded-2xl border border-white/12 bg-black/20 px-4 text-base text-white outline-none transition placeholder:text-white/35 focus:border-[#52d6a1] focus:bg-black/30"
+                      className="h-13 rounded-2xl border border-white/12 bg-black/20 px-4 text-base text-white outline-none transition placeholder:text-white/35 focus:border-[var(--brand-primary)] focus:bg-black/30"
                       placeholder="Jane"
                       required
                     />
@@ -301,7 +301,7 @@ function ProjectInquiryFormContent({
                       autoComplete="family-name"
                       value={formState.lastName}
                       onChange={(event) => updateField("lastName", event.target.value)}
-                      className="h-13 rounded-2xl border border-white/12 bg-black/20 px-4 text-base text-white outline-none transition placeholder:text-white/35 focus:border-[#52d6a1] focus:bg-black/30"
+                      className="h-13 rounded-2xl border border-white/12 bg-black/20 px-4 text-base text-white outline-none transition placeholder:text-white/35 focus:border-[var(--brand-primary)] focus:bg-black/30"
                       placeholder="Doe"
                     />
                   </Field>
@@ -314,7 +314,7 @@ function ProjectInquiryFormContent({
                     autoComplete="email"
                     value={formState.email}
                     onChange={(event) => updateField("email", event.target.value)}
-                    className="h-13 rounded-2xl border border-white/12 bg-black/20 px-4 text-base text-white outline-none transition placeholder:text-white/35 focus:border-[#52d6a1] focus:bg-black/30"
+                    className="h-13 rounded-2xl border border-white/12 bg-black/20 px-4 text-base text-white outline-none transition placeholder:text-white/35 focus:border-[var(--brand-primary)] focus:bg-black/30"
                     placeholder="jane@company.com"
                     required
                   />
@@ -328,7 +328,7 @@ function ProjectInquiryFormContent({
                       autoComplete="organization"
                       value={formState.company}
                       onChange={(event) => updateField("company", event.target.value)}
-                      className="h-13 rounded-2xl border border-white/12 bg-black/20 px-4 text-base text-white outline-none transition placeholder:text-white/35 focus:border-[#52d6a1] focus:bg-black/30"
+                      className="h-13 rounded-2xl border border-white/12 bg-black/20 px-4 text-base text-white outline-none transition placeholder:text-white/35 focus:border-[var(--brand-primary)] focus:bg-black/30"
                       placeholder="Company"
                     />
                   </Field>
@@ -339,7 +339,7 @@ function ProjectInquiryFormContent({
                       autoComplete="tel"
                       value={formState.contactNumber}
                       onChange={(event) => updateField("contactNumber", event.target.value)}
-                      className="h-13 rounded-2xl border border-white/12 bg-black/20 px-4 text-base text-white outline-none transition placeholder:text-white/35 focus:border-[#52d6a1] focus:bg-black/30"
+                      className="h-13 rounded-2xl border border-white/12 bg-black/20 px-4 text-base text-white outline-none transition placeholder:text-white/35 focus:border-[var(--brand-primary)] focus:bg-black/30"
                       placeholder={region.code === "uk" ? "+44" : "+27"}
                     />
                   </Field>
@@ -379,7 +379,7 @@ function ProjectInquiryFormContent({
                           type="button"
                           className={`min-h-14 rounded-2xl border px-4 text-left text-sm font-semibold transition ${
                             isSelected
-                              ? "border-[#f36fb4] bg-[#f36fb4] text-[#101114] shadow-[0_16px_32px_rgba(243,111,180,0.2)]"
+                              ? "border-[var(--brand-end)] bg-[var(--brand-end)] text-[#101114] shadow-[0_16px_32px_rgba(var(--brand-end-rgb),0.2)]"
                               : "border-white/12 bg-white/[0.07] text-white/78 hover:border-white/30 hover:bg-white/[0.11]"
                           }`}
                           onClick={() => updateField("budget", budget.value)}
@@ -400,7 +400,7 @@ function ProjectInquiryFormContent({
                       autoComplete="address-level2"
                       value={formState.city}
                       onChange={(event) => updateField("city", event.target.value)}
-                      className="h-13 rounded-2xl border border-white/12 bg-black/20 px-4 text-base text-white outline-none transition placeholder:text-white/35 focus:border-[#52d6a1] focus:bg-black/30"
+                      className="h-13 rounded-2xl border border-white/12 bg-black/20 px-4 text-base text-white outline-none transition placeholder:text-white/35 focus:border-[var(--brand-primary)] focus:bg-black/30"
                       placeholder="Cape Town"
                     />
                   </Field>
@@ -411,7 +411,7 @@ function ProjectInquiryFormContent({
                       autoComplete="country-name"
                       value={formState.country}
                       onChange={(event) => updateField("country", event.target.value)}
-                      className="h-13 rounded-2xl border border-white/12 bg-black/20 px-4 text-base text-white outline-none transition placeholder:text-white/35 focus:border-[#52d6a1] focus:bg-black/30"
+                      className="h-13 rounded-2xl border border-white/12 bg-black/20 px-4 text-base text-white outline-none transition placeholder:text-white/35 focus:border-[var(--brand-primary)] focus:bg-black/30"
                       placeholder="South Africa"
                     />
                   </Field>
@@ -424,7 +424,7 @@ function ProjectInquiryFormContent({
                       rows={4}
                       value={formState.hybridDetails}
                       onChange={(event) => updateField("hybridDetails", event.target.value)}
-                      className="resize-none rounded-2xl border border-white/12 bg-black/20 px-4 py-3 text-base text-white outline-none transition placeholder:text-white/35 focus:border-[#52d6a1] focus:bg-black/30"
+                      className="resize-none rounded-2xl border border-white/12 bg-black/20 px-4 py-3 text-base text-white outline-none transition placeholder:text-white/35 focus:border-[var(--brand-primary)] focus:bg-black/30"
                       placeholder="Audience size, platform, venue, speaker setup..."
                     />
                   </Field>
@@ -455,7 +455,7 @@ function ProjectInquiryFormContent({
                   rows={8}
                   value={formState.message}
                   onChange={(event) => updateField("message", event.target.value)}
-                  className="resize-none rounded-2xl border border-white/12 bg-black/20 px-4 py-3 text-base text-white outline-none transition placeholder:text-white/35 focus:border-[#52d6a1] focus:bg-black/30"
+                  className="resize-none rounded-2xl border border-white/12 bg-black/20 px-4 py-3 text-base text-white outline-none transition placeholder:text-white/35 focus:border-[var(--brand-primary)] focus:bg-black/30"
                   placeholder="We are planning..."
                   required
                 />
@@ -525,7 +525,7 @@ function ProjectInquiryFormContent({
           ) : (
             <motion.button
               type="submit"
-              className="inline-flex h-12 cursor-pointer items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#52d6a1] to-[#f36fb4] px-3 text-sm font-semibold text-[#101114] shadow-[0_16px_34px_rgba(82,214,161,0.22)] transition disabled:cursor-not-allowed disabled:opacity-55 sm:px-6"
+              className="inline-flex h-12 cursor-pointer items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[var(--brand-primary)] to-[var(--brand-end)] px-3 text-sm font-semibold text-[#101114] shadow-[0_16px_34px_rgba(var(--brand-primary-rgb),0.22)] transition disabled:cursor-not-allowed disabled:opacity-55 sm:px-6"
               disabled={status === "submitting" || !canContinue()}
               whileHover={{ scale: status === "submitting" || !canContinue() ? 1 : 1.02 }}
               whileTap={{ scale: status === "submitting" || !canContinue() ? 1 : 0.97 }}
@@ -550,7 +550,7 @@ const Field = ({ children, label, required = false }: FieldProps) => (
   <label className="grid gap-2 text-sm font-semibold text-white/78">
     <span>
       {label}
-      {required ? <span className="text-[#f36fb4]"> *</span> : null}
+      {required ? <span className="text-[var(--brand-end)]"> *</span> : null}
     </span>
     {children}
   </label>

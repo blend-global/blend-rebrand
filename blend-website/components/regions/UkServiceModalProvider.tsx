@@ -50,12 +50,12 @@ export function UkServiceDialog({ service, onClose }: { service: UkService; onCl
     >
       <div className={styles.shell}>
         <div className={styles.header}>
-          <button type="button" onClick={onClose} aria-label="Close service details" className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-[#101114] text-white transition hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#78d1ff]">
+          <button type="button" onClick={onClose} aria-label="Close service details" className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-[#101114] text-white transition hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand-middle)]">
             <X className="h-5 w-5" aria-hidden="true" />
           </button>
         </div>
         <div className={styles.content}>
-          {illustration && <div className={`${styles.illustration} overflow-hidden rounded-2xl bg-gradient-to-br from-[#6bd688] via-[#78d1ff] to-[#f36fb4]`}>
+          {illustration && <div className={`${styles.illustration} overflow-hidden rounded-2xl bg-gradient-to-br from-[var(--brand-start)] via-[var(--brand-middle)] to-[var(--brand-end)]`}>
             <Image src={illustration} alt="" fill sizes="(min-width: 640px) 560px, 90vw" className="object-contain p-3 sm:p-4" aria-hidden="true" />
           </div>}
           <div className="min-w-0">
@@ -64,7 +64,7 @@ export function UkServiceDialog({ service, onClose }: { service: UkService; onCl
           </div>
         </div>
         <div className={styles.footer}>
-          <a href={regions.uk.bookingUrl} target="_blank" rel="noreferrer" className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-gradient-to-r from-[#6bd688] via-[#78d1ff] to-[#f36fb4] px-7 text-sm font-bold text-[#07100e] transition-transform hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#78d1ff] sm:w-auto">Book a Call ↗</a>
+          <a href={regions.uk.bookingUrl} target="_blank" rel="noreferrer" data-uk-action className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-gradient-to-r from-[var(--brand-start)] via-[var(--brand-middle)] to-[var(--brand-end)] px-7 text-sm font-bold text-[var(--brand-button-ink)] transition-transform hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--brand-middle)] sm:w-auto">Book a Call ↗</a>
         </div>
       </div>
     </dialog>

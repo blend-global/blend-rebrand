@@ -177,7 +177,7 @@ export default function WorkPage() {
           <div className="flex min-h-[36svh] flex-col justify-center pb-8 sm:pb-10">
             <Reveal className="max-w-4xl">
               <h1 className="text-balance text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-white sm:text-5xl lg:text-7xl">
-                Case studies that prove the <span className="bg-gradient-to-r from-[#f36fb4] via-[#9fb8ff] to-[#22d3ee] bg-clip-text text-transparent">experience</span>.
+                Case studies that prove the <span className="bg-gradient-to-r from-[var(--brand-end)] via-[#9fb8ff] to-[var(--brand-cyan)] bg-clip-text text-transparent">experience</span>.
               </h1>
               <p className="mt-6 max-w-2xl text-base leading-7 text-white/64 sm:text-lg">
                 Our success stories showcase innovative solutions brought to life with precision, creativity, and measurable brand impact.
@@ -196,7 +196,7 @@ export default function WorkPage() {
                   setActiveFilter(event.target.value);
                   setCurrentPage(1);
                 }}
-                className="min-h-12 w-full cursor-pointer appearance-none rounded-full border border-white/15 bg-[#101114] py-3 pl-11 pr-10 text-sm font-medium text-white outline-offset-4 transition-colors hover:border-white/30 focus-visible:outline-2 focus-visible:outline-[#78d1ff]"
+                className="min-h-12 w-full cursor-pointer appearance-none rounded-full border border-white/15 bg-[#101114] py-3 pl-11 pr-10 text-sm font-medium text-white outline-offset-4 transition-colors hover:border-white/30 focus-visible:outline-2 focus-visible:outline-[var(--brand-middle)]"
               >
                 {projectFilters.map((filter) => (
                   <option key={filter} value={filter}>{filter === "All" ? "All Projects" : filter}</option>

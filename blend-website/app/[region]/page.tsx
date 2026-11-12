@@ -27,7 +27,7 @@ export default async function Home({ params }: { params: Promise<{ region: strin
     <main className="min-h-screen overflow-x-hidden bg-background">
       <Navbar />
       <Hero />
-      <div className={isUk ? "bg-black" : "bg-white"}>
+      <div className="bg-black">
         <div className="w-full">
           <LogosRow clients={isUk ? ukContent.clients : undefined} />
         </div>
@@ -37,13 +37,13 @@ export default async function Home({ params }: { params: Promise<{ region: strin
           <Services key={region} servicesSection={servicesSection} regional={isUk} />
         </div>
       </div>
-      {!isUk && <div className="flex min-h-[100svh] items-center bg-[#0d0f15]">
+      {!isUk && <div className="flex min-h-[100svh] items-center bg-[#050608]">
         <div className="w-full">
           <LatestWork />
         </div>
       </div>}
       {isUk ? <UkAbout /> : (
-        <div className="flex min-h-[100svh] items-center bg-white">
+        <div className="flex min-h-[100svh] items-center bg-[#0d0f15]">
           <div className="w-full">
             <AboutLocations />
           </div>

@@ -47,14 +47,14 @@ export default function LetsTalk() {
       <div className="container-max grid gap-8 sm:gap-10 md:grid-cols-[1fr,1.1fr]">
         <Reveal className="flex flex-col gap-6">
           <div className="flex items-center gap-2">
-            <div className="h-3 w-3 rounded-full bg-gradient-to-r from-green-300 to-pink-400" />
+            <div className="h-3 w-3 rounded-full bg-gradient-to-r from-[var(--brand-green)] to-[var(--brand-tail-pink)]" />
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#9aa0ac] sm:text-sm">
               Contact
             </p>
           </div>
           <h2 className="text-2xl font-semibold text-[#0e0e10] sm:text-3xl">
-            Let<span className="text-[#2bbf7f]">s </span>
-            <span className="text-[#f36fb4]">Talk</span>
+            Let<span className="text-[var(--brand-deep)]">s </span>
+            <span className="text-[var(--brand-end)]">Talk</span>
           </h2>
           <p className="max-w-xl text-sm text-[#3c3f46] sm:text-base">{contactSection.subtitle}</p>
 
@@ -152,7 +152,7 @@ export default function LetsTalk() {
               />
             </div>
             <div className="md:col-span-2 min-h-5 text-sm" aria-live="polite">
-              {status === "success" ? <p className="font-semibold text-[#2bbf7f]">{successMessage}</p> : null}
+              {status === "success" ? <p className="font-semibold text-[var(--brand-deep)]">{successMessage}</p> : null}
               {status === "error" ? <p className="font-semibold text-[#c92f6d]">{errorMessage}</p> : null}
             </div>
             <div className="md:col-span-2 flex justify-end">

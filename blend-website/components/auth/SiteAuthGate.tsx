@@ -36,7 +36,7 @@ export default function SiteAuthGate({ children }: { children: React.ReactNode }
   if (!authUser) {
     return (
       <main style={{ height: "calc(100dvh - var(--blend-cookie-banner-height, 0px))" }} className="relative flex min-h-0 flex-col overflow-hidden bg-[#090a0d] text-white">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,79,179,0.14),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(94,234,212,0.12),_transparent_30%)]" />
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(var(--brand-highlight-rgb),0.14),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(var(--brand-mint-rgb),0.12),_transparent_30%)]" />
         <div className="relative z-10 flex h-[4.5rem] shrink-0 items-center justify-between gap-4 px-4 sm:px-8">{ /^\/(za|uk)(\/|$)/.test(pathname) && <>
           <CookiePreferencesButton className="min-h-11 text-xs text-white/55 underline underline-offset-4 hover:text-white" />
           <RegionSwitcher />

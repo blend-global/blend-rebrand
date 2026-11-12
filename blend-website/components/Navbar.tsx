@@ -2,7 +2,7 @@
 
 import { useRegion } from "@/components/regions/useRegion";
 import RegionSwitcher from "@/components/regions/RegionSwitcher";
-import Image from "next/image";
+import BrandLogo from "@/components/regions/BrandLogo";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
@@ -111,7 +111,7 @@ export default function Navbar() {
             <MotionLink
               href="/"
               prefetch
-              className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#111216]/92 shadow-[0_14px_36px_rgba(0,0,0,0.35)] ring-1 ring-white/10 backdrop-blur sm:h-16 sm:w-16 md:h-20 md:w-20"
+              className={`${region.code === "uk" ? "w-32 sm:w-36 md:w-44" : "w-14 sm:w-16 md:w-20"} flex h-14 shrink-0 items-center justify-center rounded-2xl bg-[#111216]/92 shadow-[0_14px_36px_rgba(0,0,0,0.35)] ring-1 ring-white/10 backdrop-blur sm:h-16 md:h-20`}
               aria-label="Blend home"
               onMouseEnter={showDesktopMenu}
               onMouseLeave={hideDesktopMenu}
@@ -120,7 +120,7 @@ export default function Navbar() {
               whileHover={{ y: -2, scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
             >
-              <Image src="/logo.png" alt="Blend logo" width={89} height={93} className="h-9 w-auto sm:h-11 md:h-14" priority />
+              <BrandLogo placement="nav" priority />
             </MotionLink>
 
             <div className="mr-auto"><RegionSwitcher /></div>
@@ -178,18 +178,18 @@ export default function Navbar() {
                       whileTap={{ scale: 0.98 }}
                     >
                       {link.label}
-                      <span className="absolute inset-x-0 bottom-0 h-[2px] origin-left scale-x-0 rounded-full bg-gradient-to-r from-[#6bd688] via-[#78d1ff] to-[#f36fb4] opacity-0 transition-all duration-300 group-hover:scale-x-100 group-hover:opacity-100" />
+                      <span className="absolute inset-x-0 bottom-0 h-[2px] origin-left scale-x-0 rounded-full bg-gradient-to-r from-[var(--brand-start)] via-[var(--brand-middle)] to-[var(--brand-end)] opacity-0 transition-all duration-300 group-hover:scale-x-100 group-hover:opacity-100" />
                     </MotionLink>
                   ))}
                 </motion.nav>
                 <MotionLink
                   href="/contact"
                   prefetch
-                  className="inline-flex h-10 items-center justify-center rounded-full bg-gradient-to-r from-[#6bd688] via-[#78d1ff] to-[#22d3ee] px-5 text-sm font-bold text-[#07100e] shadow-[0_12px_28px_rgba(120,209,255,0.28)] ring-1 ring-white/25 lg:h-11 lg:px-6 lg:text-base"
+                  data-uk-action className="inline-flex h-10 items-center justify-center rounded-full bg-gradient-to-r from-[var(--brand-start)] via-[var(--brand-middle)] to-[var(--brand-cyan)] px-5 text-sm font-bold text-[var(--brand-button-ink)] shadow-[0_12px_28px_rgba(var(--brand-middle-rgb),0.28)] ring-1 ring-white/25 lg:h-11 lg:px-6 lg:text-base"
                   whileHover={{
                     y: -3,
                     scale: 1.05,
-                    boxShadow: "0 18px 36px rgba(120, 209, 255, 0.42)",
+                    boxShadow: "0 18px 36px rgba(var(--brand-middle-rgb), 0.42)",
                   }}
                   whileTap={{ scale: 0.97 }}
                 >
@@ -238,7 +238,7 @@ export default function Navbar() {
             <MotionLink
               href="/contact"
               prefetch
-              className="inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-[#6bd688] via-[#78d1ff] to-[#22d3ee] px-5 py-4 text-base font-bold text-[#07100e]"
+              data-uk-action className="inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-[var(--brand-start)] via-[var(--brand-middle)] to-[var(--brand-cyan)] px-5 py-4 text-base font-bold text-[var(--brand-button-ink)]"
               onClick={() => setOpen(false)}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.97 }}
