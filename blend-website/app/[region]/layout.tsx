@@ -6,6 +6,11 @@ export function generateStaticParams() {
   return regionCodes.map((region) => ({ region }));
 }
 
+export async function generateMetadata({ params }: { params: Promise<{ region: string }> }) {
+  const { region } = await params;
+  return region === "uk" ? { icons: { icon: [{ url: "/uk/brand/blend-uk-icon.svg", type: "image/svg+xml" }] } } : {};
+}
+
 export default async function RegionalLayout({ children, params }: {
   children: React.ReactNode; params: Promise<{ region: string }>;
 }) {

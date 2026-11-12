@@ -6,6 +6,7 @@ import SiteAuthGate from "@/components/auth/SiteAuthGate";
 import PageTransition from "@/components/PageTransition";
 import ProjectModalProvider from "@/components/ProjectModalProvider";
 import CookiePreferences from "@/components/CookiePreferences";
+import RegionalBrand from "@/components/regions/RegionalBrand";
 import { createPageMetadata, siteName, siteUrl } from "@/lib/seo";
 
 const poppins = Poppins({
@@ -35,14 +36,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.variable} antialiased bg-background`}>
-        <AuthProvider>
+        <RegionalBrand><AuthProvider>
           <CookiePreferences />
           <SiteAuthGate>
             <ProjectModalProvider>
               <PageTransition>{children}</PageTransition>
             </ProjectModalProvider>
           </SiteAuthGate>
-        </AuthProvider>
+        </AuthProvider></RegionalBrand>
       </body>
     </html>
   );

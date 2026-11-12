@@ -55,20 +55,23 @@ export default function AboutLocations() {
   );
 
   return (
-    <section id="about" className="relative flex min-h-[100svh] items-center overflow-hidden bg-[#0d0f15] py-12 text-white sm:py-16">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_34%_48%,rgba(120,209,255,0.18),transparent_34%),radial-gradient(circle_at_70%_45%,rgba(243,111,180,0.14),transparent_30%)]" />
-      <div className="pointer-events-none absolute inset-0 bg-black/25" />
-      <div className="container-max relative z-10 flex flex-col items-center gap-8 md:flex-row md:items-center md:justify-between md:gap-10">
-        <Reveal className="relative flex h-full w-full justify-center md:w-1/2">
-          <div className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center">
+    <section id="about" className="relative flex min-h-[100svh] items-center overflow-hidden bg-[linear-gradient(to_bottom,#050608,#0d0f15_12rem)] py-12 text-white sm:py-16">
+      {/* Fade only the top: preserve the existing final edge against the footer. */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 [mask-image:linear-gradient(to_bottom,transparent,black_12rem)]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_34%_48%,rgba(var(--brand-middle-rgb),0.18),transparent_34%),radial-gradient(circle_at_70%_45%,rgba(var(--brand-end-rgb),0.14),transparent_30%)]" />
+        <div className="absolute inset-0 bg-black/25" />
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 md:left-1/4">
             <Image
               src="/gradients.png"
-              alt="Decorative background"
+              alt=""
               width={900}
               height={900}
               className="h-[420px] w-[420px] max-w-none object-contain sm:h-[520px] sm:w-[520px] md:h-[620px] md:w-[620px]"
             />
-          </div>
+        </div>
+      </div>
+      <div className="container-max relative z-10 flex flex-col items-center gap-8 md:flex-row md:items-center md:justify-between md:gap-10">
+        <Reveal className="relative flex h-full w-full justify-center md:w-1/2">
 
           <div className="relative w-full max-w-md">
             {stackImages.map(({ slide, className }, idx) => (
@@ -108,7 +111,7 @@ export default function AboutLocations() {
           <h2 className="text-balance text-4xl font-bold leading-[0.98] tracking-[-0.05em] text-white sm:text-5xl lg:text-6xl">
             {current.title}:
             <br />
-            <span className="bg-gradient-to-r from-[#6bd688] via-[#78d1ff] to-[#f36fb4] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[var(--brand-start)] via-[var(--brand-middle)] to-[var(--brand-end)] bg-clip-text text-transparent">
               {current.subtitle}
             </span>
           </h2>

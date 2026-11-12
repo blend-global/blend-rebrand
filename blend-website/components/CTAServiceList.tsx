@@ -16,7 +16,7 @@ export default function CTAServiceList() {
           </h2>
         </Reveal>
         <Reveal delay={0.05} className="relative z-10 flex flex-col gap-3 overflow-hidden rounded-[28px] bg-[#0f0f12] p-5 text-white shadow-pill sm:p-6">
-          <div className="absolute -bottom-12 -right-6 h-28 w-28 rounded-full bg-gradient-to-br from-green-300/50 to-pink-400/50 blur-2xl sm:h-32 sm:w-32" />
+          <div className="absolute -bottom-12 -right-6 h-28 w-28 rounded-full bg-gradient-to-br from-[var(--brand-green)]/50 to-[var(--brand-tail-pink)]/50 blur-2xl sm:h-32 sm:w-32" />
           {digitalServicesCTA.services.map((service) => (
             <MotionLink
               key={service.slug}

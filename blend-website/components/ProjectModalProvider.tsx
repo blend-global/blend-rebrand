@@ -143,13 +143,13 @@ function ProjectDialog({ initialServices, onClose }: { initialServices: string[]
           </button>
         </div>}
         {confirmation ? <div className="py-2">
-          <div aria-hidden="true" className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#52d6a1] via-[#3aa6b4] to-[#f36fb4]" />
+          <div aria-hidden="true" className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[var(--brand-primary)] via-[var(--brand-secondary)] to-[var(--brand-end)]" />
           <button type="button" onClick={onClose} aria-label="Close confirmation"
             className="absolute right-2 top-2 flex size-11 items-center justify-center rounded-full text-white/50 transition hover:bg-white/5 hover:text-white">
             <X className="size-5" aria-hidden="true" />
           </button>
           <motion.div initial={reducedMotion ? false : { scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.3 }} className="mx-auto flex size-16 items-center justify-center rounded-full bg-[#52d6a1]/10 text-[#6bd688] ring-1 ring-[#52d6a1]/25">
+            transition={{ duration: 0.3 }} className="mx-auto flex size-16 items-center justify-center rounded-full bg-[var(--brand-primary)]/10 text-[var(--brand-start)] ring-1 ring-[var(--brand-primary)]/25">
             <svg viewBox="0 0 40 40" className="size-9" fill="none" aria-hidden="true">
               <motion.path d="m11 21 6 6 13-14" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"
                 initial={reducedMotion ? false : { pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.35, delay: 0.1 }} />
@@ -159,7 +159,7 @@ function ProjectDialog({ initialServices, onClose }: { initialServices: string[]
           <h2 id="project-modal-title" className="mt-2 text-2xl font-semibold leading-tight tracking-[-0.04em] sm:text-[1.75rem]">Thanks for reaching out.</h2>
           <p role="status" className="mx-auto mt-3 max-w-xs text-sm leading-6 text-white/60">Your enquiry is with our team.<br />We’ll be in touch soon.</p>
           <button ref={doneRef} type="button" onClick={onClose}
-            className="mt-6 min-h-12 w-full rounded-full bg-gradient-to-r from-[#52d6a1] via-[#78d1ff] to-[#f36fb4] px-6 text-sm font-semibold text-[#07100e] transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#78d1ff]">Done</button>
+            data-uk-action className="mt-6 min-h-12 w-full rounded-full bg-gradient-to-r from-[var(--brand-primary)] via-[var(--brand-middle)] to-[var(--brand-end)] px-6 text-sm font-semibold text-[var(--brand-button-ink)] transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--brand-middle)]">Done</button>
         </div> : <ProjectInquiryForm contained initialServices={initialServices} source="Project modal form" onSuccess={setConfirmation} />}
       </motion.div>
     </dialog>, document.body,

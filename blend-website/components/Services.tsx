@@ -56,13 +56,13 @@ export default function Services({ servicesSection, regional = false }: { servic
       ...service,
       kind: "digital" as const,
       category: servicesContent.digitalLabel,
-      accent: "from-[#6bd688] to-[#22d3ee]",
+      accent: "from-[var(--brand-start)] to-[var(--brand-cyan)]",
     })),
     ...servicesContent.experiential.map((service) => ({
       ...service,
       kind: "experiential" as const,
       category: servicesContent.experientialLabel,
-      accent: "from-[#f36fb4] to-[#78d1ff]",
+      accent: "from-[var(--brand-end)] to-[var(--brand-middle)]",
     })),
   ];
   const [activeKind, setActiveKind] = useState<ServiceKind>("digital");
@@ -75,12 +75,12 @@ export default function Services({ servicesSection, regional = false }: { servic
   const ambientColors =
     activeService?.kind === "experiential"
       ? {
-          primary: "rgba(243, 111, 180, 0.26)",
-          secondary: "rgba(120, 209, 255, 0.2)",
+          primary: "rgba(var(--brand-end-rgb), 0.26)",
+          secondary: "rgba(var(--brand-middle-rgb), 0.2)",
         }
       : {
-          primary: "rgba(107, 214, 136, 0.24)",
-          secondary: "rgba(34, 211, 238, 0.22)",
+          primary: "rgba(var(--brand-start-rgb), 0.24)",
+          secondary: "rgba(var(--brand-cyan-rgb), 0.22)",
         };
   const serviceFilters: Array<{ kind: ServiceKind; label: string }> = [
     { kind: "digital", label: servicesContent.digitalLabel },
@@ -94,16 +94,18 @@ export default function Services({ servicesSection, regional = false }: { servic
 
   return (
     <section id="services" className="relative overflow-hidden bg-[#050608] py-20 text-white sm:py-24">
-      <motion.div
-        className="absolute left-[-10rem] top-[-8rem] h-96 w-96 rounded-full blur-3xl"
-        animate={{ backgroundColor: ambientColors.secondary }}
-        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-      />
-      <motion.div
-        className="absolute bottom-[-8rem] right-[-8rem] h-96 w-96 rounded-full blur-3xl"
-        animate={{ backgroundColor: ambientColors.primary }}
-        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-      />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 [mask-image:linear-gradient(to_bottom,black,black_calc(100%_-_12rem),transparent)]">
+        <motion.div
+          className="absolute left-[-10rem] top-[-8rem] h-96 w-96 rounded-full blur-3xl"
+          animate={{ backgroundColor: ambientColors.secondary }}
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+        />
+        <motion.div
+          className="absolute bottom-[-8rem] right-[-8rem] h-96 w-96 rounded-full blur-3xl"
+          animate={{ backgroundColor: ambientColors.primary }}
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+        />
+      </div>
 
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#050608] to-transparent sm:h-40" />
 
@@ -113,7 +115,7 @@ export default function Services({ servicesSection, regional = false }: { servic
             <h2 className="text-balance text-4xl font-bold leading-[0.98] tracking-[-0.05em] text-white drop-shadow-[0_18px_60px_rgba(0,0,0,0.42)] sm:text-5xl lg:text-6xl">
               {regional ? servicesContent.title : "Services to move"}
               {!regional && <br />}
-              <span className="bg-gradient-to-r from-[#6bd688] via-[#78d1ff] to-[#f36fb4] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[var(--brand-start)] via-[var(--brand-middle)] to-[var(--brand-end)] bg-clip-text text-transparent">
                 {!regional && "Renders to Reality"}
               </span>
             </h2>
@@ -125,8 +127,8 @@ export default function Services({ servicesSection, regional = false }: { servic
                 const isActive = activeKind === filter.kind;
                 const activeFilterClass =
                   filter.kind === "digital"
-                    ? "border-transparent bg-gradient-to-r from-[#6bd688] to-[#22d3ee] text-[#07100e] shadow-[0_14px_34px_rgba(34,211,238,0.24)]"
-                    : "border-transparent bg-gradient-to-r from-[#f36fb4] to-[#78d1ff] text-[#07100e] shadow-[0_14px_34px_rgba(243,111,180,0.24)]";
+                    ? "border-transparent bg-gradient-to-r from-[var(--brand-start)] to-[var(--brand-cyan)] text-[var(--brand-button-ink)] shadow-[0_14px_34px_rgba(var(--brand-cyan-rgb),0.24)]"
+                    : "border-transparent bg-gradient-to-r from-[var(--brand-end)] to-[var(--brand-middle)] text-[var(--brand-button-ink)] shadow-[0_14px_34px_rgba(var(--brand-end-rgb),0.24)]";
 
                 return (
                   <motion.button
@@ -175,7 +177,7 @@ export default function Services({ servicesSection, regional = false }: { servic
                   >
                     <div className="col-span-2 grid min-w-0 grid-cols-[3rem_minmax(0,1fr)] items-center gap-4 text-left">
                       <span className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${service.accent}`}>
-                        <Icon className="h-6 w-6 text-[#07100e]" aria-hidden="true" />
+                        <Icon className="h-6 w-6 text-[var(--brand-button-ink)]" aria-hidden="true" />
                       </span>
                       <span className={`block min-w-0 break-normal text-[0.95rem] font-semibold leading-tight tracking-[-0.025em] [overflow-wrap:normal] [word-break:normal] xl:text-base ${isActive ? "text-[#08090d]" : "text-white"}`}>
                         {serviceLabel}
@@ -210,7 +212,7 @@ export default function Services({ servicesSection, regional = false }: { servic
                     <div className="relative flex flex-col">
                       <div className="flex items-start justify-between gap-5">
                         <span className={`flex h-14 w-14 items-center justify-center rounded-[1.2rem] bg-gradient-to-br ${activeService.accent}`}>
-                          <ActiveIcon className="h-7 w-7 text-[#07100e]" aria-hidden="true" />
+                          <ActiveIcon className="h-7 w-7 text-[var(--brand-button-ink)]" aria-hidden="true" />
                         </span>
                         <span className="rounded-full border border-white/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-white/50">
                           {activeService.category}

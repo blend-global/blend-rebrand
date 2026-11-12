@@ -78,23 +78,23 @@ export default function LatestWork() {
   };
 
   return (
-    <section ref={sectionRef} id="work" className="relative overflow-hidden py-20 text-white sm:py-24">
-      <div className="absolute inset-0 -z-10">
+    <section ref={sectionRef} id="work" className="relative overflow-hidden bg-[#050608] py-20 text-white sm:py-24">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 [mask-image:linear-gradient(to_bottom,transparent,black_12rem,black_calc(100%_-_12rem),transparent)]">
         <Image
           src="/latest-work/gradients.png"
-          alt="Decorative gradients"
+          alt=""
           fill
-          className="object-cover opacity-100"
+          className="scale-110 object-cover opacity-100 blur-3xl"
           sizes="100vw"
         />
+        <div className="absolute inset-0 bg-[#0d0f15]/85" />
       </div>
-      <div className="absolute inset-0 -z-5 bg-[#0d0f15]/85" />
       <div className="container-max relative z-10 py-4 lg:py-6">
         <Reveal className="mx-auto max-w-3xl text-center">
           <h2 className="text-balance text-4xl font-bold leading-[0.98] tracking-[-0.05em] text-white drop-shadow-[0_18px_60px_rgba(0,0,0,0.42)] sm:text-5xl lg:text-6xl">
             Our Latest
             <br />
-            <span className="bg-gradient-to-r from-[#6bd688] via-[#78d1ff] to-[#f36fb4] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[var(--brand-start)] via-[var(--brand-middle)] to-[var(--brand-end)] bg-clip-text text-transparent">
               Work
             </span>
           </h2>

@@ -21,15 +21,15 @@ export default function Testimonials() {
       <div className="absolute inset-0 bg-black" />
       <div className="absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-[#0d0f15] to-transparent" />
       <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-b from-transparent to-white" />
-      <div className="absolute left-1/2 top-1/2 h-[720px] w-[720px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-green-300 via-[#78d1ff] to-pink-400 opacity-35 blur-[120px]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(120,209,255,0.16),rgba(0,0,0,0.78)_58%,rgba(0,0,0,0.95)_100%)]" />
+      <div className="absolute left-1/2 top-1/2 h-[720px] w-[720px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-[var(--brand-green)] via-[var(--brand-middle)] to-[var(--brand-tail-pink)] opacity-35 blur-[120px]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(var(--brand-middle-rgb),0.16),rgba(0,0,0,0.78)_58%,rgba(0,0,0,0.95)_100%)]" />
 
       <div className="container-max relative z-10">
         <Reveal className="mx-auto max-w-5xl text-center">
           <h2 className="text-balance text-4xl font-bold leading-[0.98] tracking-[-0.05em] text-white drop-shadow-[0_18px_60px_rgba(0,0,0,0.42)] sm:text-5xl lg:text-6xl">
             What People Are
             <br />
-            <span className="bg-gradient-to-r from-[#6bd688] via-[#78d1ff] to-[#f36fb4] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[var(--brand-start)] via-[var(--brand-middle)] to-[var(--brand-end)] bg-clip-text text-transparent">
               Saying
             </span>
           </h2>

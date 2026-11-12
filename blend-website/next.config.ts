@@ -5,6 +5,8 @@ import { fileURLToPath } from "node:url";
 const projectRoot = dirname(fileURLToPath(import.meta.url));
 
 const nextConfig: NextConfig = {
+  // Keep the review server's live output separate from production validation builds.
+  distDir: process.env.BLEND_REVIEW_PREVIEW === "1" ? ".next-review" : ".next",
   outputFileTracingRoot: projectRoot,
   turbopack: {
     root: projectRoot,

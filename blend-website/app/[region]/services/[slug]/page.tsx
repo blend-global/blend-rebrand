@@ -37,18 +37,18 @@ const getServiceTone = (category: string) => {
 
   return isExperiential
     ? {
-        accent: "from-[#f36fb4] to-[#78d1ff]",
-        soft: "from-[#f36fb4]/18 to-[#78d1ff]/12",
-        orbPrimary: "bg-[#f36fb4]/20",
-        orbSecondary: "bg-[#78d1ff]/16",
-        text: "text-[#f6a6d4]",
+        accent: "from-[var(--brand-end)] to-[var(--brand-middle)]",
+        soft: "from-[var(--brand-end)]/18 to-[var(--brand-middle)]/12",
+        orbPrimary: "bg-[var(--brand-end)]/20",
+        orbSecondary: "bg-[var(--brand-middle)]/16",
+        text: "text-[var(--brand-detail-warm)]",
       }
     : {
-        accent: "from-[#6bd688] to-[#22d3ee]",
-        soft: "from-[#6bd688]/18 to-[#22d3ee]/12",
-        orbPrimary: "bg-[#6bd688]/18",
-        orbSecondary: "bg-[#22d3ee]/18",
-        text: "text-[#7de4c6]",
+        accent: "from-[var(--brand-start)] to-[var(--brand-cyan)]",
+        soft: "from-[var(--brand-start)]/18 to-[var(--brand-cyan)]/12",
+        orbPrimary: "bg-[var(--brand-start)]/18",
+        orbSecondary: "bg-[var(--brand-cyan)]/18",
+        text: "text-[var(--brand-detail-cool)]",
       };
 };
 
@@ -168,7 +168,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
             <aside className="flex h-full items-end justify-start">
               <StartProjectButton
                 services={service?.slug ? [service.slug] : undefined}
-                className={`inline-flex items-center justify-center rounded-full bg-gradient-to-r ${tone.accent} px-8 py-3 text-sm font-bold text-[#07100e] shadow-[0_18px_42px_rgba(0,0,0,0.28)] transition-transform hover:-translate-y-0.5`}
+                className={`inline-flex items-center justify-center rounded-full bg-gradient-to-r ${tone.accent} px-8 py-3 text-sm font-bold text-[var(--brand-button-ink)] shadow-[0_18px_42px_rgba(0,0,0,0.28)] transition-transform hover:-translate-y-0.5`}
               >
                 Start a Project
               </StartProjectButton>

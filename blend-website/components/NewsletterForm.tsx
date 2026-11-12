@@ -52,7 +52,7 @@ export default function NewsletterForm() {
       </div>
       <label className="flex items-start gap-2 text-xs leading-5 text-white/70">
         <input type="checkbox" required checked={consent} onChange={(event) => setConsent(event.target.checked)}
-          disabled={state === "saving" || state === "saved"} className="mt-1 size-4 shrink-0 accent-[#6bd688]" />
+          disabled={state === "saving" || state === "saved"} className="mt-1 size-4 shrink-0 accent-[var(--brand-start)]" />
         <span>{newsletterConsentText} <Link href="/privacy-policy" className="underline underline-offset-2">Privacy policy</Link></span>
       </label>
       <p role={state === "error" ? "alert" : "status"} className="text-sm leading-5 text-white/85">{message}</p>

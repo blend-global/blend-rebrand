@@ -92,7 +92,7 @@ const ServiceListingCard = ({ service }: { service: ServiceCard }) => {
         <div className={`absolute right-[-5rem] top-[-6rem] h-48 w-48 rounded-full bg-gradient-to-br ${service.accent} opacity-30 blur-3xl`} />
         <div className="relative flex items-start justify-between gap-4">
           <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-[0.95rem] bg-gradient-to-br ${service.accent}`}>
-            <service.icon className="h-5 w-5 text-[#07100e]" aria-hidden="true" />
+            <service.icon className="h-5 w-5 text-[var(--brand-button-ink)]" aria-hidden="true" />
           </span>
           <span className="rounded-full border border-white/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">
             {service.category}
@@ -155,14 +155,14 @@ const ServicesPage = () => {
     serviceDetails,
     digitalIconBySlug,
     servicesContent.digitalLabel,
-    "from-[#6bd688] to-[#22d3ee]",
+    "from-[var(--brand-start)] to-[var(--brand-cyan)]",
   );
   const experientialServices = buildServiceCards(
     servicesContent.experiential,
     serviceDetails,
     experientialIconBySlug,
     servicesContent.experientialLabel,
-    "from-[#f36fb4] to-[#78d1ff]",
+    "from-[var(--brand-end)] to-[var(--brand-middle)]",
   );
 
   return (
@@ -202,7 +202,7 @@ const ServicesPage = () => {
           </Reveal>
           
           <div className="relative">
-            <div className="pointer-events-none absolute -inset-x-6 -inset-y-10 rounded-[2rem] bg-[radial-gradient(circle_at_18%_20%,rgba(243,111,180,0.16),transparent_34%),radial-gradient(circle_at_82%_78%,rgba(120,209,255,0.12),transparent_36%),linear-gradient(135deg,rgba(255,255,255,0.045),rgba(255,255,255,0))]" />
+            <div className="pointer-events-none absolute -inset-x-6 -inset-y-10 rounded-[2rem] bg-[radial-gradient(circle_at_18%_20%,rgba(var(--brand-end-rgb),0.16),transparent_34%),radial-gradient(circle_at_82%_78%,rgba(var(--brand-middle-rgb),0.12),transparent_36%),linear-gradient(135deg,rgba(255,255,255,0.045),rgba(255,255,255,0))]" />
             <div className="relative z-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
               {experientialServices.map((service, index) => {
                 return (
@@ -230,7 +230,7 @@ const ServicesPage = () => {
           </Reveal>
           
           <div className="relative">
-            <div className="pointer-events-none absolute -inset-x-6 -inset-y-10 rounded-[2rem] bg-[radial-gradient(circle_at_20%_76%,rgba(107,214,136,0.14),transparent_34%),radial-gradient(circle_at_82%_24%,rgba(34,211,238,0.13),transparent_36%),linear-gradient(135deg,rgba(255,255,255,0.04),rgba(255,255,255,0))]" />
+            <div className="pointer-events-none absolute -inset-x-6 -inset-y-10 rounded-[2rem] bg-[radial-gradient(circle_at_20%_76%,rgba(var(--brand-start-rgb),0.14),transparent_34%),radial-gradient(circle_at_82%_24%,rgba(var(--brand-cyan-rgb),0.13),transparent_36%),linear-gradient(135deg,rgba(255,255,255,0.04),rgba(255,255,255,0))]" />
             <div className="relative z-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
               {digitalServices.map((service, index) => {
                 return (

@@ -21,7 +21,7 @@ export default function ContactPageContent() {
       <Navbar />
 
       <section className="relative flex min-h-[100svh] items-center overflow-hidden pt-32 sm:pt-40 md:pt-44">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_32%,rgba(82,214,161,0.2),transparent_32%),radial-gradient(circle_at_78%_22%,rgba(243,111,180,0.18),transparent_30%),linear-gradient(135deg,rgba(58,166,180,0.1),transparent_48%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_32%,rgba(var(--brand-primary-rgb),0.2),transparent_32%),radial-gradient(circle_at_78%_22%,rgba(var(--brand-end-rgb),0.18),transparent_30%),linear-gradient(135deg,rgba(var(--brand-secondary-rgb),0.1),transparent_48%)]" />
         <div className="pointer-events-none absolute inset-0 bg-black/35" />
 
         <div className="container-max relative z-10 pb-16 sm:pb-20">
@@ -29,12 +29,12 @@ export default function ContactPageContent() {
             <Reveal className="flex flex-col justify-start gap-8">
               <div>
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-semibold text-white/80">
-                  <Sparkles className="h-4 w-4 text-[#52d6a1]" aria-hidden="true" />
+                  <Sparkles className="h-4 w-4 text-[var(--brand-primary)]" aria-hidden="true" />
                   Contact Blend
                 </span>
                 <h1 className="mt-6 text-4xl font-semibold sm:text-5xl md:text-6xl">
-                  <span className="text-[#52d6a1]">Let&apos;s </span>
-                  <span className="text-[#f36fb4]">Talk</span>
+                  <span className="text-[var(--brand-primary)]">Let&apos;s </span>
+                  <span className="text-[var(--brand-end)]">Talk</span>
                 </h1>
                 <p className="mt-5 max-w-md text-base leading-7 text-white/72">
                   {contactSection.code === "uk" ? ukContent.contact.description : "Reach out directly, or start a project brief and we’ll route it to the right team."}
@@ -42,14 +42,14 @@ export default function ContactPageContent() {
               </div>
 
               <div className="grid gap-4 text-sm text-white/75">
-                {contactSection.bookingUrl && <a href={contactSection.bookingUrl} target="_blank" rel="noreferrer" className="inline-flex min-h-12 items-center gap-3 font-semibold text-[#78d1ff]">Book a call with Blend UK ↗</a>}
+                {contactSection.bookingUrl && <a href={contactSection.bookingUrl} target="_blank" rel="noreferrer" className="inline-flex min-h-12 items-center gap-3 font-semibold text-[var(--brand-middle)]">Book a call with Blend UK ↗</a>}
                 {contactSection.email && <a
                   className="flex items-center gap-3 transition hover:text-white"
                   href={`mailto:${contactSection.email}`}
                   aria-label={`Email ${contactSection.email}`}
                 >
                   <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 ring-1 ring-white/15">
-                    <Mail className="h-4 w-4 text-[#52d6a1]" aria-hidden="true" />
+                    <Mail className="h-4 w-4 text-[var(--brand-primary)]" aria-hidden="true" />
                   </span>
                   {contactSection.email}
                 </a>}
@@ -59,13 +59,13 @@ export default function ContactPageContent() {
                   aria-label={`Call ${contactSection.phone}`}
                 >
                   <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 ring-1 ring-white/15">
-                    <Phone className="h-4 w-4 text-[#f36fb4]" aria-hidden="true" />
+                    <Phone className="h-4 w-4 text-[var(--brand-end)]" aria-hidden="true" />
                   </span>
                   {contactSection.phone}
                 </a>}
                 <div className="flex items-center gap-3">
                   <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 ring-1 ring-white/15">
-                    <MapPin className="h-4 w-4 text-[#3aa6b4]" aria-hidden="true" />
+                    <MapPin className="h-4 w-4 text-[var(--brand-secondary)]" aria-hidden="true" />
                   </span>
                   {contactSection.location}
                 </div>
@@ -98,7 +98,7 @@ export default function ContactPageContent() {
                   Open the guided project form to select services, share budget context, and send the essentials without
                   leaving this page.
                 </p>
-                <StartProjectButton className="mt-7 inline-flex h-12 w-full items-center justify-center rounded-full bg-gradient-to-r from-[#52d6a1] via-[#3aa6b4] to-[#f36fb4] px-6 text-sm font-bold text-[#07100e] shadow-[0_16px_34px_rgba(82,214,161,0.22)] sm:w-auto">
+                <StartProjectButton data-uk-action className="mt-7 inline-flex h-12 w-full items-center justify-center rounded-full bg-gradient-to-r from-[var(--brand-primary)] via-[var(--brand-secondary)] to-[var(--brand-end)] px-6 text-sm font-bold text-[var(--brand-button-ink)] shadow-[0_16px_34px_rgba(var(--brand-primary-rgb),0.22)] sm:w-auto">
                   Start a project
                 </StartProjectButton>
               </div>

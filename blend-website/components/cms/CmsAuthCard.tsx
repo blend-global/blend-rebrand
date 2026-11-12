@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./CmsAuthCard.module.css";
-import Image from "next/image";
+import BrandLogo from "@/components/regions/BrandLogo";
 import { useState } from "react";
 import { Chrome, LoaderCircle, LockKeyhole, Mail, UserRound } from "lucide-react";
 
@@ -56,11 +56,11 @@ export default function CmsAuthCard({
   return (
     <div data-auth-card className={`${compact ? styles.compact : ""} mx-auto w-full max-w-md rounded-[32px] border border-white/10 bg-[#12161f]/95 p-6 shadow-[0_32px_120px_rgba(0,0,0,0.38)] backdrop-blur sm:p-7`}>
       <div data-auth-header className="mb-6 space-y-3">
-        <div data-auth-logo className="inline-flex size-20 items-center justify-center rounded-[28px] bg-[#ff4fb3]/12">
-          <Image src="/logo.png" alt="Blend Global" width={44} height={46} className="h-11 w-auto" priority />
+        <div data-auth-logo className="inline-flex size-20 items-center justify-center rounded-[28px] bg-[var(--brand-highlight)]/12">
+          <BrandLogo placement="auth" priority />
         </div>
         <div data-auth-intro className="space-y-2">
-          <p data-auth-eyebrow className="text-xs font-semibold uppercase tracking-[0.28em] text-[#ff4fb3]">{eyebrow}</p>
+          <p data-auth-eyebrow className="text-xs font-semibold uppercase tracking-[0.28em] text-[var(--brand-highlight)]">{eyebrow}</p>
           <h1 className="text-3xl font-semibold tracking-tight text-white">
             {mode === "signup" ? signUpTitle : signInTitle}
           </h1>
@@ -71,7 +71,7 @@ export default function CmsAuthCard({
       </div>
 
       {!isConfigured ? (
-        <div className="rounded-3xl border border-[#ff4fb3]/18 bg-[#ff4fb3]/8 px-4 py-4 text-sm leading-6 text-[#ffc1e4]">
+        <div className="rounded-3xl border border-[var(--brand-highlight)]/18 bg-[var(--brand-highlight)]/8 px-4 py-4 text-sm leading-6 text-[#ffc1e4]">
           {error ?? "Firebase is not configured for this environment yet."}
         </div>
       ) : (
@@ -104,7 +104,7 @@ export default function CmsAuthCard({
             {mode === "signup" ? (
               <label className="block space-y-2">
                 <span className="text-xs font-semibold uppercase tracking-[0.16em] text-white/45">Name</span>
-                <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-[#10131a] px-4 py-3 focus-within:border-[#ff4fb3]/60">
+                <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-[#10131a] px-4 py-3 focus-within:border-[var(--brand-highlight)]/60">
                   <UserRound className="size-4 text-white/40" />
                   <input
                     type="text"
@@ -120,7 +120,7 @@ export default function CmsAuthCard({
 
             <label className="block space-y-2">
               <span className="text-xs font-semibold uppercase tracking-[0.16em] text-white/45">Email</span>
-              <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-[#10131a] px-4 py-3 focus-within:border-[#ff4fb3]/60">
+              <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-[#10131a] px-4 py-3 focus-within:border-[var(--brand-highlight)]/60">
                 <Mail className="size-4 text-white/40" />
                 <input
                   type="email"
@@ -135,7 +135,7 @@ export default function CmsAuthCard({
 
             <label className="block space-y-2">
               <span className="text-xs font-semibold uppercase tracking-[0.16em] text-white/45">Password</span>
-              <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-[#10131a] px-4 py-3 focus-within:border-[#ff4fb3]/60">
+              <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-[#10131a] px-4 py-3 focus-within:border-[var(--brand-highlight)]/60">
                 <LockKeyhole className="size-4 text-white/40" />
                 <input
                   type="password"
@@ -175,7 +175,7 @@ export default function CmsAuthCard({
           </button>
 
           {error ? (
-            <p className="rounded-2xl border border-[#ff4fb3]/18 bg-[#ff4fb3]/8 px-4 py-3 text-sm leading-6 text-[#ffc1e4]">
+            <p className="rounded-2xl border border-[var(--brand-highlight)]/18 bg-[var(--brand-highlight)]/8 px-4 py-3 text-sm leading-6 text-[#ffc1e4]">
               {error}
             </p>
           ) : null}

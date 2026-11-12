@@ -11,7 +11,7 @@ import {
 import { readRegionChoice, subscribeRegionChoice } from "@/lib/region-preference";
 import { X } from "lucide-react";
 
-const choiceButton = "min-h-11 rounded-full border border-white/25 bg-white/5 px-3 py-2 text-xs font-semibold text-white transition hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#78d1ff] sm:px-4 sm:text-sm";
+const choiceButton = "min-h-11 rounded-full border border-white/25 bg-white/5 px-3 py-2 text-xs font-semibold text-white transition hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand-middle)] sm:px-4 sm:text-sm";
 
 export function CookiePreferencesButton({ children = "Cookie preferences", onClick, ...props }: ComponentProps<"button">) {
   return <button type="button" {...props} onClick={(event) => {
@@ -110,11 +110,11 @@ function CookiePreferencesDialog({ region }: { region: string }) {
           <p className="mt-2 text-sm leading-6 text-white/65">Keeps sign-in, security, the region selected for this visit and your consent decision working.</p>
         </div>
         <label className="flex gap-3 rounded-2xl border border-white/15 p-4">
-          <input type="checkbox" checked={rememberRegion} onChange={(event) => setRememberRegion(event.target.checked)} className="mt-1 size-5 shrink-0 accent-[#6bd688]" />
+          <input type="checkbox" checked={rememberRegion} onChange={(event) => setRememberRegion(event.target.checked)} className="mt-1 size-5 shrink-0 accent-[var(--brand-start)]" />
           <span><span className="font-medium">Remember my region</span><span className="mt-2 block text-sm leading-6 text-white/65">Keep your UK or ZA selection across visits for up to six months. Turning this off keeps the selection only for the current browser session.</span></span>
         </label>
         <label className="flex gap-3 rounded-2xl border border-white/15 p-4">
-          <input type="checkbox" checked={externalMedia} onChange={(event) => setExternalMedia(event.target.checked)} className="mt-1 size-5 shrink-0 accent-[#6bd688]" />
+          <input type="checkbox" checked={externalMedia} onChange={(event) => setExternalMedia(event.target.checked)} className="mt-1 size-5 shrink-0 accent-[var(--brand-start)]" />
           <span><span className="font-medium">External video players</span><span className="mt-2 block text-sm leading-6 text-white/65">Allow YouTube to receive connection information and use its own storage when an embedded player loads. Local photos and videos work without this.</span></span>
         </label>
       </div>
