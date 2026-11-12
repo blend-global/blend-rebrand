@@ -1,5 +1,7 @@
 "use client";
 
+import ConsentVideo from "@/components/ConsentVideo";
+
 import { use, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Maximize2, X } from "lucide-react";
@@ -69,7 +71,7 @@ function CaseStudyDetailMedia({
   if (shouldUseCoverVideo && youtubeEmbedUrl) {
     return (
       <div ref={mediaWrapperRef} className="relative bg-black">
-        <iframe
+        <ConsentVideo
           src={youtubeEmbedUrl}
           title={`${caseStudy.title} cover video`}
           className={`pointer-events-none ${detailMediaClass}`}

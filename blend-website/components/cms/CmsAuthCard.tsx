@@ -126,7 +126,7 @@ export default function CmsAuthCard({
                   type="email"
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
-                  placeholder="name@blendglobal.com"
+                  placeholder="name@blend.global"
                   autoComplete="email"
                   className="cms-auth-input w-full bg-transparent text-sm text-white outline-none placeholder:text-white/25"
                 />

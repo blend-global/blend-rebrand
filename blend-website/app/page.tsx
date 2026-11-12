@@ -3,14 +3,17 @@ import RegionChoiceLink from "@/components/regions/RegionChoiceLink";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { ArrowRight } from "lucide-react";
-import { isRegion, regionCodes, regionCookie, regions } from "@/lib/regions";
+import { regionCodes, regionCookie, regionPreferenceCookie, regions } from "@/lib/regions";
+import { cookiePreferencesKey } from "@/lib/cookie-preferences";
+import { resolveRegionChoice } from "@/lib/region-preference";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({ title: "Choose your region", path: "/", description: "Choose South Africa or the United Kingdom to connect with your local Blend team." });
 
 export default async function RegionWelcome() {
-  const saved = (await cookies()).get(regionCookie)?.value;
-  if (isRegion(saved)) redirect(`/${saved}`);
+  const jar = await cookies();
+  const saved = resolveRegionChoice(jar.get(regionCookie)?.value, jar.get(regionPreferenceCookie)?.value, jar.get(cookiePreferencesKey)?.value);
+  if (saved) redirect(`/${saved}`);
   return (
     <main className="flex min-h-svh items-center justify-center bg-[#090b10] px-6 py-12 text-white">
       <section className="w-full max-w-md" aria-labelledby="region-title">

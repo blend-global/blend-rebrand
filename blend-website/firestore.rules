@@ -62,6 +62,32 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    // Visitors can opt in; the subscriber list remains private.
+    match /newsletterSubscriptions/{subscriptionId} {
+      allow read: if isBlendMember();
+      allow create: if request.resource.data.keys().hasAll([
+          'email', 'region', 'consent', 'consentText', 'consentVersion',
+          'privacyPolicy', 'source', 'status', 'createdAt'
+        ])
+        && request.resource.data.keys().hasOnly([
+          'email', 'region', 'consent', 'consentText', 'consentVersion',
+          'privacyPolicy', 'source', 'status', 'createdAt'
+        ])
+        && request.resource.data.email is string
+        && request.resource.data.email.size() <= 254
+        && request.resource.data.email.matches('^[^\\s@]+@[^\\s@]+[.][^\\s@]+$')
+        && request.resource.data.email == request.resource.data.email.lower()
+        && request.resource.data.region in ['za', 'uk']
+        && request.resource.data.consent == true
+        && request.resource.data.consentText == 'I agree to receive Blend news and marketing emails. I can withdraw my consent at any time by contacting my regional Blend team.'
+        && request.resource.data.consentVersion == '2026-11-11'
+        && request.resource.data.privacyPolicy == '/' + request.resource.data.region + '/privacy-policy'
+        && request.resource.data.source == 'website-footer'
+        && request.resource.data.status == 'subscribed'
+        && request.resource.data.createdAt == request.time;
+      allow update, delete: if false;
+    }
+
     match /users/{userId} {
       allow read: if isSignedIn() && request.auth.uid == userId;
       allow create, update: if isSignedIn()

@@ -149,8 +149,8 @@ export default function Services({ servicesSection, regional = false }: { servic
           </Reveal>
         </div>
 
-        <div className="mx-auto mt-14 grid w-fit max-w-full gap-6 lg:grid-cols-[625px_520px] lg:items-start">
-          <Reveal>
+        <div className="mx-auto mt-14 grid w-full max-w-6xl gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:items-start">
+          <Reveal className="min-w-0">
             <div className="grid gap-3 sm:grid-cols-2">
               {filteredServices.map((service) => {
                 const Icon = iconBySlug[service.slug as keyof typeof iconBySlug] ?? fallbackIcon;
@@ -194,7 +194,7 @@ export default function Services({ servicesSection, regional = false }: { servic
             </div>
           </Reveal>
 
-          <Reveal delay={0.05} className="hidden lg:block">
+          <Reveal delay={0.05} className="hidden min-w-0 lg:block">
             <div className="sticky top-28 overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.06] p-3 shadow-[0_30px_90px_rgba(0,0,0,0.38)] backdrop-blur">
               <AnimatePresence mode="wait">
                 {activeService ? (

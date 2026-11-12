@@ -7,11 +7,17 @@ import Reveal from "@/components/Reveal";
 import { useRegion } from "@/components/regions/useRegion";
 import RegionSwitcher from "@/components/regions/RegionSwitcher";
 import Link from "@/components/regions/RegionLink";
+import NewsletterForm from "@/components/NewsletterForm";
+import { CookiePreferencesButton } from "@/components/CookiePreferences";
 
 export default function Footer() {
   const contactSection = useRegion();
   const siteLinks = [{ label: "Home", href: "/" }, { label: "Services", href: "/services" }, contactSection.code === "uk" ? { label: "About Us", href: "/#about" } : { label: "Work", href: "/case-studies" }];
-  const termsLinks = ["Terms Of Services", "Privacy Policy", "Cookie Policy", "Cookie Preferences"];
+  const termsLinks = [
+    { label: "Terms of use", href: "/terms-of-use" },
+    { label: "Privacy policy", href: "/privacy-policy" },
+    { label: "Cookie policy", href: "/cookie-policy" },
+  ];
   const currentYear = new Date().getUTCFullYear();
 
   return (
@@ -42,10 +48,9 @@ export default function Footer() {
             <h5 className="text-lg font-semibold">Terms</h5>
             <div className="flex flex-col gap-2 text-sm text-white/85">
               {termsLinks.map((link) => (
-                <motion.a key={link} href="#" className="hover:text-white" whileHover={{ x: 4 }}>
-                  {link}
-                </motion.a>
+                <Link key={link.href} href={link.href} className="hover:text-white">{link.label}</Link>
               ))}
+              <CookiePreferencesButton className="text-left hover:text-white" />
             </div>
           </Reveal>
 
@@ -54,21 +59,7 @@ export default function Footer() {
             <p className="text-sm text-white/85">
               {contactSection.code === "uk" ? "Keep up with the latest from Blend in digital strategy, creativity and brand communications." : "Keep up with the latest trends and news from the world of events and digital experiences."}
             </p>
-            <form className="flex flex-col gap-2 rounded-2xl bg-white px-4 py-3 text-sm text-black shadow-[0_10px_24px_rgba(0,0,0,0.25)] sm:flex-row sm:items-center sm:rounded-full sm:py-2">
-              <input
-                type="email"
-                placeholder="Enter email"
-                className="w-full bg-transparent px-2 py-2 text-sm outline-none"
-              />
-              <motion.button
-                type="submit"
-                className="inline-flex items-center justify-center rounded-full bg-[#0c0c0c] px-5 py-2 text-sm font-semibold text-white"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-              >
-                Submit
-              </motion.button>
-            </form>
+            <NewsletterForm key={contactSection.code} />
           </Reveal>
         </div>
       </div>

@@ -33,4 +33,9 @@ describe("branch enquiry notification routing", () => {
     await sendContactEmail({ region: "za", email: "client@example.com", message: "A brief" });
     expect(mail.send).toHaveBeenLastCalledWith(expect.objectContaining({ to: "shared@example.com" }));
   });
+  it("never diverts UK enquiries into the legacy shared ZA inbox", async () => {
+    vi.stubEnv("CONTACT_EMAIL_TO", "za-routing@example.com");
+    await sendContactEmail({ region: "uk", email: "client@example.com", message: "UK brief" });
+    expect(mail.send).toHaveBeenCalledWith(expect.objectContaining({ to: "contactEU@blend.global" }));
+  });
 });
